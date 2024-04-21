@@ -13,7 +13,7 @@ class AnArtistStoreApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Resources.of(context).strings.title,
-      initialRoute: AppRoute.login.path,
+      initialRoute: AppRoute.home.path,
       routes: routes.routeWidgetBuilderMap,
       theme: _kAnArtistStoreTheme,
     );

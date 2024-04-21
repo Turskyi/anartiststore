@@ -4,8 +4,8 @@ import 'package:anartiststore/backdrop/backdrop_title.dart';
 import 'package:anartiststore/backdrop/front_layer.dart';
 import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
-import 'package:anartiststore/login.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -106,8 +106,20 @@ class _BackdropState extends State<Backdrop>
           ),
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => const LoginPage(),
+            PageRouteBuilder<Widget>(
+              pageBuilder: (context, animation1, animation2) =>
+                  const SettingsPage(),
+              transitionDuration: Duration(seconds: 1),
+              transitionsBuilder: (context, animation, animationTime, child) {
+                animation = CurvedAnimation(
+                    parent: animation, curve: Curves.elasticInOut);
+                return SlideTransition(
+                  position:
+                      Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+                          .animate(animation),
+                  child: child,
+                );
+              },
             ),
           ),
         ),
