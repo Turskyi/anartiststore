@@ -2,18 +2,22 @@ import 'package:anartiststore/enums/group.dart';
 
 class Product {
   const Product({
-    required this.category,
+    required this.group,
     required this.id,
-    required this.isFeatured,
+    this.isFeatured = false,
     required this.name,
+    required this.description,
     required this.price,
+    required this.imageUrl,
   });
 
-  final Group category;
-  final int id;
+  final Group group;
+  final String id;
   final bool isFeatured;
   final String name;
+  final String description;
   final int price;
+  final String imageUrl;
 
   String get assetName => 'assets/images/opengraph-image.png';
 

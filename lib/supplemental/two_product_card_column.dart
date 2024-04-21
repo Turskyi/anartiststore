@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/supplemental/product_card.dart';
 import 'package:flutter/material.dart';
@@ -18,28 +20,31 @@ class TwoProductCardColumn extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         const double spacerHeight = 44.0;
 
-        double heightOfCards =
-            (constraints.biggest.height - spacerHeight) / 2.0;
-        double heightOfImages = heightOfCards - ProductCard.kTextBoxHeight;
-        double imageAspectRatio = heightOfImages >= 0.0
+        // Ensure the height of cards is not negative
+        double heightOfCards = max(
+          (constraints.biggest.height - spacerHeight) / 2.0,
+          0.0,
+        );
+        double heightOfImages = max(
+          heightOfCards - ProductCard.kTextBoxHeight,
+          0.0,
+        );
+        double imageAspectRatio = heightOfImages > 0.0
             ? constraints.biggest.width / heightOfImages
             : 49.0 / 33.0;
 
         return ListView(
           physics: const ClampingScrollPhysics(),
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsetsDirectional.only(start: 28.0),
-              child: top != null
-                  ? ProductCard(
-                imageAspectRatio: imageAspectRatio,
-                product: top!,
-              )
-                  : SizedBox(
-                height: heightOfCards,
+            if (top != null)
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 28.0),
+                child: ProductCard(
+                  imageAspectRatio: imageAspectRatio,
+                  product: top!,
+                ),
               ),
-            ),
-            const SizedBox(height: spacerHeight),
+            if (top != null) const SizedBox(height: spacerHeight),
             Padding(
               padding: const EdgeInsetsDirectional.only(end: 28.0),
               child: ProductCard(

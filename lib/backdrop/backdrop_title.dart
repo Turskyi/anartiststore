@@ -4,11 +4,11 @@ class BackdropTitle extends AnimatedWidget {
   const BackdropTitle({
     super.key,
     required Animation<double> super.listenable,
-    required this.onPress,
+    required this.onMenuPressed,
     required this.frontTitle,
     required this.backTitle,
   }) : _listenable = listenable;
-  final void Function() onPress;
+  final void Function() onMenuPressed;
   final Widget frontTitle;
   final Widget backTitle;
 
@@ -24,12 +24,11 @@ class BackdropTitle extends AnimatedWidget {
       overflow: TextOverflow.ellipsis,
       child: Row(
         children: <Widget>[
-          // branded icon
           SizedBox(
             width: 72.0,
             child: IconButton(
               padding: const EdgeInsets.only(right: 8.0),
-              onPressed: onPress,
+              onPressed: onMenuPressed,
               icon: Stack(
                 children: <Widget>[
                   Opacity(

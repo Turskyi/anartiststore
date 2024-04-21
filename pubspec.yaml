@@ -28,12 +28,22 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc: ^8.1.4
+  collection: ^1.18.0
+  dio: ^5.4.3+1
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
   flutter_translate: ^4.0.4
   intl: any
+  json_annotation: ^4.8.1
+  logger: ^2.2.0
+  meta: any
+  retrofit: ^4.1.0
+  retrofit_generator: ^8.1.0
 
 dev_dependencies:
+  build_runner: ^2.4.9
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -42,6 +52,7 @@ dev_dependencies:
   flutter_lints: ^3.0.2
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
