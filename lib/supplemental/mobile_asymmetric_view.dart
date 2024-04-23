@@ -3,8 +3,8 @@ import 'package:anartiststore/supplemental/one_product_card_column.dart';
 import 'package:anartiststore/supplemental/two_product_card_column.dart';
 import 'package:flutter/material.dart';
 
-class AsymmetricView extends StatelessWidget {
-  const AsymmetricView({super.key, required this.products});
+class MobileAsymmetricView extends StatelessWidget {
+  const MobileAsymmetricView({super.key, required this.products});
 
   final List<Product> products;
 

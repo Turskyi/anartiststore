@@ -54,6 +54,21 @@ class SettingsPage extends StatelessWidget {
             title: const Text('Flickr'),
             onTap: () => launchUrl(Uri.parse('https://www.flickr.com')),
           ),
+          const Text('Official Website', style: TextStyle(fontSize: 20)),
+          ListTile(
+            title: Row(
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/logo_without_bg.png',
+                  width: 168.0,
+                ),
+                const SizedBox(width: 8.0),
+                // Add some spacing between the logo and the text
+                const Text('Anna\'s Artistic Store'),
+              ],
+            ),
+            onTap: () => launchUrl(Uri.parse('https://an-artist.store')),
+          ),
         ],
       ),
     );

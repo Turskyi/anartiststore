@@ -74,59 +74,70 @@ class _BackdropState extends State<Backdrop>
 
   @override
   Widget build(BuildContext context) {
-    AppBar appBar = AppBar(
-      elevation: 0.0,
-      titleSpacing: 0.0,
-      title: BackdropTitle(
-        listenable: _animationController.view,
-        onMenuPressed: _toggleBackdropLayerVisibility,
-        frontTitle: widget.frontTitle,
-        backTitle: widget.backTitle,
-      ),
-      actions: <Widget>[
-        SearchAnchor(
-          viewBackgroundColor:
-              Theme.of(context).searchViewTheme.backgroundColor,
-          searchController: _searchController,
-          builder: (BuildContext context, SearchController controller) {
-            return IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () => controller.openView(),
-            );
-          },
-          suggestionsBuilder: (_, SearchController controller) {
-            context.read<ProductsBloc>().add(SearchEvent(controller.text));
-            return _buildGridCards();
-          },
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        titleSpacing: 0.0,
+        title: BackdropTitle(
+          listenable: _animationController.view,
+          onMenuPressed: _toggleBackdropLayerVisibility,
+          frontTitle: widget.frontTitle,
+          backTitle: widget.backTitle,
         ),
-        IconButton(
-          icon: const Icon(
-            Icons.tune,
-            semanticLabel: 'settings',
+        actions: <Widget>[
+          SearchAnchor(
+            viewBackgroundColor:
+                Theme.of(context).searchViewTheme.backgroundColor,
+            searchController: _searchController,
+            builder: (BuildContext context, SearchController controller) {
+              return IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () => controller.openView(),
+              );
+            },
+            suggestionsBuilder: (_, SearchController controller) {
+              context.read<ProductsBloc>().add(SearchEvent(controller.text));
+              return _buildGridCards();
+            },
           ),
-          onPressed: () => Navigator.push(
-            context,
-            PageRouteBuilder<Widget>(
-              pageBuilder: (context, animation1, animation2) =>
-                  const SettingsPage(),
-              transitionDuration: Duration(seconds: 1),
-              transitionsBuilder: (context, animation, animationTime, child) {
-                animation = CurvedAnimation(
-                    parent: animation, curve: Curves.elasticInOut);
-                return SlideTransition(
-                  position:
-                      Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
-                          .animate(animation),
-                  child: child,
-                );
-              },
+          IconButton(
+            icon: const Icon(
+              Icons.tune,
+              semanticLabel: 'settings',
+            ),
+            onPressed: () => Navigator.push(
+              context,
+              PageRouteBuilder<Widget>(
+                pageBuilder: (
+                  BuildContext context,
+                  Animation<double> animation1,
+                  Animation<double> animation2,
+                ) =>
+                    const SettingsPage(),
+                transitionDuration: const Duration(seconds: 1),
+                transitionsBuilder: (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> animationTime,
+                  Widget child,
+                ) {
+                  animation = CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.elasticInOut,
+                  );
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0.0),
+                      end: const Offset(0.0, 0.0),
+                    ).animate(animation),
+                    child: child,
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      ],
-    );
-    return Scaffold(
-      appBar: appBar,
+        ],
+      ),
       body: LayoutBuilder(builder: _buildStack),
     );
   }
@@ -183,6 +194,7 @@ class _BackdropState extends State<Backdrop>
 
     final ThemeData theme = Theme.of(context);
     final NumberFormat formatter = NumberFormat.simpleCurrency(
+      decimalDigits: 2,
       locale: Localizations.localeOf(context).toString(),
     );
 

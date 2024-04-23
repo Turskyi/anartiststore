@@ -1,4 +1,23 @@
 {
   "title": "AnArtist.Store",
-  "menu": "МЕНЮ"
+  "menu": "МЕНЮ",
+  "anArtistStoreScreenReaderCart": "{quantity,plural,=0{Shopping cart, no items}=1{Shopping cart, 1 item}other{Shopping cart, {quantity} items}}",
+  "anArtistStoreTooltipCloseCart": "Close cart",
+  "anArtistStoreCartPageCaption": "CART",
+  "anArtistStoreCartItemCount": {
+    "zero": "NO ITEMS",
+    "one": "1 ITEM",
+    "other": "{{value}} ITEMS"
+  },
+  "anArtistStoreCartClearButtonCaption": "CLEAR CART",
+  "anArtistStoreCartTotalCaption": "TOTAL",
+  "anArtistStoreCartSubtotalCaption": "Subtotal:",
+  "anArtistStoreCartShippingCaption": "Shipping:",
+  "anArtistStoreCartTaxCaption": "Tax:",
+  "anArtistStoreScreenReaderRemoveProductButton": "Remove {product}",
+  "anArtistStoreTooltipRemoveItem": "Remove item",
+  "anArtistStoreProductQuantity": "Quantity: {quantity}",
+  "anArtistStoreProductPrice": "x {price}",
+  "anArtistStoreCategoryNameAll": "ALL",
+  "anArtistStoreScreenReaderProductAddToCart": "Add to cart"
 }

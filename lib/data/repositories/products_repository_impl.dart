@@ -22,7 +22,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
           id: productResponse.id,
           name: productResponse.name,
           description: productResponse.description,
-          price: productResponse.price,
+          priceInCents: productResponse.price,
           imageUrl: productResponse.imageUrl,
         ),
       );

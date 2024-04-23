@@ -1,5 +1,5 @@
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/supplemental/product_card.dart';
+import 'package:anartiststore/supplemental/mobile_product_card.dart';
 import 'package:flutter/material.dart';
 
 class OneProductCardColumn extends StatelessWidget {
@@ -17,7 +17,7 @@ class OneProductCardColumn extends StatelessWidget {
           constraints: const BoxConstraints(
             maxWidth: 550,
           ),
-          child: ProductCard(
+          child: MobileProductCard(
             product: product,
           ),
         ),

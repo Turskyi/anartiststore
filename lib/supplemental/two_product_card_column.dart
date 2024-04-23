@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/supplemental/product_card.dart';
+import 'package:anartiststore/supplemental/mobile_product_card.dart';
 import 'package:flutter/material.dart';
 
 class TwoProductCardColumn extends StatelessWidget {
@@ -26,7 +26,7 @@ class TwoProductCardColumn extends StatelessWidget {
           0.0,
         );
         double heightOfImages = max(
-          heightOfCards - ProductCard.kTextBoxHeight,
+          heightOfCards - MobileProductCard.kTextBoxHeight,
           0.0,
         );
         double imageAspectRatio = heightOfImages > 0.0
@@ -39,7 +39,7 @@ class TwoProductCardColumn extends StatelessWidget {
             if (top != null)
               Padding(
                 padding: const EdgeInsetsDirectional.only(start: 28.0),
-                child: ProductCard(
+                child: MobileProductCard(
                   imageAspectRatio: imageAspectRatio,
                   product: top!,
                 ),
@@ -47,7 +47,7 @@ class TwoProductCardColumn extends StatelessWidget {
             if (top != null) const SizedBox(height: spacerHeight),
             Padding(
               padding: const EdgeInsetsDirectional.only(end: 28.0),
-              child: ProductCard(
+              child: MobileProductCard(
                 imageAspectRatio: imageAspectRatio,
                 product: bottom,
               ),

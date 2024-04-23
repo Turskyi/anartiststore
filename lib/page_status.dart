@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+
+class PageStatus extends InheritedWidget {
+  const PageStatus({
+    super.key,
+    required this.cartController,
+    required this.menuController,
+    required super.child,
+  });
+
+  final AnimationController cartController;
+  final AnimationController menuController;
+
+  static PageStatus? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<PageStatus>();
+  }
+
+  @override
+  bool updateShouldNotify(PageStatus oldWidget) =>
+      oldWidget.cartController != cartController ||
+      oldWidget.menuController != menuController;
+}
+
+bool productPageIsVisible(BuildContext context) {
+  return _cartControllerOf(context).isDismissed &&
+      (_menuControllerOf(context).isCompleted);
+}
+
+bool menuPageIsVisible(BuildContext context) {
+  return _cartControllerOf(context).isDismissed &&
+      (_menuControllerOf(context).isDismissed);
+}
+
+bool cartPageIsVisible(BuildContext context) {
+  return _cartControllerOf(context).isCompleted;
+}
+
+AnimationController _cartControllerOf(BuildContext context) {
+  return PageStatus.of(context)!.cartController;
+}
+
+AnimationController _menuControllerOf(BuildContext context) {
+  return PageStatus.of(context)!.menuController;
+}
