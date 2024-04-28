@@ -19,13 +19,14 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.0.0'
 }
 
 android {
     namespace "store.anartist.anartiststore"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    //TODO: change back to "ndkVersion flutter.ndkVersion", when the error "One or more plugins require a higher Android NDK version." is gone
+    ndkVersion "25.1.8937393"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

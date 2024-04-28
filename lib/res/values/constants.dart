@@ -19,3 +19,4 @@ const int postcodeMaxLength = 10;
 const String phonePattern = r'[\+0-9]';
 const String ukrainianEnglishGermanPolishPattern =
     '[a-zA-ZаАбБвВгГдДеЕєЄжЖзЗиИїЇйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯÄäÖöÜüẞßĄąĆćĘęŁłŃńÓóŚśŹźŻż\\s+\\b|\\b\\s|\\s|\\b]';
+const String techSupportEmail = 'dmytro@turskyi.com';

@@ -41,5 +41,10 @@
   "countryRequired": "Country is required",
   "confirmationEmailSent": "Confirmation Email Sent",
   "checkInboxAndSpam": "A confirmation email has been sent.\nPlease check both your inbox and spam folder.\nWhile the email may be in your inbox, it’s also possible that it could be in your spam folder.",
-  "ok": "OK"
+  "ok": "OK",
+  "error": "Error",
+  "errorOccurred": "An error occurred:",
+  "stacktrace": "Stack Trace:",
+  "provideFeedback": "Provide feedback",
+  "appFeedback": "App Feedback"
 }

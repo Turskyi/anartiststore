@@ -2,6 +2,7 @@ import 'package:anartiststore/cart/confirmation_dialog.dart';
 import 'package:anartiststore/cart/expanding_bottom_sheet.dart';
 import 'package:anartiststore/cart/shopping_cart_row.dart';
 import 'package:anartiststore/cart/shopping_cart_summary.dart';
+import 'package:anartiststore/error_dialog.dart';
 import 'package:anartiststore/layout/letter_spacing.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/contact_info.dart';
@@ -53,6 +54,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           ) {
             final ExpandingBottomSheetState expandingBottomSheetState =
                 ExpandingBottomSheet.of(context);
+            const double buttonHeight = 44.0;
             return Stack(
               children: <Widget>[
                 ListView(
@@ -330,7 +332,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 model,
                                 expandingBottomSheetState,
                               ),
-                              child: Padding(
+                              child: Container(
+                                height: buttonHeight,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 12),
                                 child: Text(
@@ -369,6 +372,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     ),
                                   ),
                                   backgroundColor: kAnArtistStoreBlue100,
+                                  disabledBackgroundColor:
+                                      kAnArtistStoreBlue100,
                                 ),
                                 onPressed: isEnabled
                                     ? () => _onCheckoutPressed(
@@ -377,7 +382,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                               expandingBottomSheetState,
                                         )
                                     : null,
-                                child: Padding(
+                                child: Container(
+                                  height: buttonHeight,
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,
                                   ),
@@ -390,7 +396,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                             ),
                                           ),
                                         )
-                                      : const CircularProgressIndicator(),
+                                      : const LinearProgressIndicator(),
                                 ),
                               ),
                             ),
@@ -450,8 +456,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     required AppStateModel model,
     required ExpandingBottomSheetState expandingBottomSheetState,
   }) async {
+    _checkoutEnabledNotifier.value = false;
     if (_formKey.currentState?.validate() ?? false) {
-      await model.checkout(
+      await model
+          .checkout(
         ContactInfo(
           email: _emailController.text,
           firstName: _firstNameController.text,
@@ -462,14 +470,26 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           postalCode: _postalCodeController.text,
           country: _countryController.text,
         ),
-      );
-      _onClearCartPressed(model, expandingBottomSheetState);
-      if (mounted) {
+      )
+          .then((_) async {
+        _onClearCartPressed(model, expandingBottomSheetState);
+        if (mounted) {
+          await showDialog(
+            context: context,
+            builder: (_) => const ConfirmationDialog(),
+          ).whenComplete(() {
+            _checkoutEnabledNotifier.value = true;
+          });
+        }
+      }).onError((Object? error, StackTrace stackTrace) async {
+        _checkoutEnabledNotifier.value = true;
         await showDialog(
           context: context,
-          builder: (_) => const ConfirmationDialog(),
+          builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
         );
-      }
+      });
+    } else {
+      _checkoutEnabledNotifier.value = true;
     }
   }
 }

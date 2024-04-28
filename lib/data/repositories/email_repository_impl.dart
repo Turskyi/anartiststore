@@ -31,8 +31,8 @@ class EmailRepositoryImpl implements EmailRepository {
       return 'Cart Item ID: ${item.id}\n'
           'Product Name: $productName\n'
           'Quantity: $quantity\n'
-          'Price: ${_formatPrice(priceInCents)}\n\n';
-    }).join('')}\n\n'
+          'Price: ${_formatPrice(priceInCents)}\n';
+    }).join('')}\n'
         'Tax: ${formatter.format(cart.tax)}\n\n'
         'Shipping Cost: ${formatter.format(cart.shippingCost)}\n\n'
         'Subtotal: ${formatter.format(cart.subtotalCost)}\n\n'
