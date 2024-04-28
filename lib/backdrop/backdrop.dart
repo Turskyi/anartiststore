@@ -4,11 +4,14 @@ import 'package:anartiststore/backdrop/backdrop_title.dart';
 import 'package:anartiststore/backdrop/front_layer.dart';
 import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -97,7 +100,10 @@ class _BackdropState extends State<Backdrop>
             },
             suggestionsBuilder: (_, SearchController controller) {
               context.read<ProductsBloc>().add(SearchEvent(controller.text));
-              return _buildGridCards();
+              return _buildGridCards(
+                buildContext: context,
+                controller: controller,
+              );
             },
           ),
           IconButton(
@@ -187,7 +193,10 @@ class _BackdropState extends State<Backdrop>
     );
   }
 
-  List<Widget> _buildGridCards() {
+  List<Widget> _buildGridCards({
+    required BuildContext buildContext,
+    required SearchController controller,
+  }) {
     if (widget.products.isEmpty) {
       return const <Widget>[];
     }
@@ -215,38 +224,69 @@ class _BackdropState extends State<Backdrop>
       return Row(
         children: productsForRow.map((Product product) {
           return Expanded(
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 18 / 11,
-                    child: Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.fitWidth,
+            child: ScopedModelDescendant<AppStateModel>(
+              builder:
+                  (BuildContext context, Widget? child, AppStateModel model) {
+                return Semantics(
+                  hint: translate('anArtistStoreScreenReaderProductAddToCart'),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        model.addProductToCart(product.id);
+                        controller.text = '';
+                        Navigator.of(context).pop();
+                      },
+                      child: child,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                    child: Column(
+                );
+              },
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          product.name,
-                          style: theme.textTheme.titleLarge,
-                          maxLines: 1,
+                        AspectRatio(
+                          aspectRatio: 18 / 11,
+                          child: Image.network(
+                            product.imageUrl,
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          formatter.format(product.price),
-                          style: theme.textTheme.titleSmall,
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                product.name,
+                                style: theme.textTheme.titleLarge,
+                                maxLines: 1,
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                formatter.format(product.price),
+                                style: theme.textTheme.titleSmall,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white.withOpacity(0.6),
+                        child: const Icon(Icons.add_shopping_cart),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -37,9 +37,7 @@ class MobileProductCard extends StatelessWidget {
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () {
-                model.addProductToCart(product.id);
-              },
+              onTap: () => model.addProductToCart(product.id),
               child: child,
             ),
           ),

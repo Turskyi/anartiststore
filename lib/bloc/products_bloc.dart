@@ -58,6 +58,18 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         );
       }
     });
+    on<ClearEvent>((ClearEvent event, Emitter<ProductsState> emit) {
+      List<Product> productGroup = state.products
+          .where((Product product) => product.group == state.group)
+          .toList();
+      emit(
+        FilteredProductsState(
+          products: state.products,
+          group: state.group,
+          filteredProducts: productGroup,
+        ),
+      );
+    });
   }
 
   final ProductsRepository _productsRepository;

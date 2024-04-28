@@ -31,3 +31,7 @@ class SearchEvent extends ProductsEvent {
   @override
   int get hashCode => super.hashCode ^ query.hashCode;
 }
+
+class ClearEvent extends ProductsEvent {
+  const ClearEvent();
+}
