@@ -55,13 +55,10 @@ class ExpandingBottomSheet extends StatefulWidget {
   @override
   ExpandingBottomSheetState createState() => ExpandingBottomSheetState();
 
-  static ExpandingBottomSheetState? of(
-    BuildContext context, {
-    bool isNullOk = false,
-  }) {
+  static ExpandingBottomSheetState of(BuildContext context) {
     final ExpandingBottomSheetState? result =
         context.findAncestorStateOfType<ExpandingBottomSheetState>();
-    if (isNullOk || result != null) {
+    if (result != null) {
       return result;
     }
     throw FlutterError(

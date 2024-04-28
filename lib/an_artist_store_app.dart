@@ -3,12 +3,14 @@ import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/cart/expanding_bottom_sheet.dart';
 import 'package:anartiststore/data/remote/models/logging_interceptor.dart';
 import 'package:anartiststore/data/remote/retrofit_client/retrofit_rest_client.dart';
+import 'package:anartiststore/data/repositories/email_repository_impl.dart';
 import 'package:anartiststore/data/repositories/products_repository_impl.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/group/group_menu_page.dart';
 import 'package:anartiststore/home_page.dart';
 import 'package:anartiststore/login.dart';
 import 'package:anartiststore/model/app_state_model.dart';
+import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/products_repository.dart';
 import 'package:anartiststore/page_status.dart';
 import 'package:anartiststore/res/resources.dart';
@@ -174,15 +176,21 @@ ProductsRepository get _productRepository {
   );
 }
 
+EmailRepository get _emailRepository {
+  return EmailRepositoryImpl(
+    RetrofitRestClient(Dio()..interceptors.add(const LoggingInterceptor())),
+  );
+}
+
 class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
   @override
   AppStateModel createDefaultValue() =>
-      AppStateModel(_productRepository)..loadProducts();
+      AppStateModel(_productRepository, _emailRepository)..loadProducts();
 
   @override
   AppStateModel fromPrimitives(Object? data) {
-    final AppStateModel appState = AppStateModel(_productRepository)
-      ..loadProducts();
+    final AppStateModel appState =
+        AppStateModel(_productRepository, _emailRepository)..loadProducts();
     final Map<String, dynamic> appData =
         Map<String, dynamic>.from(data as Map<String, dynamic>);
 

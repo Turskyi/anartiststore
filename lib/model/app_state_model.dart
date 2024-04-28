@@ -1,4 +1,8 @@
 import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/model/cart.dart';
+import 'package:anartiststore/model/cart_item.dart';
+import 'package:anartiststore/model/contact_info.dart';
+import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/model/products_repository.dart';
 import 'package:collection/collection.dart';
@@ -8,9 +12,10 @@ double _salesTaxRate = 0.06;
 double _shippingCostPerItem = 7;
 
 class AppStateModel extends Model {
-  AppStateModel(this._productsRepository);
+  AppStateModel(this._productsRepository, this._emailRepository);
 
   final ProductsRepository _productsRepository;
+  final EmailRepository _emailRepository;
 
   // All the available products.
   List<Product> _availableProducts = <Product>[];
@@ -60,7 +65,10 @@ class AppStateModel extends Model {
       return List<Product>.from(_availableProducts);
     } else {
       return _availableProducts
-          .where((Product p) => p.description.contains(_selectedCategory.name))
+          .where(
+            (Product product) =>
+                product.description.contains(_selectedCategory.name),
+          )
           .toList();
     }
   }
@@ -124,8 +132,27 @@ class AppStateModel extends Model {
     notifyListeners();
   }
 
-  @override
-  String toString() {
-    return 'AppStateModel(totalCost: $totalCost)';
+  List<CartItem> _convertProductsInCartToCartItems() {
+    final List<CartItem> cartItems = <CartItem>[];
+    _productsInCart.forEach((String productId, int quantity) {
+      final Product product = getProductById(productId);
+      cartItems
+          .add(CartItem(id: productId, product: product, quantity: quantity));
+    });
+    return cartItems;
+  }
+
+  Future<void> checkout(ContactInfo contactInfo) {
+    final List<CartItem> cartItems = _convertProductsInCartToCartItems();
+    return _emailRepository.sendOrderEmail(
+      cart: Cart(
+        tax: tax,
+        shippingCost: shippingCost,
+        subtotalCost: subtotalCost,
+        totalCost: totalCost,
+        items: cartItems,
+      ),
+      contactInfo: contactInfo,
+    );
   }
 }

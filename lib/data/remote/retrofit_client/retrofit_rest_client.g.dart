@@ -13,7 +13,7 @@ class _RetrofitRestClient implements RetrofitRestClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://an-artist.store/api/';
+    baseUrl ??= 'https://an-artist.store/api/';
   }
 
   final Dio _dio;
@@ -45,6 +45,96 @@ class _RetrofitRestClient implements RetrofitRestClient {
               baseUrl,
             ))));
     final value = ProductCatalogResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<EmailResponse> email(Email email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Content-Type': 'application/json'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(email.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EmailResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/json',
+    )
+            .compose(
+              _dio.options,
+              '/email',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = EmailResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<EmailResponse> order(Email email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Content-Type': 'application/json'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(email.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EmailResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/json',
+    )
+            .compose(
+              _dio.options,
+              '/order',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = EmailResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<EmailResponse> send(Email email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Content-Type': 'application/json'};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(email.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EmailResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'application/json',
+    )
+            .compose(
+              _dio.options,
+              '/send',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = EmailResponse.fromJson(_result.data!);
     return value;
   }
 

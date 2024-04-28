@@ -9,8 +9,10 @@ part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc(this._productsRepository) : super(const ProductsInitial()) {
-    on<LoadProductsEvent>(
-        (LoadProductsEvent event, Emitter<ProductsState> emit) async {
+    on<LoadProductsEvent>((
+      LoadProductsEvent event,
+      Emitter<ProductsState> emit,
+    ) async {
       final List<Product> products = await _productsRepository.loadProducts(
         state.group,
       );

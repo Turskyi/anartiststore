@@ -28,9 +28,7 @@ class FrontLayer extends StatelessWidget {
               alignment: AlignmentDirectional.centerStart,
             ),
           ),
-          Expanded(
-            child: child,
-          ),
+          Expanded(child: child),
         ],
       ),
     );
