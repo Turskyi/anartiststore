@@ -29,7 +29,7 @@ new Android Package (APK) to
 • State management approach: [BLoC](https://bloclibrary.dev);
 
 • App testing platforms:
-[Firebase App Distribution](https://firebase.google.com/docs/app-distribution);
+[Firebase App Distribution](https://appdistribution.firebase.dev/i/897887a1fe4fa458);
 
 **Code Readability:** code is easily readable with no unnecessary blank lines, no unused variables
 or methods, and no commented-out code, all variables, methods, and resource IDs are descriptively
