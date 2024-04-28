@@ -12,7 +12,7 @@ class MobileAsymmetricView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.fromLTRB(0.0, 34.0, 16.0, 44.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 8.0, 16.0, 44.0),
       children: _buildColumns(context),
     );
   }
