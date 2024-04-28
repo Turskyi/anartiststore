@@ -20,7 +20,7 @@ ThemeData _buildAnArtistStoreTheme() {
       foregroundColor: kAnArtistStoreGreen900,
       backgroundColor: kAnArtistStoreBlue100,
     ),
-    scaffoldBackgroundColor: Colors.grey[200],
+    scaffoldBackgroundColor: kAnArtistStoreSurfaceWhite,
     cardColor: Colors.white,
     primaryIconTheme: _customIconTheme(base.iconTheme),
     inputDecorationTheme: const InputDecorationTheme(

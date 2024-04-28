@@ -70,6 +70,8 @@ dart run build_runner clean
 dart run build_runner build --delete-conflicting-outputs
 ```
 
+**Architectural pattern** :
+[Monolith](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures#all-in-one-applications);
 <details style="border: 1px solid #aaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
   <summary style="font-weight: bold; margin: -0.5em -0.5em 0; padding: 0.5em; border-bottom: 1px solid #aaa;">Style guides:
 
@@ -335,5 +337,13 @@ more expression and flexibility.
 • Screenshots:
 
 <!--suppress CheckImageSize -->
-<img src="screenshots/groups_android_phone_portrait_20240418.png" width="400"  alt="screenshot">
+<img src="screenshots/groups_android_phone_20240428.png" width="400"  alt="screenshot">
+<!--suppress CheckImageSize -->
+<img src="screenshots/android_phone_cart_20240428.png" width="400"  alt="screenshot">
+<!--suppress CheckImageSize -->
+<img src="screenshots/android_phone_products_20240428.png" width="400"  alt="screenshot">
+<!--suppress CheckImageSize -->
+<img src="screenshots/android_phone_settings_20240428.png" width="400"  alt="screenshot">
+<!--suppress CheckImageSize -->
+<img src="screenshots/android_tablet_search_20240428.png" width="400"  alt="screenshot">
 
