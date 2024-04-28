@@ -1,7 +1,7 @@
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
 [![style: flutter lints](https://img.shields.io/badge/style-flutter__lints-blue)](https://pub.dev/packages/flutter_lints)
 [![codecov](https://codecov.io/gh/Turskyi/anartiststore/graph/badge.svg?token=4Q2HFH9ESH)](https://codecov.io/gh/Turskyi/anartiststore)
-[![Code Quality](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml)
+[![Code Quality](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml/badge.svg?branch=master)](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml)
 [![Upload Android build to App Tester.](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/anartiststore">
 
