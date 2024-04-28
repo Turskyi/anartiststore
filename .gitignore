@@ -41,3 +41,24 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# files with environment variables
+.env
+/.env
+/env.g.dart
+env.g.dart
+/android/.env.local
+/android/keystore/
+/android/key.properties
+/android/keystore/private_key.pepk
+build
+build/app
+build/app/outputs
+build/app/outputs/flutter-apk/app-debug.apk
+android/app/property(org.gradle.api.file.Directory, fixed(class org.gradle.api.internal.file.DefaultFilePropertyFactory$FixedDirectory,
+/android/app/property(org.gradle.api.file.Directory, fixed(class org.gradle.api.internal.file.DefaultFilePropertyFactory$FixedDirectory, /
+*.apk
+*.so
+/.firebase/
+.firebase
+.firebase/hosting.YnVpbGQvd2Vi.cache
