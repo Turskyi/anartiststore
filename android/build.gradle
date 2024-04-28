@@ -1,3 +1,21 @@
+buildscript {
+    ext {
+        kotlin_version = '1.9.23'
+        application_id = 'store.anartist.anartiststore'
+    }
+    repositories {
+        google()
+        //noinspection GrUnresolvedAccess
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.4'
+        classpath 'com.google.gms:google-services:4.4.1'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        //noinspection GrUnresolvedAccess
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
 allprojects {
     repositories {
         google()
