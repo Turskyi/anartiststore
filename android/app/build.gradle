@@ -19,8 +19,25 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.0'
+    flutterVersionName = '0.0.1'
 }
+
+def keyProperties = new Properties()
+def keyPropertiesFile = rootProject.file('key.properties')
+if (keyPropertiesFile.exists()) {
+    keyPropertiesFile.withReader('UTF-8') { reader -> //noinspection GroovyAssignabilityCheck
+        keyProperties.load(reader)
+    }
+}
+
+def SIGNING_KEY_DEBUG_PATH = keyProperties.getProperty('SIGNING_KEY_DEBUG_PATH')
+def SIGNING_KEY_DEBUG_PASSWORD = keyProperties.getProperty('SIGNING_KEY_DEBUG_PASSWORD')
+def SIGNING_KEY_DEBUG_KEY = keyProperties.getProperty('SIGNING_KEY_DEBUG_KEY')
+def SIGNING_KEY_DEBUG_KEY_PASSWORD = keyProperties.getProperty('SIGNING_KEY_DEBUG_KEY_PASSWORD')
+def SIGNING_KEY_RELEASE_PATH = keyProperties.getProperty('SIGNING_KEY_RELEASE_PATH')
+def SIGNING_KEY_RELEASE_PASSWORD = keyProperties.getProperty('SIGNING_KEY_RELEASE_PASSWORD')
+def SIGNING_KEY_RELEASE_KEY = keyProperties.getProperty('SIGNING_KEY_RELEASE_KEY')
+def SIGNING_KEY_RELEASE_KEY_PASSWORD = keyProperties.getProperty('SIGNING_KEY_RELEASE_KEY_PASSWORD')
 
 android {
     namespace "store.anartist.anartiststore"
@@ -51,10 +68,55 @@ android {
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        production {
+            // FCI_BUILD_ID is exported by Codemagic
+            //noinspection GroovyAssignabilityCheck
+            if (System.getenv()["FCI_BUILD_ID"] != null) {
+                //noinspection GroovyAssignabilityCheck
+                storeFile file(System.getenv()["CM_KEYSTORE_PATH"])
+                //noinspection GroovyAssignabilityCheck
+                storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]
+                //noinspection GroovyAssignabilityCheck
+                keyAlias System.getenv()["CM_KEY_ALIAS"]
+                //noinspection GroovyAssignabilityCheck
+                keyPassword System.getenv()["CM_KEY_PASSWORD"]
+            } else {
+                storeFile file(SIGNING_KEY_RELEASE_PATH)
+                storePassword SIGNING_KEY_RELEASE_PASSWORD
+                keyAlias SIGNING_KEY_RELEASE_KEY
+                keyPassword SIGNING_KEY_RELEASE_KEY_PASSWORD
+            }
+        }
+        dev {
+            // FCI_BUILD_ID is exported by Codemagic
+            //noinspection GroovyAssignabilityCheck
+            if (System.getenv()["FCI_BUILD_ID"] != null) {
+                //noinspection GroovyAssignabilityCheck
+                storeFile file(System.getenv()["CM_KEYSTORE_PATH"])
+                //noinspection GroovyAssignabilityCheck
+                storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]
+                //noinspection GroovyAssignabilityCheck
+                keyAlias System.getenv()["CM_KEY_ALIAS"]
+                //noinspection GroovyAssignabilityCheck
+                keyPassword System.getenv()["CM_KEY_PASSWORD"]
+            } else {
+                storeFile file(SIGNING_KEY_DEBUG_PATH)
+                storePassword SIGNING_KEY_DEBUG_PASSWORD
+                keyAlias SIGNING_KEY_DEBUG_KEY
+                keyPassword SIGNING_KEY_DEBUG_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+            signingConfig signingConfigs.production
+        }
+        debug {
+            signingConfig signingConfigs.dev
         }
     }
 }
