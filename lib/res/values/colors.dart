@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-const Color kAnArtistStorePink50 = Color(0xFFFEEAE6);
-const Color kAnArtistStorePink100 = Color(0xFFFEDBD0);
-const Color kAnArtistStorePink300 = Color(0xFFFBB8AC);
-const Color kAnArtistStorePink400 = Color(0xFFEAA4A4);
+const Color kAnArtistStoreBlue50 = Color(0xFFE6F6FE);
+const Color kAnArtistStoreBlue100 = Color(0xFFD0EEFE);
+const Color kAnArtistStoreBlue300 = Color(0xFFACDBFB);
+const Color kAnArtistStoreBlue400 = Color(0xFFA4EAE4);
 
-const Color kAnArtistStoreBrown600 = Color(0xFF7D4F52);
-const Color kAnArtistStoreBrown900 = Color(0xFF442B2D);
+const Color kAnArtistStoreGreen600 = Color(0xFF527D4F);
+const Color kAnArtistStoreGreen900 = Color(0xFF2D4442);
 
 const Color kAnArtistStoreErrorRed = Color(0xFFC5032B);
 
-const Color kAnArtistStoreSurfaceWhite = Color(0xFFFFFBFA);
-const Color kAnArtistStoreBackgroundWhite = Colors.white;
+const Color kAnArtistStoreSurfaceWhite = Color(0xFFFAFBFF);
 
-const Color kAnArtistStorePurple = Color(0xFF5D1049);
+const Color kAnArtistStoreTeal = Color(0xFF107A6D);

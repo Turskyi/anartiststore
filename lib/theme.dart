@@ -10,58 +10,58 @@ const double largeLetterSpacing = 1.0;
 final ThemeData kAnArtistStoreTheme = _buildAnArtistStoreTheme();
 
 IconThemeData _customIconTheme(IconThemeData original) {
-  return original.copyWith(color: kAnArtistStoreBrown900);
+  return original.copyWith(color: kAnArtistStoreGreen900);
 }
 
 ThemeData _buildAnArtistStoreTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
     appBarTheme: const AppBarTheme(
-      foregroundColor: kAnArtistStoreBrown900,
-      backgroundColor: kAnArtistStorePink100,
+      foregroundColor: kAnArtistStoreGreen900,
+      backgroundColor: kAnArtistStoreBlue100,
     ),
-    scaffoldBackgroundColor: kAnArtistStoreSurfaceWhite,
-    cardColor: kAnArtistStoreBackgroundWhite,
+    scaffoldBackgroundColor: Colors.grey[200],
+    cardColor: Colors.white,
     primaryIconTheme: _customIconTheme(base.iconTheme),
     inputDecorationTheme: const InputDecorationTheme(
       border: CutCornersBorder(
-        borderSide: BorderSide(color: kAnArtistStoreBrown900, width: 0.5),
+        borderSide: BorderSide(color: kAnArtistStoreGreen900, width: 0.5),
       ),
       contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       focusedBorder: CutCornersBorder(
         borderSide: BorderSide(
           width: 2.0,
-          color: kAnArtistStorePurple,
+          color: kAnArtistStoreTeal,
         ),
       ),
       floatingLabelStyle: TextStyle(
-        color: kAnArtistStorePurple,
+        color: kAnArtistStoreTeal,
       ),
     ),
     textTheme: _buildAnArtistStoreTextTheme(base.textTheme),
     textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: kAnArtistStorePurple,
+      selectionColor: kAnArtistStoreTeal,
     ),
     primaryTextTheme: _buildAnArtistStoreTextTheme(base.primaryTextTheme),
     iconTheme: _customIconTheme(base.iconTheme),
     colorScheme: base.colorScheme.copyWith(
       error: kAnArtistStoreErrorRed,
-      primary: kAnArtistStorePurple,
-      onPrimary: kAnArtistStoreBrown900,
-      secondary: kAnArtistStorePurple,
-      primaryContainer: kAnArtistStoreBrown900,
-      secondaryContainer: kAnArtistStoreBrown900,
+      primary: kAnArtistStoreTeal,
+      onPrimary: kAnArtistStoreGreen900,
+      secondary: kAnArtistStoreTeal,
+      primaryContainer: kAnArtistStoreGreen900,
+      secondaryContainer: kAnArtistStoreGreen900,
       surface: kAnArtistStoreSurfaceWhite,
-      background: kAnArtistStoreBackgroundWhite,
-      onSecondary: kAnArtistStoreBrown900,
-      onSurface: kAnArtistStoreBrown900,
-      onBackground: kAnArtistStoreBrown900,
+      background: Colors.white,
+      onSecondary: kAnArtistStoreGreen900,
+      onSurface: kAnArtistStoreGreen900,
+      onBackground: kAnArtistStoreGreen900,
       onError: kAnArtistStoreSurfaceWhite,
       brightness: Brightness.light,
     ),
     searchViewTheme: const SearchViewThemeData(
-      backgroundColor: kAnArtistStorePink100,
-      surfaceTintColor: kAnArtistStorePink50,
+      backgroundColor: kAnArtistStoreBlue100,
+      surfaceTintColor: kAnArtistStoreBlue50,
     ),
   );
 }
@@ -104,7 +104,7 @@ TextTheme _buildAnArtistStoreTextTheme(TextTheme base) {
       )
       .apply(
         fontFamily: 'Rubik',
-        displayColor: kAnArtistStoreBrown900,
-        bodyColor: kAnArtistStoreBrown900,
+        displayColor: kAnArtistStoreGreen900,
+        bodyColor: kAnArtistStoreGreen900,
       );
 }

@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: kAnArtistStoreBrown900,
+                    foregroundColor: kAnArtistStoreGreen900,
                     shape: const BeveledRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7.0)),
                     ),
@@ -69,8 +69,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: kAnArtistStoreBrown900,
-                    backgroundColor: kAnArtistStorePink100,
+                    foregroundColor: kAnArtistStoreGreen900,
+                    backgroundColor: kAnArtistStoreBlue100,
                     elevation: 8.0,
                     shape: const BeveledRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7.0)),

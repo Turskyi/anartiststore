@@ -43,7 +43,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Widget build(BuildContext context) {
     final ThemeData localTheme = Theme.of(context);
     return Scaffold(
-      backgroundColor: kAnArtistStorePink50,
+      backgroundColor: kAnArtistStoreBlue50,
       body: SafeArea(
         child: ScopedModelDescendant<AppStateModel>(
           builder: (
@@ -324,7 +324,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(7)),
                                 ),
-                                backgroundColor: kAnArtistStorePink100,
+                                backgroundColor: kAnArtistStoreBlue100,
                               ),
                               onPressed: () => _onClearCartPressed(
                                 model,
@@ -368,7 +368,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                       Radius.circular(7),
                                     ),
                                   ),
-                                  backgroundColor: kAnArtistStorePink100,
+                                  backgroundColor: kAnArtistStoreBlue100,
                                 ),
                                 onPressed: isEnabled
                                     ? () => _onCheckoutPressed(

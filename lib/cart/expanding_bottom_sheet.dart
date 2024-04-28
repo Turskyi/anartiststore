@@ -400,7 +400,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
           ),
         ),
         elevation: 4,
-        color: kAnArtistStorePink50,
+        color: kAnArtistStoreBlue50,
         child: _cartIsVisible
             ? _buildShoppingCartPage()
             : _buildThumbnails(context, numProducts),

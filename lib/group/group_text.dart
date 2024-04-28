@@ -39,7 +39,7 @@ class GroupText extends StatelessWidget {
                 Container(
                   width: 70.0,
                   height: 2.0,
-                  color: kAnArtistStorePink400,
+                  color: kAnArtistStoreBlue400,
                 ),
               ],
             )
@@ -48,7 +48,7 @@ class GroupText extends StatelessWidget {
               child: Text(
                 categoryString,
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  color: kAnArtistStoreBrown900.withAlpha(153),
+                  color: kAnArtistStoreGreen900.withAlpha(153),
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -109,7 +109,7 @@ class ShoppingCartRow extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const Divider(
-                    color: kAnArtistStoreBrown900,
+                    color: kAnArtistStoreGreen900,
                     height: 10,
                   ),
                 ],

@@ -19,7 +19,7 @@ class GroupMenuPage extends StatelessWidget {
     return Center(
       child: Container(
         padding: const EdgeInsets.only(top: 40.0),
-        color: kAnArtistStorePink100,
+        color: kAnArtistStoreBlue100,
         child: ListView(
           children: _categories
               .map(

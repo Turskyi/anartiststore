@@ -20,7 +20,7 @@ class ShoppingCartSummary extends StatelessWidget {
     final TextStyle smallAmountStyle = Theme.of(context)
         .textTheme
         .bodyMedium!
-        .copyWith(color: kAnArtistStoreBrown600);
+        .copyWith(color: kAnArtistStoreGreen600);
     final TextStyle largeAmountStyle = Theme.of(context)
         .textTheme
         .headlineMedium!
