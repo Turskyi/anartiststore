@@ -40,11 +40,16 @@
   "postalCodeRequired": "Postal code is required",
   "countryRequired": "Country is required",
   "confirmationEmailSent": "Confirmation Email Sent",
-  "checkInboxAndSpam": "A confirmation email has been sent.\nPlease check both your inbox and spam folder.\nWhile the email may be in your inbox, it’s also possible that it could be in your spam folder.",
+  "checkInboxAndSpam": "A confirmation email has been sent.\nPlease check both your inbox and spam folder.\nWhile the email may be in your inbox, it’s also possible that it could be in your spam folder.\nAnna will contact you shortly to finalize payment and specific delivery arrangements",
   "ok": "OK",
   "error": "Error",
   "errorOccurred": "An error occurred:",
   "stacktrace": "Stack Trace:",
   "provideFeedback": "Provide feedback",
-  "appFeedback": "App Feedback"
+  "appFeedback": "App Feedback",
+  "noResultsFoundFor": "No results were found for \"{query}\"",
+  "productAdded": "Product added to the cart!",
+  "placeYourOrder": "Place your order by contacting Anna directly through the app.",
+  "confirmOrder": "CONFIRM ORDER",
+  "reviewOrder": "Review your order details below.\nOnce you confirm,\nthis information along with your selected products will be sent to Anna to finalize delivery and payment."
 }

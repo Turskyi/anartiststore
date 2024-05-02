@@ -37,7 +37,27 @@ class MobileProductCard extends StatelessWidget {
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () => model.addProductToCart(product.id),
+              onTap: () {
+                model.addProductToCart(product.id);
+                // Show a brief notification (snackbar) at the top of the
+                // screen.
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(translate('productAdded')),
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom:
+                          MediaQuery.of(context).size.height - kToolbarHeight,
+                      right: 20,
+                      left: 20,
+                    ),
+                  ),
+                );
+              },
               child: child,
             ),
           ),

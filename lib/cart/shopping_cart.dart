@@ -90,6 +90,19 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         ],
                       ),
                     ),
+                    if (model.productsInCart.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          translate('reviewOrder'),
+                          style: TextStyle(
+                            fontSize: 14.0, // Adjust font size as needed
+                            color:
+                                Colors.grey[700], // Adjust text color as needed
+                          ),
+                        ),
+                      ),
+                    if (model.productsInCart.isNotEmpty) const Divider(),
                     const SizedBox(height: 16),
                     Semantics(
                       sortKey:
@@ -389,7 +402,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   ),
                                   child: isEnabled
                                       ? Text(
-                                          translate('checkout'),
+                                          translate('confirmOrder'),
                                           style: TextStyle(
                                             letterSpacing: letterSpacingOrNone(
                                               largeLetterSpacing,
