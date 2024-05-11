@@ -37,8 +37,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   final TextEditingController _countryController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ValueNotifier<bool> _emailValidNotifier = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _checkoutEnabledNotifier =
-      ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _confirmEnabledNotifier = ValueNotifier<bool>(true);
 
   @override
   Widget build(BuildContext context) {
@@ -371,7 +370,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               name: _ordinalSortKeyName,
                             ),
                             child: ValueListenableBuilder<bool>(
-                              valueListenable: _checkoutEnabledNotifier,
+                              valueListenable: _confirmEnabledNotifier,
                               builder: (
                                 BuildContext context,
                                 bool isEnabled,
@@ -389,7 +388,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                       kAnArtistStoreBlue100,
                                 ),
                                 onPressed: isEnabled
-                                    ? () => _onCheckoutPressed(
+                                    ? () => _onConfirmPressed(
                                           model: model,
                                           expandingBottomSheetState:
                                               expandingBottomSheetState,
@@ -465,11 +464,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     _emailValidNotifier.value = EmailValidator.validate(value);
   }
 
-  Future<void> _onCheckoutPressed({
+  Future<void> _onConfirmPressed({
     required AppStateModel model,
     required ExpandingBottomSheetState expandingBottomSheetState,
   }) async {
-    _checkoutEnabledNotifier.value = false;
+    _confirmEnabledNotifier.value = false;
     if (_formKey.currentState?.validate() ?? false) {
       await model
           .checkout(
@@ -491,18 +490,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             context: context,
             builder: (_) => const ConfirmationDialog(),
           ).whenComplete(() {
-            _checkoutEnabledNotifier.value = true;
+            _confirmEnabledNotifier.value = true;
           });
         }
       }).onError((Object? error, StackTrace stackTrace) async {
-        _checkoutEnabledNotifier.value = true;
+        _confirmEnabledNotifier.value = true;
         await showDialog(
           context: context,
           builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
         );
       });
     } else {
-      _checkoutEnabledNotifier.value = true;
+      _confirmEnabledNotifier.value = true;
     }
   }
 }

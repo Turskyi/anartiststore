@@ -6,7 +6,7 @@ import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/settings/settings_page.dart';
+import 'package:anartiststore/settings/info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -115,9 +115,9 @@ class _BackdropState extends State<Backdrop>
             },
           ),
           IconButton(
-            icon: const Icon(
-              Icons.tune,
-              semanticLabel: 'settings',
+            icon: Icon(
+              Icons.info_outline,
+              semanticLabel: translate('info'),
             ),
             onPressed: () => Navigator.push(
               context,
@@ -127,7 +127,7 @@ class _BackdropState extends State<Backdrop>
                   Animation<double> animation1,
                   Animation<double> animation2,
                 ) =>
-                    const SettingsPage(),
+                    const InfoPage(),
                 transitionDuration: const Duration(seconds: 1),
                 transitionsBuilder: (
                   BuildContext context,

@@ -51,5 +51,15 @@
   "productAdded": "Product added to the cart!",
   "placeYourOrder": "Place your order by contacting Anna directly through the app.",
   "confirmOrder": "CONFIRM ORDER",
-  "reviewOrder": "Review your order details below.\nOnce you confirm,\nthis information along with your selected products will be sent to Anna to finalize delivery and payment."
+  "reviewOrder": "Review your order details below.\nOnce you confirm,\nthis information along with your selected products will be sent to Anna to finalize delivery and payment.",
+  "info": "Info",
+  "company": "Company",
+  "about": "About us",
+  "contact": "Contact",
+  "press_kit": "Press kit",
+  "legal": "Legal",
+  "terms_of_use": "Terms of use",
+  "privacy_policy": "Privacy policy",
+  "follow_us": "Follow Us",
+  "official_website": "Official Website"
 }
