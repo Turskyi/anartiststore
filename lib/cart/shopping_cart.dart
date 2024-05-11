@@ -322,8 +322,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 if (model.productsInCart.isNotEmpty)
                   PositionedDirectional(
                     bottom: 16,
-                    start: 16,
-                    end: 16,
+                    start: 12,
+                    end: 12,
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -362,7 +362,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Semantics(
                             sortKey: const OrdinalSortKey(

@@ -9,7 +9,7 @@
     "one": "1 ITEM",
     "other": "{{value}} ITEMS"
   },
-  "anArtistStoreCartClearButtonCaption": "CLEAR SELECTED ITEMS",
+  "anArtistStoreCartClearButtonCaption": "CLEAR ALL",
   "anArtistStoreCartTotalCaption": "TOTAL",
   "anArtistStoreCartSubtotalCaption": "Subtotal:",
   "anArtistStoreCartShippingCaption": "Shipping:",
