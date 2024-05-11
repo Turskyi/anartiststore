@@ -64,6 +64,28 @@ class ShoppingCartRow extends StatelessWidget {
                         width: 75,
                         height: 75,
                         excludeFromSemantics: true,
+                        loadingBuilder: (
+                          _,
+                          Widget child,
+                          ImageChunkEvent? loadingProgress,
+                        ) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          }
+                        },
+                        errorBuilder: (_, __, ___) {
+                          return Text(translate('error_loading_image'));
+                        },
                       ),
                       const SizedBox(width: 16),
                       Expanded(

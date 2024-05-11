@@ -297,6 +297,29 @@ class _BackdropState extends State<Backdrop>
                           child: Image.network(
                             product.imageUrl,
                             fit: BoxFit.fitWidth,
+                            loadingBuilder: (
+                              _,
+                              Widget child,
+                              ImageChunkEvent? loadingProgress,
+                            ) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              }
+                            },
+                            errorBuilder: (_, __, ___) {
+                              return Text(translate('error_loading_image'));
+                            },
                           ),
                         ),
                         Padding(
