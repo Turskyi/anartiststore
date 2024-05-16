@@ -67,8 +67,8 @@ class MobileProductCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     margin: EdgeInsets.only(
-                      bottom:
-                          MediaQuery.of(context).size.height - kToolbarHeight,
+                      bottom: MediaQuery.sizeOf(context).height -
+                          (kToolbarHeight + kMinInteractiveDimension),
                       right: 20,
                       left: 20,
                     ),

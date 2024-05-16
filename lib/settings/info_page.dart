@@ -1,6 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:anartiststore/res/values/constants.dart' as constants;
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoPage extends StatelessWidget {
@@ -21,12 +28,16 @@ class InfoPage extends StatelessWidget {
             onTap: () => launchUrl(Uri.parse(constants.aboutUsUrl)),
           ),
           ListTile(
+            title: Text(translate('press_kit')),
+            onTap: () => launchUrl(Uri.parse(constants.pressKitUrl)),
+          ),
+          ListTile(
             title: Text(translate('contact')),
             onTap: () => launchUrl(Uri.parse(constants.contactUsUrl)),
           ),
           ListTile(
-            title: Text(translate('press_kit')),
-            onTap: () => launchUrl(Uri.parse(constants.pressKitUrl)),
+            title: Text(translate('report_problem')),
+            onTap: () => _onReportPressed(context),
           ),
           Text(translate('legal'), style: const TextStyle(fontSize: 20)),
           ListTile(
@@ -66,5 +77,42 @@ class InfoPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _onReportPressed(BuildContext context) =>
+      PackageInfo.fromPlatform().then(
+        (PackageInfo packageInfo) => BetterFeedback.of(context).show(
+          (UserFeedback feedback) => _sendFeedback(
+            feedback: feedback,
+            packageInfo: packageInfo,
+          ),
+        ),
+      );
+
+  Future<void> _sendFeedback({
+    required UserFeedback feedback,
+    required PackageInfo packageInfo,
+  }) =>
+      _writeImageToStorage(feedback.screenshot)
+          .then((String screenshotFilePath) {
+        return FlutterEmailSender.send(
+          Email(
+            body: '${feedback.text}\n\nApp id: ${packageInfo.packageName}\n'
+                'App version: ${packageInfo.version}\n'
+                'Build number: ${packageInfo.buildNumber}',
+            subject: '${translate('app_feedback')}: '
+                '${packageInfo.appName}',
+            recipients: <String>[constants.techSupportEmail],
+            attachmentPaths: <String>[screenshotFilePath],
+          ),
+        );
+      });
+
+  Future<String> _writeImageToStorage(Uint8List feedbackScreenshot) async {
+    final Directory output = await getTemporaryDirectory();
+    final String screenshotFilePath = '${output.path}/feedback.png';
+    final File screenshotFile = File(screenshotFilePath);
+    await screenshotFile.writeAsBytes(feedbackScreenshot);
+    return screenshotFilePath;
   }
 }

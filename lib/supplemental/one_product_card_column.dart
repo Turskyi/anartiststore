@@ -9,22 +9,23 @@ class OneProductCardColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const ClampingScrollPhysics(),
-      reverse: true,
-      children: <Widget>[
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 550,
+    return LayoutBuilder(
+      builder: (_, BoxConstraints viewportConstraints) {
+        // I use SingleChildScrollView instead of a Column to avoid
+        // "A RenderFlex overflowed" issue.
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child: Padding(
+              // Kind of center of the screen.
+              padding: EdgeInsets.only(top: viewportConstraints.maxHeight / 5),
+              child: MobileProductCard(product: product),
+            ),
           ),
-          child: MobileProductCard(
-            product: product,
-          ),
-        ),
-        const SizedBox(
-          height: 40.0,
-        ),
-      ],
+        );
+      },
     );
   }
 }

@@ -22,6 +22,9 @@ version: 1.0.5+6
 environment:
   sdk: '>=3.3.2 <4.0.0'
 
+dependency_overrides:
+  intl: ^0.19.0
+
 # Dependencies specify other packages that your package needs to work.
 # To automatically upgrade your package dependencies to the latest versions,
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -42,7 +45,7 @@ dependencies:
   #And because every version of flutter_localizations from sdk depends on intl 0.19.0, flutter_translate ^4.0.4 is incompatible with flutter_localizations from sdk.
   #And because feedback 3.1.0 depends on flutter_localizations from sdk and no versions of feedback match >3.1.0 <4.0.0, flutter_translate ^4.0.4 is incompatible with feedback ^3.1.0.
   #So, because anartiststore depends on both feedback ^3.1.0 and flutter_translate ^4.0.4, version solving failed."
-  flutter_translate: any
+  flutter_translate: ^4.0.4
   google_fonts: ^6.2.1
   intl: any
   json_annotation: ^4.9.0
