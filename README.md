@@ -350,3 +350,9 @@ more expression and flexibility.
 <!--suppress CheckImageSize -->
 <img src="screenshots/android_tablet_search_20240428.png" width="400"  alt="screenshot">
 
+## Download
+
+<a href="https://play.google.com/store/apps/details?id=store.anartist.anartiststore" target="_blank">
+<img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width=240  alt="google play badge"/>
+</a>
+

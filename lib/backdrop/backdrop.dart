@@ -6,7 +6,7 @@ import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/settings/settings_page.dart';
+import 'package:anartiststore/settings/info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -89,27 +89,35 @@ class _BackdropState extends State<Backdrop>
         ),
         actions: <Widget>[
           SearchAnchor(
+            viewLeading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                _searchController.text = '';
+                context.read<ProductsBloc>().add(const ClearEvent());
+                Navigator.of(context).pop();
+              },
+            ),
             viewBackgroundColor:
                 Theme.of(context).searchViewTheme.backgroundColor,
             searchController: _searchController,
-            builder: (BuildContext context, SearchController controller) {
+            builder: (_, SearchController controller) {
               return IconButton(
                 icon: const Icon(Icons.search),
-                onPressed: () => controller.openView(),
+                onPressed: () {
+                  _searchController.text = '';
+                  controller.openView();
+                },
               );
             },
             suggestionsBuilder: (_, SearchController controller) {
               context.read<ProductsBloc>().add(SearchEvent(controller.text));
-              return _buildGridCards(
-                buildContext: context,
-                controller: controller,
-              );
+              return _buildGridCards();
             },
           ),
           IconButton(
-            icon: const Icon(
-              Icons.tune,
-              semanticLabel: 'settings',
+            icon: Icon(
+              Icons.info_outline,
+              semanticLabel: translate('info'),
             ),
             onPressed: () => Navigator.push(
               context,
@@ -119,7 +127,7 @@ class _BackdropState extends State<Backdrop>
                   Animation<double> animation1,
                   Animation<double> animation2,
                 ) =>
-                    const SettingsPage(),
+                    const InfoPage(),
                 transitionDuration: const Duration(seconds: 1),
                 transitionsBuilder: (
                   BuildContext context,
@@ -193,12 +201,28 @@ class _BackdropState extends State<Backdrop>
     );
   }
 
-  List<Widget> _buildGridCards({
-    required BuildContext buildContext,
-    required SearchController controller,
-  }) {
+  List<Widget> _buildGridCards() {
     if (widget.products.isEmpty) {
-      return const <Widget>[];
+      return <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const SizedBox(height: 20),
+            const Icon(
+              Icons.search_off_outlined,
+              size: 150,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              translate(
+                'noResultsFoundFor',
+                args: <String, String>{'query': _searchController.text},
+              ),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ],
+        ),
+      ];
     }
 
     final ThemeData theme = Theme.of(context);
@@ -234,8 +258,26 @@ class _BackdropState extends State<Backdrop>
                     child: GestureDetector(
                       onTap: () {
                         model.addProductToCart(product.id);
-                        controller.text = '';
+                        _searchController.text = '';
                         Navigator.of(context).pop();
+                        // Show a brief notification (snackbar) at the top of
+                        // the screen.
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(translate('productAdded')),
+                            duration: const Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height -
+                                  kToolbarHeight,
+                              right: 20,
+                              left: 20,
+                            ),
+                          ),
+                        );
                       },
                       child: child,
                     ),
@@ -255,6 +297,29 @@ class _BackdropState extends State<Backdrop>
                           child: Image.network(
                             product.imageUrl,
                             fit: BoxFit.fitWidth,
+                            loadingBuilder: (
+                              _,
+                              Widget child,
+                              ImageChunkEvent? loadingProgress,
+                            ) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              }
+                            },
+                            errorBuilder: (_, __, ___) {
+                              return Text(translate('error_loading_image'));
+                            },
                           ),
                         ),
                         Padding(

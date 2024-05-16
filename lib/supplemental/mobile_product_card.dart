@@ -28,6 +28,23 @@ class MobileProductCard extends StatelessWidget {
     final Image imageWidget = Image.network(
       product.imageUrl,
       fit: BoxFit.cover,
+      loadingBuilder: (_, Widget child, ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        }
+      },
+      errorBuilder: (_, __, ___) {
+        return Text(translate('error_loading_image'));
+      },
     );
 
     return ScopedModelDescendant<AppStateModel>(
@@ -37,7 +54,27 @@ class MobileProductCard extends StatelessWidget {
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () => model.addProductToCart(product.id),
+              onTap: () {
+                model.addProductToCart(product.id);
+                // Show a brief notification (snackbar) at the top of the
+                // screen.
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(translate('productAdded')),
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.sizeOf(context).height -
+                          (kToolbarHeight + kMinInteractiveDimension),
+                      right: 20,
+                      left: 20,
+                    ),
+                  ),
+                );
+              },
               child: child,
             ),
           ),

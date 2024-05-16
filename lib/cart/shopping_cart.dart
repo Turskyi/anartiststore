@@ -37,8 +37,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   final TextEditingController _countryController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ValueNotifier<bool> _emailValidNotifier = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _checkoutEnabledNotifier =
-      ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _confirmEnabledNotifier = ValueNotifier<bool>(true);
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +89,19 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         ],
                       ),
                     ),
+                    if (model.productsInCart.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          translate('reviewOrder'),
+                          style: TextStyle(
+                            fontSize: 14.0, // Adjust font size as needed
+                            color:
+                                Colors.grey[700], // Adjust text color as needed
+                          ),
+                        ),
+                      ),
+                    if (model.productsInCart.isNotEmpty) const Divider(),
                     const SizedBox(height: 16),
                     Semantics(
                       sortKey:
@@ -310,8 +322,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 if (model.productsInCart.isNotEmpty)
                   PositionedDirectional(
                     bottom: 16,
-                    start: 16,
-                    end: 16,
+                    start: 12,
+                    end: 12,
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -350,7 +362,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Semantics(
                             sortKey: const OrdinalSortKey(
@@ -358,7 +370,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               name: _ordinalSortKeyName,
                             ),
                             child: ValueListenableBuilder<bool>(
-                              valueListenable: _checkoutEnabledNotifier,
+                              valueListenable: _confirmEnabledNotifier,
                               builder: (
                                 BuildContext context,
                                 bool isEnabled,
@@ -376,7 +388,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                       kAnArtistStoreBlue100,
                                 ),
                                 onPressed: isEnabled
-                                    ? () => _onCheckoutPressed(
+                                    ? () => _onConfirmPressed(
                                           model: model,
                                           expandingBottomSheetState:
                                               expandingBottomSheetState,
@@ -389,7 +401,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   ),
                                   child: isEnabled
                                       ? Text(
-                                          translate('checkout'),
+                                          translate('confirmOrder'),
                                           style: TextStyle(
                                             letterSpacing: letterSpacingOrNone(
                                               largeLetterSpacing,
@@ -452,11 +464,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     _emailValidNotifier.value = EmailValidator.validate(value);
   }
 
-  Future<void> _onCheckoutPressed({
+  Future<void> _onConfirmPressed({
     required AppStateModel model,
     required ExpandingBottomSheetState expandingBottomSheetState,
   }) async {
-    _checkoutEnabledNotifier.value = false;
+    _confirmEnabledNotifier.value = false;
     if (_formKey.currentState?.validate() ?? false) {
       await model
           .checkout(
@@ -478,18 +490,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             context: context,
             builder: (_) => const ConfirmationDialog(),
           ).whenComplete(() {
-            _checkoutEnabledNotifier.value = true;
+            _confirmEnabledNotifier.value = true;
           });
         }
       }).onError((Object? error, StackTrace stackTrace) async {
-        _checkoutEnabledNotifier.value = true;
+        _confirmEnabledNotifier.value = true;
         await showDialog(
           context: context,
           builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
         );
       });
     } else {
-      _checkoutEnabledNotifier.value = true;
+      _confirmEnabledNotifier.value = true;
     }
   }
 }

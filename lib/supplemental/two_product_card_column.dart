@@ -37,20 +37,14 @@ class TwoProductCardColumn extends StatelessWidget {
           physics: const ClampingScrollPhysics(),
           children: <Widget>[
             if (top != null)
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 28.0),
-                child: MobileProductCard(
-                  imageAspectRatio: imageAspectRatio,
-                  product: top!,
-                ),
+              MobileProductCard(
+                imageAspectRatio: imageAspectRatio,
+                product: top!,
               ),
             if (top != null) const SizedBox(height: spacerHeight),
-            Padding(
-              padding: const EdgeInsetsDirectional.only(end: 28.0),
-              child: MobileProductCard(
-                imageAspectRatio: imageAspectRatio,
-                product: bottom,
-              ),
+            MobileProductCard(
+              imageAspectRatio: imageAspectRatio,
+              product: bottom,
             ),
           ],
         );
