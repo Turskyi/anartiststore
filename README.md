@@ -7,9 +7,9 @@
 
 # AnArtist.Store
 
-AnArtist.Store is an e-commerce Flutter project dedicated to showcasing unique and handmade
-creations by talented artist Anna. From stylish clothes to whimsical soft toys, each piece is
-crafted with care and passion.
+AnArtist.Store is an e-commerce Flutter project dedicated to showcasing unique
+and handmade creations by talented artist Anna. From stylish clothes to
+whimsical soft toys, each piece is crafted with care and passion.
 
 ## PROJECT SPECIFICATION
 
@@ -25,46 +25,51 @@ crafted with care and passion.
 
 • CI/CD: [GitHub Actions](https://docs.github.com/en/actions) is used to deliver
 new Android Package (APK) to
-[Firebase App Distribution](https://firebase.google.com/docs/app-distribution) after every push,
-[Codemagic](https://codemagic.io/start/) is used to deliver new release app bundle to
-**Google Play** after every merge to **master** branch;
+[Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
+after every push,
+[Codemagic](https://codemagic.io/start/) is used to deliver new release app
+bundle to **Google Play** after every merge to **master** branch;
 
 • State management approach: [BLoC](https://bloclibrary.dev);
 
 • App testing platforms:
 [Firebase App Distribution](https://appdistribution.firebase.dev/i/897887a1fe4fa458);
 
-**Code Readability:** code is easily readable with no unnecessary blank lines, no unused variables
-or methods, and no commented-out code, all variables, methods, and resource IDs are descriptively
-named such that another developer reading the code can easily understand their function.
+**Code Readability:** code is easily readable with no unnecessary blank lines,
+no unused variables or methods, and no commented-out code, all variables,
+methods, and resource IDs are descriptively named such that another developer
+reading the code can easily understand their function.
 
 # Getting Started
 
 ## Contribution
 
 **AnArtist.Store** is an open source project and welcomes contributions from
-anyone who is interested. If you want to contribute to **AnArtist.Store**, you can
-follow these steps:
+anyone who is interested. If you want to contribute to **AnArtist.Store**, you
+can follow these steps:
 
 - Fork this repository and clone it to your local machine.
 - Create a new branch for your feature or bug-fix.
 - Make your changes and commit them with a clear and descriptive message.
-- Push your branch to your forked repository and create a pull request to the master brunch.
+- Push your branch to your forked repository and create a pull request to the
+  master brunch.
 - Wait for your pull request to be reviewed and merged.
 
 Please follow
-[the Flutter style guide](https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo)
-and code of conduct when contributing to **AnArtist.Store**. You can also use the issues and
-discussions tabs to report bugs, request features, or give feedback.
+[the Flutter style guide](https://github.com/flutter/flutter/blob/master/docs/contributing/Style-guide-for-Flutter-repo.md)
+when contributing to **AnArtist.Store**.
+You can also use the issues and discussions tabs to report bugs, request
+features, or give feedback.
 
 ## Installation
 
 To install **AnArtist.Store**, you need to have Flutter SDK and Android Studio
 installed on your machine. You can follow
-[the official documentation](https://docs.flutter.dev/get-started/install) to set up your
-development environment. To run an **AnArtist.Store** on your device or emulator, you need to
-clone this repository and open it in Android Studio. Then, you can use the run button or the
-command line to launch the app. For more information, see the Flutter documentation.
+[the official documentation](https://docs.flutter.dev/get-started/install) to
+set up your development environment. To run an **AnArtist.Store** on your
+device or emulator, you need to clone this repository and open it in Android
+Studio. Then, you can use the run button or the command line to launch the
+app. For more information, see the Flutter documentation.
 
 ## To create generated files, run:
 
