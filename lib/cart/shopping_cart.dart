@@ -59,8 +59,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 ListView(
                   children: <Widget>[
                     Semantics(
-                      sortKey:
-                          const OrdinalSortKey(0, name: _ordinalSortKeyName),
+                      sortKey: const OrdinalSortKey(
+                        0,
+                        name: _ordinalSortKeyName,
+                      ),
                       child: Row(
                         children: <Widget>[
                           SizedBox(
@@ -74,10 +76,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               ),
                             ),
                           ),
-                          Text(
-                            translate('anArtistStoreCartPageCaption'),
-                            style: localTheme.textTheme.titleMedium!
-                                .copyWith(fontWeight: FontWeight.w600),
+                          Expanded(
+                            child: Text(
+                              translate('anArtistStoreCartPageCaption'),
+                              style: localTheme.textTheme.titleMedium!
+                                  .copyWith(fontWeight: FontWeight.w600),
+                            ),
                           ),
                           const SizedBox(width: 16),
                           Text(
@@ -495,10 +499,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         }
       }).onError((Object? error, StackTrace stackTrace) async {
         _confirmEnabledNotifier.value = true;
-        await showDialog(
-          context: context,
-          builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
-        );
+        if (mounted) {
+          await showDialog(
+            context: context,
+            builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
+          );
+        }
       });
     } else {
       _confirmEnabledNotifier.value = true;

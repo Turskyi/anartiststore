@@ -118,7 +118,7 @@ class MobileProductCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(4),
             child: CircleAvatar(
-              backgroundColor: Colors.white.withOpacity(0.6),
+              backgroundColor: Colors.white.withValues(alpha: 0.6),
               child: const Icon(Icons.add_shopping_cart),
             ),
           ),

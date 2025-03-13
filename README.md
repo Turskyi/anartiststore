@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/gh/Turskyi/anartiststore/graph/badge.svg?token=4Q2HFH9ESH)](https://codecov.io/gh/Turskyi/anartiststore)
 [![Code Quality](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml/badge.svg?branch=master)](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml)
 [![Upload Android build to App Tester.](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Turskyi/anartiststore)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/anartiststore">
 
 # AnArtist.Store

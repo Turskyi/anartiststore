@@ -29,3 +29,5 @@ const String privacyPolicyUrl = 'https://an-artist.store/privacy-policy';
 const String instagramUrl = 'https://www.instagram.com/anartistdoll/';
 const String flickrUrl = 'https://www.flickr.com/photos/200341024@N05/';
 const String logoWithoutBgPath = 'assets/images/logo_without_bg.png';
+const String supportEmail = 'support@turskyi.com';
+const String adminEmail = 'annaturska93@gmail.com';

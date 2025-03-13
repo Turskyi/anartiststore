@@ -117,8 +117,7 @@ Animation<T> _getEmphasizedEasingAnimation<T>({
   ).animate(parent);
 }
 
-/// Calculates the value where two double Animations should be joined. Used by
-/// callers of _getEmphasisedEasing<double>().
+/// Calculates the value where two double Animations should be joined.
 double _getPeakPoint({required double begin, required double end}) {
   return begin + (end - begin) * _peakVelocityProgress;
 }

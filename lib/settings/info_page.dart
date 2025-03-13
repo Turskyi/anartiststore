@@ -81,12 +81,16 @@ class InfoPage extends StatelessWidget {
 
   Future<void> _onReportPressed(BuildContext context) =>
       PackageInfo.fromPlatform().then(
-        (PackageInfo packageInfo) => BetterFeedback.of(context).show(
-          (UserFeedback feedback) => _sendFeedback(
-            feedback: feedback,
-            packageInfo: packageInfo,
-          ),
-        ),
+        (PackageInfo packageInfo) {
+          if (context.mounted) {
+            BetterFeedback.of(context).show(
+              (UserFeedback feedback) => _sendFeedback(
+                feedback: feedback,
+                packageInfo: packageInfo,
+              ),
+            );
+          }
+        },
       );
 
   Future<void> _sendFeedback({

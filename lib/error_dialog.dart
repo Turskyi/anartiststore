@@ -42,12 +42,16 @@ class ErrorDialog extends StatelessWidget {
         TextButton(
           child: Text(translate('provideFeedback')),
           onPressed: () => PackageInfo.fromPlatform().then(
-            (PackageInfo packageInfo) => BetterFeedback.of(context).show(
-              (UserFeedback feedback) => _sendFeedback(
-                feedback: feedback,
-                packageInfo: packageInfo,
-              ),
-            ),
+            (PackageInfo packageInfo) {
+              if (context.mounted) {
+                BetterFeedback.of(context).show(
+                  (UserFeedback feedback) => _sendFeedback(
+                    feedback: feedback,
+                    packageInfo: packageInfo,
+                  ),
+                );
+              }
+            },
           ),
         ),
       ],
