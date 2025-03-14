@@ -26,7 +26,7 @@ class ShoppingCartPage extends StatefulWidget {
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
-  // Controllers for text fields
+  // Controllers for text fields.
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -69,8 +69,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             width: constants.startColumnWidth,
                             child: IconButton(
                               icon: const Icon(Icons.keyboard_arrow_down),
-                              onPressed: () =>
-                                  expandingBottomSheetState.close(),
+                              onPressed: () {
+                                expandingBottomSheetState.close();
+                              },
                               tooltip: translate(
                                 'anArtistStoreTooltipCloseCart',
                               ),
@@ -79,15 +80,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           Expanded(
                             child: Text(
                               translate('anArtistStoreCartPageCaption'),
-                              style: localTheme.textTheme.titleMedium!
-                                  .copyWith(fontWeight: FontWeight.w600),
+                              style: localTheme.textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
                             ),
                           ),
                           const SizedBox(width: 16),
-                          Text(
-                            translatePlural(
-                              'anArtistStoreCartItemCount',
-                              model.totalCartQuantity,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text(
+                              translatePlural(
+                                'anArtistStoreCartItemCount',
+                                model.totalCartQuantity,
+                              ),
                             ),
                           ),
                         ],
@@ -99,30 +103,33 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         child: Text(
                           translate('reviewOrder'),
                           style: TextStyle(
-                            fontSize: 14.0, // Adjust font size as needed
-                            color:
-                                Colors.grey[700], // Adjust text color as needed
+                            fontSize: localTheme.textTheme.titleSmall?.fontSize,
+                            color: Colors.grey.shade700,
                           ),
                         ),
                       ),
                     if (model.productsInCart.isNotEmpty) const Divider(),
                     const SizedBox(height: 16),
                     Semantics(
-                      sortKey:
-                          const OrdinalSortKey(1, name: _ordinalSortKeyName),
+                      sortKey: const OrdinalSortKey(
+                        1,
+                        name: _ordinalSortKeyName,
+                      ),
                       child: Column(
                         children: _createShoppingCartRows(model),
                       ),
                     ),
                     Semantics(
-                      sortKey:
-                          const OrdinalSortKey(2, name: _ordinalSortKeyName),
+                      sortKey: const OrdinalSortKey(
+                        2,
+                        name: _ordinalSortKeyName,
+                      ),
                       child: ShoppingCartSummary(model: model),
                     ),
-                    const SizedBox(height: 16), // Add some spacing
+                    const SizedBox(height: 16),
                     const Divider(),
                     if (model.productsInCart.isNotEmpty)
-                      // Delivery Information
+                      // Delivery Information.
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
@@ -135,8 +142,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             children: <Widget>[
                               Text(
                                 translate('deliveryInformation'),
-                                style: const TextStyle(
-                                  fontSize: 20,
+                                style: TextStyle(
+                                  fontSize:
+                                      localTheme.textTheme.titleLarge?.fontSize,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -339,8 +347,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 shape: const BeveledRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(7)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(7),
+                                  ),
                                 ),
                                 backgroundColor: kAnArtistStoreBlue100,
                               ),
@@ -350,8 +359,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               ),
                               child: Container(
                                 height: buttonHeight,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 child: Text(
                                   translate(
                                     'anArtistStoreCartClearButtonCaption',
