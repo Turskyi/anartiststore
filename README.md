@@ -4,6 +4,7 @@
 [![Code Quality](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml/badge.svg?branch=master)](https://github.com/Turskyi/anartiststore/actions/workflows/code_quality_tests.yml)
 [![Upload Android build to App Tester.](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Turskyi/anartiststore)
+[![Codemagic build status](https://api.codemagic.io/apps/662ead9c9886cf5b17c644ee/662ead9c9886cf5b17c644ed/status_badge.svg)](https://codemagic.io/app/662ead9c9886cf5b17c644ee/662ead9c9886cf5b17c644ed/latest_build)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/anartiststore">
 
 # Anna\'s Artistic Store (Flutter)
