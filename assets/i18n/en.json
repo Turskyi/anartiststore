@@ -1,5 +1,5 @@
 {
-  "title": "AnArtist.Store",
+  "title": "Anna's Artistic Store",
   "menu": "MENU",
   "anArtistStoreScreenReaderCart": "{quantity,plural,=0{Selected products, no items}=1{Selected products, 1 item}other{Selected products, {quantity} items}}",
   "anArtistStoreTooltipCloseCart": "Close selected items",

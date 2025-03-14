@@ -6,9 +6,10 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Turskyi/anartiststore)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/anartiststore">
 
-# AnArtist.Store
+# Anna\'s Artistic Store (Flutter)
 
-AnArtist.Store is an e-commerce Flutter project dedicated to showcasing unique
+**Anna\'s Artistic Store** is an e-commerce Flutter project dedicated to
+showcasing unique
 and handmade creations by talented artist Anna. From stylish clothes to
 whimsical soft toys, each piece is crafted with care and passion.
 
@@ -45,9 +46,9 @@ reading the code can easily understand their function.
 
 ## Contribution
 
-**AnArtist.Store** is an open source project and welcomes contributions from
-anyone who is interested. If you want to contribute to **AnArtist.Store**, you
-can follow these steps:
+**Anna's Artistic Store** is an open source project and welcomes contributions
+from anyone who is interested. If you want to contribute to **Anna's Artistic
+Store**, you can follow these steps:
 
 - Fork this repository and clone it to your local machine.
 - Create a new branch for your feature or bug-fix.
@@ -58,16 +59,16 @@ can follow these steps:
 
 Please follow
 [the Flutter style guide](https://github.com/flutter/flutter/blob/master/docs/contributing/Style-guide-for-Flutter-repo.md)
-when contributing to **AnArtist.Store**.
+when contributing to **Anna's Artistic Store**.
 You can also use the issues and discussions tabs to report bugs, request
 features, or give feedback.
 
 ## Installation
 
-To install **AnArtist.Store**, you need to have Flutter SDK and Android Studio
-installed on your machine. You can follow
+To install **Anna's Artistic Store**, you need to have Flutter SDK and Android
+Studio installed on your machine. You can follow
 [the official documentation](https://docs.flutter.dev/get-started/install) to
-set up your development environment. To run an **AnArtist.Store** on your
+set up your development environment. To run an **Anna's Artistic Store** on your
 device or emulator, you need to clone this repository and open it in Android
 Studio. Then, you can use the run button or the command line to launch the
 app. For more information, see the Flutter documentation.
@@ -81,6 +82,7 @@ dart run build_runner build --delete-conflicting-outputs
 
 **Architectural pattern** :
 [Monolith](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures#all-in-one-applications);
+
 <details style="border: 1px solid #aaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
   <summary style="font-weight: bold; margin: -0.5em -0.5em 0; padding: 0.5em; border-bottom: 1px solid #aaa;">Style guides:
 
@@ -93,7 +95,8 @@ dart run build_runner build --delete-conflicting-outputs
 
 - [DON'T cast a nullable value to a non-nullable type. This hides a null check and most of the time it is not what is expected.](https://dart-lang.github.io/linter/lints/avoid_as.html)
 
-- [PREFER using `const` for instantiating constant constructors](https://dart-lang.github.io/linter/lints/prefer_const_constructors.html)
+- [PREFER using
+  `const` for instantiating constant constructors](https://dart-lang.github.io/linter/lints/prefer_const_constructors.html)
 
 If a constructor can be invoked as const to produce a canonicalized instance,
 it's preferable to do so.
@@ -361,4 +364,3 @@ more expression and flexibility.
 <a href="https://play.google.com/store/apps/details?id=store.anartist.anartiststore" target="_blank">
 <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width=240  alt="google play badge"/>
 </a>
-

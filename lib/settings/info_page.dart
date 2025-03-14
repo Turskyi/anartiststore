@@ -65,7 +65,7 @@ class InfoPage extends StatelessWidget {
             title: Row(
               children: <Widget>[
                 Image.asset(
-                  constants.logoWithoutBgPath,
+                  constants.logoWithoutBackgroundAsset,
                   width: 168.0,
                 ),
                 const SizedBox(width: 8.0),

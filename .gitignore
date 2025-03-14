@@ -64,3 +64,4 @@ android/app/property(org.gradle.api.file.Directory, fixed(class org.gradle.api.i
 /.firebase/
 .firebase
 .firebase/hosting.YnVpbGQvd2Vi.cache
+coverage

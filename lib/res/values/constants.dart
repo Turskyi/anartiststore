@@ -1,7 +1,12 @@
-const String appName = 'AnArtist.Store';
-const String webAddress = 'https://an-artist.store';
+const String appName = 'Anna\'s Artistic Store';
+const String developerDomain = 'turskyi.com';
+const String techSupportEmail = 'dmytro@$developerDomain';
+const String supportEmail = 'support@$developerDomain';
+const String domain = 'anartist.$developerDomain';
+const String webAddress = 'https://$domain';
+const String baseUrl = 'https://$domain/api/';
+
 const String logoWithoutBackgroundAsset = 'assets/images/logo_without_bg.png';
-const String baseUrl = 'https://an-artist.store/api/';
 
 /// Sentinel value for the system text scale factor option.
 const double systemTextScaleFactorOption = -1;
@@ -19,15 +24,15 @@ const int addressMaxLength = 100;
 const int postcodeMaxLength = 10;
 const String phonePattern = r'[\+0-9]';
 const String ukrainianEnglishGermanPolishPattern =
-    '[a-zA-ZаАбБвВгГдДеЕєЄжЖзЗиИїЇйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯÄäÖöÜüẞßĄąĆćĘęŁłŃńÓóŚśŹźŻż\\s+\\b|\\b\\s|\\s|\\b]';
-const String techSupportEmail = 'dmytro@turskyi.com';
-const String aboutUsUrl = 'https://an-artist.store/about-us';
-const String contactUsUrl = 'https://an-artist.store/contact';
-const String pressKitUrl = 'https://an-artist.store/press-kit';
-const String termsOfUseUrl = 'https://an-artist.store/terms-of-use';
-const String privacyPolicyUrl = 'https://an-artist.store/privacy-policy';
+    '[a-zA-ZаАбБвВгГдДеЕєЄжЖзЗиИїЇйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮя'
+    'ЯÄäÖöÜüẞßĄąĆćĘęŁłŃńÓóŚśŹźŻż\\s+\\b|\\b\\s|\\s|\\b]';
+
+const String aboutUsUrl = 'https://$domain/about-us';
+const String contactUsUrl = 'https://$domain/contact';
+const String pressKitUrl = 'https://$domain/press-kit';
+const String termsOfUseUrl = 'https://$domain/terms-of-use';
+const String privacyPolicyUrl = 'https://$domain/privacy-policy';
 const String instagramUrl = 'https://www.instagram.com/anartistdoll/';
 const String flickrUrl = 'https://www.flickr.com/photos/200341024@N05/';
-const String logoWithoutBgPath = 'assets/images/logo_without_bg.png';
-const String supportEmail = 'support@turskyi.com';
+
 const String adminEmail = 'annaturska93@gmail.com';

@@ -1,5 +1,5 @@
 {
-  "title": "AnArtist.Store",
+  "title": "Магазин Мистецьких Товарів Анни",
   "menu": "МЕНЮ",
   "anArtistStoreScreenReaderCart": "{quantity,plural,=0{Кошик, немає товарів}=1{Кошик, 1 товар}other{Кошик, {quantity} товарів}}",
   "anArtistStoreTooltipCloseCart": "Закрити кошик",

@@ -12,7 +12,7 @@ ProductCatalogResponse _$ProductCatalogResponseFromJson(
       products: (json['products'] as List<dynamic>)
           .map((e) => ProductResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalPages: json['totalPages'] as int?,
+      totalPages: (json['totalPages'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProductCatalogResponseToJson(

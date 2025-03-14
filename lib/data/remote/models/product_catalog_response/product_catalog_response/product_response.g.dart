@@ -12,7 +12,7 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       imageUrl: json['imageUrl'] as String,
       name: json['name'] as String,
-      price: json['price'] as int,
+      price: (json['price'] as num).toInt(),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );

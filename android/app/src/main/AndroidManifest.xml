@@ -7,7 +7,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="AnArtist.Store">
+        android:label="Anna\'s Artistic Store">
         <!--suppress AndroidDomInspection -->
         <activity
             android:name=".MainActivity"

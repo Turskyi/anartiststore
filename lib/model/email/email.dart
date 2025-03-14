@@ -4,7 +4,7 @@ part 'email.g.dart';
 
 /// Request example:
 /// {
-///  "email": "example@an-artist.store",
+///  "email": "example@something.something",
 ///  "subject": "Example",
 ///  "message": "Example"
 /// }
@@ -20,9 +20,10 @@ class Email {
   final String subject;
   final String message;
 
-  Map<String, dynamic> toJson() => _$EmailToJson(this);
+  Map<String, Object?> toJson() => _$EmailToJson(this);
 
   @override
-  String toString() =>
-      'Email{email: $email, subject: $subject, message: $message}';
+  String toString() {
+    return 'Email{email: $email, subject: $subject, message: $message}';
+  }
 }
