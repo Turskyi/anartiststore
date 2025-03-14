@@ -19,6 +19,7 @@ import 'package:anartiststore/scrim.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
 import 'package:anartiststore/supplemental/mobile_asymmetric_view.dart';
 import 'package:anartiststore/theme.dart';
+import 'package:anartiststore/ui/error_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,8 +89,8 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
   Widget build(BuildContext context) {
     return ScopedModel<AppStateModel>(
       model: _model.value,
-      child: PopScope(
-        onPopInvoked: _onWillPop,
+      child: PopScope<Object?>(
+        onPopInvokedWithResult: _onWillPop,
         child: MaterialApp(
           title: Resources.of(context).strings.title,
           initialRoute: AppRoute.home.path,
@@ -100,7 +101,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                     ..add(const LoadProductsEvent()),
                   child: BlocBuilder<ProductsBloc, ProductsState>(
                     builder: (BuildContext context, ProductsState state) {
-                      Backdrop backdrop = Backdrop(
+                      final Backdrop backdrop = Backdrop(
                         currentCategory: state.group,
                         frontLayer: state is FilteredProductsState
                             ? MobileAsymmetricView(
@@ -108,9 +109,13 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                               )
                             : state is LoadedProductsState
                                 ? MobileAsymmetricView(products: state.products)
-                                : const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
+                                : state is ErrorState
+                                    ? AppErrorWidget(
+                                        errorMessage: state.errorMessage,
+                                      )
+                                    : const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
                         backLayer: GroupMenuPage(
                           currentCategory: state.group,
                           onCategoryTap: (Group group) => context
@@ -158,7 +163,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
   }
 
   /// Closes the bottom sheet if it is open.
-  Future<bool> _onWillPop(bool value) async {
+  Future<bool> _onWillPop(bool _, Object? __) async {
     final AnimationStatus status = _expandingController.status;
     if (status == AnimationStatus.completed ||
         status == AnimationStatus.forward) {

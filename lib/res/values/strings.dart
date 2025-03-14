@@ -1,5 +1,5 @@
 class Strings {
   const Strings();
 
-  final String title = 'AnArtist.Store';
+  final String title = 'Anna\'s Artistic Store';
 }

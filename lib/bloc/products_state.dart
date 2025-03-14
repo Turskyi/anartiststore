@@ -15,11 +15,11 @@ final class ProductsInitial extends ProductsState {
   const ProductsInitial();
 }
 
-class LoadedProductsState extends ProductsState {
+final class LoadedProductsState extends ProductsState {
   const LoadedProductsState({required super.products, required super.group});
 }
 
-class FilteredProductsState extends LoadedProductsState {
+final class FilteredProductsState extends LoadedProductsState {
   const FilteredProductsState({
     required super.products,
     required super.group,
@@ -27,4 +27,14 @@ class FilteredProductsState extends LoadedProductsState {
   });
 
   final List<Product> filteredProducts;
+}
+
+final class ErrorState extends ProductsState {
+  const ErrorState({
+    this.errorMessage = 'Something went wrong',
+    super.products,
+    super.group,
+  });
+
+  final String errorMessage;
 }

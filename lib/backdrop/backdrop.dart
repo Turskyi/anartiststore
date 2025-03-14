@@ -271,8 +271,7 @@ class _BackdropState extends State<Backdrop>
                               borderRadius: BorderRadius.circular(24),
                             ),
                             margin: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).size.height -
-                                  kToolbarHeight,
+                              bottom: 40,
                               right: 20,
                               left: 20,
                             ),
@@ -346,7 +345,7 @@ class _BackdropState extends State<Backdrop>
                     Padding(
                       padding: const EdgeInsets.all(4),
                       child: CircleAvatar(
-                        backgroundColor: Colors.white.withOpacity(0.6),
+                        backgroundColor: Colors.white.withValues(alpha: 0.6),
                         child: const Icon(Icons.add_shopping_cart),
                       ),
                     ),
