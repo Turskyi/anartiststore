@@ -19,7 +19,7 @@ import 'package:anartiststore/scrim.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
 import 'package:anartiststore/supplemental/mobile_asymmetric_view.dart';
 import 'package:anartiststore/theme.dart';
-import 'package:anartiststore/ui/error_widget.dart';
+import 'package:anartiststore/ui/app_error_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -122,7 +122,15 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                               .read<ProductsBloc>()
                               .add(ShowGroupEvent(group)),
                         ),
-                        frontTitle: Text(Resources.of(context).strings.title),
+                        frontTitle: Text(
+                          Resources.of(context).strings.title,
+                          style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.fontSize,
+                          ),
+                        ),
                         backTitle: Text(translate('menu')),
                         products: state is FilteredProductsState
                             ? state.filteredProducts
