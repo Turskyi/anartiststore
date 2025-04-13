@@ -16,6 +16,21 @@ showcasing unique
 and handmade creations by talented artist Anna. From stylish clothes to
 whimsical soft toys, each piece is crafted with care and passion.
 
+## Web Versions
+
+This project has two web versions available:
+
+* **Next.js Version:**
+  [https://anartist.turskyi.com](https://anartist.turskyi.com)
+* This version is built with Next.js and serves as a backend RESTful API
+  provider. It offers server-side rendering and is optimized for SEO.
+* **Flutter Web Version:**
+  [https://anna-ecommerce.web.app](https://anna-ecommerce.web.app)
+* This is a direct web build from the Flutter project. It's available due to the
+  easy web hosting provided by Firebase and is a convenient way to access the
+  app in a browser. Please note that server-side rendering and SEO optimization
+  are not as robust as in the Next.js version.
+
 ## PROJECT SPECIFICATION
 
 • Programming language: [Dart](https://dart.dev/);

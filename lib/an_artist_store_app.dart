@@ -92,6 +92,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
       child: PopScope<Object?>(
         onPopInvokedWithResult: _onWillPop,
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: Resources.of(context).strings.title,
           initialRoute: AppRoute.home.path,
           routes: <String, WidgetBuilder>{
