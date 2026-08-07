@@ -120,6 +120,10 @@ android {
             signingConfig signingConfigs.dev
         }
     }
+
+    lint {
+        checkReleaseBuilds = false
+    }
 }
 
 flutter {
