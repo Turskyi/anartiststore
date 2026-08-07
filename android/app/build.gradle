@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
+    id("kotlin-android")
+    id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
-    id 'com.google.firebase.crashlytics'
+    id('com.google.firebase.crashlytics')
 }
 
 def localProperties = new Properties()
@@ -43,7 +43,7 @@ def SIGNING_KEY_RELEASE_KEY_PASSWORD = keyProperties.getProperty('SIGNING_KEY_RE
 
 android {
     namespace "store.anartist.anartiststore"
-    compileSdk flutter.compileSdkVersion
+    compileSdk 37
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -64,7 +64,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 37
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
