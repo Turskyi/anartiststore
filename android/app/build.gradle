@@ -44,8 +44,7 @@ def SIGNING_KEY_RELEASE_KEY_PASSWORD = keyProperties.getProperty('SIGNING_KEY_RE
 android {
     namespace "store.anartist.anartiststore"
     compileSdk flutter.compileSdkVersion
-    //TODO: change back to "ndkVersion flutter.ndkVersion", when the error "One or more plugins require a higher Android NDK version." is gone
-    ndkVersion "27.0.12077973"
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -128,6 +127,6 @@ flutter {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.17.0"))
     implementation("com.google.firebase:firebase-crashlytics")
 }

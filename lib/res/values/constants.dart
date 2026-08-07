@@ -5,8 +5,8 @@ const String supportEmail = 'support@$developerDomain';
 const String domain = 'anartist.$developerDomain';
 const String webAddress = 'https://$domain';
 const String baseUrl = 'https://$domain/api/';
-
-const String logoWithoutBackgroundAsset = 'assets/images/logo_without_bg.png';
+const String imagePath = 'assets/images/';
+const String logoWithoutBackgroundAsset = '${imagePath}logo_without_bg.png';
 
 /// Sentinel value for the system text scale factor option.
 const double systemTextScaleFactorOption = -1;
