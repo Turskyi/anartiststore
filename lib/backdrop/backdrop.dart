@@ -6,6 +6,7 @@ import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/settings/info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -252,30 +253,15 @@ class _BackdropState extends State<Backdrop>
               builder:
                   (BuildContext context, Widget? child, AppStateModel model) {
                 return Semantics(
-                  hint: translate('anArtistStoreScreenReaderProductAddToCart'),
+                  hint: translate('viewDetails'),
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
-                        model.addProductToCart(product.id);
                         _searchController.text = '';
-                        Navigator.of(context).pop();
-                        // Show a brief notification (snackbar) at the top of
-                        // the screen.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(translate('productAdded')),
-                            duration: const Duration(seconds: 2),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            margin: EdgeInsets.only(
-                              bottom: 40,
-                              right: 20,
-                              left: 20,
-                            ),
-                          ),
+                        Navigator.of(context).pushReplacementNamed(
+                          AppRoute.productDetails.path,
+                          arguments: product,
                         );
                       },
                       child: child,
@@ -285,68 +271,58 @@ class _BackdropState extends State<Backdrop>
               },
               child: Card(
                 clipBehavior: Clip.antiAlias,
-                child: Stack(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        AspectRatio(
-                          aspectRatio: 18 / 11,
-                          child: Image.network(
-                            product.imageUrl,
-                            fit: BoxFit.fitWidth,
-                            loadingBuilder: (
-                              _,
-                              Widget child,
-                              ImageChunkEvent? loadingProgress,
-                            ) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              }
-                            },
-                            errorBuilder: (_, __, ___) {
-                              return Text(translate('error_loading_image'));
-                            },
-                          ),
+                    AspectRatio(
+                      aspectRatio: 18 / 11,
+                      child: Hero(
+                        tag: 'product_image_${product.id}',
+                        child: Image.network(
+                          product.imageUrl,
+                          fit: BoxFit.fitWidth,
+                          loadingBuilder: (
+                            _,
+                            Widget child,
+                            ImageChunkEvent? loadingProgress,
+                          ) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                          errorBuilder: (_, __, ___) {
+                            return Text(translate('error_loading_image'));
+                          },
                         ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                product.name,
-                                style: theme.textTheme.titleLarge,
-                                maxLines: 1,
-                              ),
-                              const SizedBox(height: 8.0),
-                              Text(
-                                formatter.format(product.price),
-                                style: theme.textTheme.titleSmall,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white.withValues(alpha: 0.6),
-                        child: const Icon(Icons.add_shopping_cart),
+                      padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            product.name,
+                            style: theme.textTheme.titleLarge,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            formatter.format(product.price),
+                            style: theme.textTheme.titleSmall,
+                          ),
+                        ],
                       ),
                     ),
                   ],

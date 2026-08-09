@@ -11,8 +11,10 @@ import 'package:anartiststore/home_page.dart';
 import 'package:anartiststore/login.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/email_repository.dart';
+import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/model/products_repository.dart';
 import 'package:anartiststore/page_status.dart';
+import 'package:anartiststore/product_details_page.dart';
 import 'package:anartiststore/res/resources.dart';
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/scrim.dart';
@@ -97,8 +99,22 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
           initialRoute: AppRoute.home.path,
           routes: <String, WidgetBuilder>{
             AppRoute.login.path: (BuildContext context) => const LoginPage(),
-            AppRoute.home.path: (_) => BlocProvider<ProductsBloc>(
-                  create: (_) => ProductsBloc(_productRepository)
+            AppRoute.productDetails.path: (BuildContext context) {
+              final ModalRoute<Object?>? route = ModalRoute.of(context);
+              if (route != null) {
+                final Object? arguments = route.settings.arguments;
+                if (arguments is Product) {
+                  return ProductDetailsPage(product: arguments);
+                }
+              }
+              return Scaffold(
+                body: Center(
+                  child: Text(translate('productNotFound')),
+                ),
+              );
+            },
+            AppRoute.home.path: (BuildContext _) => BlocProvider<ProductsBloc>(
+                  create: (BuildContext _) => ProductsBloc(_productRepository)
                     ..add(const LoadProductsEvent()),
                   child: BlocBuilder<ProductsBloc, ProductsState>(
                     builder: (BuildContext context, ProductsState state) {
@@ -205,19 +221,29 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
   AppStateModel fromPrimitives(Object? data) {
     final AppStateModel appState =
         AppStateModel(_productRepository, _emailRepository)..loadProducts();
-    final Map<String, dynamic> appData =
-        Map<String, dynamic>.from(data as Map<String, dynamic>);
 
-    // Reset selected category.
-    final int categoryIndex = appData['category_index'] as int;
-    appState.setCategory(Group.values[categoryIndex]);
+    if (data is Map<dynamic, dynamic>) {
+      final Map<String, dynamic> appData = Map<String, dynamic>.from(data);
 
-    // Reset cart items.
-    final Map<dynamic, dynamic> cartItems =
-        appData['cart_data'] as Map<dynamic, dynamic>;
-    cartItems.forEach((dynamic id, dynamic quantity) {
-      appState.addMultipleProductsToCart(id as String, quantity as int);
-    });
+      // Reset selected category.
+      final Object? categoryIndex = appData['category_index'];
+      if (categoryIndex is int) {
+        if (categoryIndex >= 0 && categoryIndex < Group.values.length) {
+          appState.setCategory(Group.values[categoryIndex]);
+        }
+      }
+
+      // Reset cart items.
+      final Object? cartData = appData['cart_data'];
+      if (cartData is Map<Object?, Object?>) {
+        final Map<Object?, Object?> cartItems = cartData;
+        cartItems.forEach((Object? id, Object? quantity) {
+          if (id is String && quantity is int) {
+            appState.addMultipleProductsToCart(id, quantity);
+          }
+        });
+      }
+    }
 
     return appState;
   }

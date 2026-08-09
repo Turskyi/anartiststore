@@ -1,6 +1,7 @@
 enum AppRoute {
   home('/'),
-  login('/login');
+  login('/login'),
+  productDetails('/productDetails');
 
   const AppRoute(this.path);
 

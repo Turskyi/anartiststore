@@ -36,15 +36,16 @@ class AppStateModel extends Model {
 
   // Totaled prices of the items in the cart.
   double get subtotalCost {
-    return _productsInCart.keys
-        .map(
-          (String id) =>
-              _availableProducts
-                  .firstWhereOrNull((Product product) => product.id == id)!
-                  .price *
-              _productsInCart[id]!,
-        )
-        .fold(0.0, (double sum, double e) => sum + e);
+    return _productsInCart.keys.map((String id) {
+      final Product? product = _availableProducts
+          .firstWhereOrNull((Product product) => product.id == id);
+      final int? quantity = _productsInCart[id];
+
+      if (product != null && quantity != null) {
+        return product.price * quantity;
+      }
+      return 0.0;
+    }).fold(0.0, (double sum, double e) => sum + e);
   }
 
   // Total shipping cost for the items in the cart.
@@ -75,10 +76,11 @@ class AppStateModel extends Model {
 
   // Adds a product to the cart.
   void addProductToCart(String productId) {
-    if (!_productsInCart.containsKey(productId)) {
+    final int? currentQuantity = _productsInCart[productId];
+    if (currentQuantity == null) {
       _productsInCart[productId] = 1;
     } else {
-      _productsInCart[productId] = _productsInCart[productId]! + 1;
+      _productsInCart[productId] = currentQuantity + 1;
     }
 
     notifyListeners();
@@ -88,10 +90,11 @@ class AppStateModel extends Model {
   // quantity must be non-null positive value.
   void addMultipleProductsToCart(String productId, int quantity) {
     assert(quantity > 0);
-    if (!_productsInCart.containsKey(productId)) {
+    final int? currentQuantity = _productsInCart[productId];
+    if (currentQuantity == null) {
       _productsInCart[productId] = quantity;
     } else {
-      _productsInCart[productId] = _productsInCart[productId]! + quantity;
+      _productsInCart[productId] = currentQuantity + quantity;
     }
 
     notifyListeners();
@@ -99,11 +102,12 @@ class AppStateModel extends Model {
 
   // Removes an item from the cart.
   void removeItemFromCart(String productId) {
-    if (_productsInCart.containsKey(productId)) {
-      if (_productsInCart[productId] == 1) {
+    final int? currentQuantity = _productsInCart[productId];
+    if (currentQuantity != null) {
+      if (currentQuantity == 1) {
         _productsInCart.remove(productId);
       } else {
-        _productsInCart[productId] = _productsInCart[productId]! - 1;
+        _productsInCart[productId] = currentQuantity - 1;
       }
     }
 

@@ -1,9 +1,8 @@
-import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/router/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class MobileProductCard extends StatelessWidget {
   const MobileProductCard({
@@ -47,48 +46,24 @@ class MobileProductCard extends StatelessWidget {
       },
     );
 
-    return ScopedModelDescendant<AppStateModel>(
-      builder: (BuildContext context, Widget? child, AppStateModel model) {
-        return Semantics(
-          hint: translate('anArtistStoreScreenReaderProductAddToCart'),
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {
-                model.addProductToCart(product.id);
-                // Show a brief notification (snackbar) at the top of the
-                // screen.
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(translate('productAdded')),
-                    duration: const Duration(seconds: 2),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    margin: EdgeInsets.only(
-                      bottom: MediaQuery.sizeOf(context).height -
-                          (kToolbarHeight + kMinInteractiveDimension),
-                      right: 20,
-                      left: 20,
-                    ),
-                  ),
-                );
-              },
-              child: child,
-            ),
-          ),
-        );
-      },
-      child: Stack(
-        children: <Widget>[
-          Column(
+    return Semantics(
+      hint: translate('viewDetails'),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            _navigateToProductDetails(context);
+          },
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               AspectRatio(
                 aspectRatio: imageAspectRatio,
-                child: imageWidget,
+                child: Hero(
+                  tag: 'product_image_${product.id}',
+                  child: imageWidget,
+                ),
               ),
               SizedBox(
                 height:
@@ -115,15 +90,15 @@ class MobileProductCard extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(4),
-            child: CircleAvatar(
-              backgroundColor: Colors.white.withValues(alpha: 0.6),
-              child: const Icon(Icons.add_shopping_cart),
-            ),
-          ),
-        ],
+        ),
       ),
+    );
+  }
+
+  void _navigateToProductDetails(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      AppRoute.productDetails.path,
+      arguments: product,
     );
   }
 }
