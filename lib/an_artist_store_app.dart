@@ -19,7 +19,7 @@ import 'package:anartiststore/res/resources.dart';
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/scrim.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
-import 'package:anartiststore/supplemental/mobile_asymmetric_view.dart';
+import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
 import 'package:anartiststore/ui/app_error_widget.dart';
 import 'package:dio/dio.dart';
@@ -121,11 +121,11 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                       final Backdrop backdrop = Backdrop(
                         currentCategory: state.group,
                         frontLayer: state is FilteredProductsState
-                            ? MobileAsymmetricView(
+                            ? ProductGridView(
                                 products: state.filteredProducts,
                               )
                             : state is LoadedProductsState
-                                ? MobileAsymmetricView(products: state.products)
+                                ? ProductGridView(products: state.products)
                                 : state is ErrorState
                                     ? AppErrorWidget(
                                         errorMessage: state.errorMessage,

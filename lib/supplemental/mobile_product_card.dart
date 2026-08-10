@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 class MobileProductCard extends StatelessWidget {
   const MobileProductCard({
-    this.imageAspectRatio = 33 / 49,
+    this.imageAspectRatio = 1.0,
     required this.product,
     super.key,
   }) : assert(imageAspectRatio > 0);
@@ -26,7 +26,7 @@ class MobileProductCard extends StatelessWidget {
 
     final Image imageWidget = Image.network(
       product.imageUrl,
-      fit: BoxFit.cover,
+      fit: BoxFit.contain,
       loadingBuilder: (_, Widget child, ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) {
           return child;
@@ -58,17 +58,18 @@ class MobileProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              AspectRatio(
-                aspectRatio: imageAspectRatio,
-                child: Hero(
-                  tag: 'product_image_${product.id}',
-                  child: imageWidget,
+              Flexible(
+                child: AspectRatio(
+                  aspectRatio: imageAspectRatio,
+                  child: Hero(
+                    tag: 'product_image_${product.id}',
+                    child: imageWidget,
+                  ),
                 ),
               ),
               SizedBox(
                 height:
                     kTextBoxHeight * MediaQuery.textScalerOf(context).scale(1),
-                width: 121.0,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
