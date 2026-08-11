@@ -56,8 +56,19 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   FutureOr<void> _showGroup(ShowGroupEvent event, Emitter<ProductsState> emit) {
-    if (event.group == Group.all) {
+    if (event.group.isAll) {
       emit(LoadedProductsState(products: state.products, group: event.group));
+    } else if (event.group.isFavourites) {
+      // TODO: Implement proper favourites logic.
+      // For now, it returns an empty list or we could filter based on some
+      // property.
+      emit(
+        FilteredProductsState(
+          products: state.products,
+          group: event.group,
+          filteredProducts: <Product>[],
+        ),
+      );
     } else {
       final List<Product> productGroup = state.products
           .where((Product product) => product.group == event.group)

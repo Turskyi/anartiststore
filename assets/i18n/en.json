@@ -67,5 +67,11 @@
   "official_website": "Official Website",
   "error_loading_image": "Error loading image",
   "report_problem": "Report a problem",
-  "app_feedback": "App Feedback"
+  "app_feedback": "App Feedback",
+  "catalog": "Catalog",
+  "favourites": "Favourites",
+  "preferences": "Preferences",
+  "language": "Language",
+  "currency": "Currency",
+  "theme": "Theme"
 }

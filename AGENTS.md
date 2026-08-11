@@ -15,9 +15,22 @@ working on this project.
     - **Enum-like classes**: Related classes that function together as a single
       unit, such as BLoC `Events` and `States`, or small sealed class
       hierarchies, should be grouped in one file.
-    - **Private Helpers**: Small private classes or widgets (`_MyPrivateHelper`)
-      that are only relevant to the main class in the file may be kept there to
-      avoid unnecessary file fragmentation.
+
+### Widget Construction
+
+- **Prefer Classes over Functions**: Avoid using helper methods that return a
+  `Widget` (e.g., `Widget _buildHeader()`). Instead, create dedicated
+  `StatelessWidget` or `StatefulWidget` classes. This improves performance
+  (via `const` constructors), ensures proper lifecycle management, and makes
+  the widget tree easier to debug in the Flutter Inspector.
+
+### Theming
+
+- **Avoid Constant Colors**: Do not hardcode specific colors using constants
+  (e.g., `kAnArtistStoreTeal`) directly in widgets. Instead, use semantic
+  colors from the application's theme (e.g.,
+  `Theme.of(context).colorScheme.primary`). This ensures the UI automatically
+  adapts to different themes, such as Dark Mode.
 
 ### Null Safety
 

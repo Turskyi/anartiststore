@@ -67,5 +67,11 @@
   "official_website": "Офіційний веб-сайт",
   "error_loading_image": "Помилка завантаження зображення",
   "report_problem": "Повідомити про проблему",
-  "app_feedback": "Відгук про додаток"
+  "app_feedback": "Відгук про додаток",
+  "catalog": "Каталог",
+  "favourites": "Обране",
+  "preferences": "Налаштування",
+  "language": "Мова",
+  "currency": "Валюта",
+  "theme": "Тема"
 }
