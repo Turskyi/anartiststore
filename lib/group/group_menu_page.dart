@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/enums/language.dart';
+import 'package:anartiststore/group/language_selector_sheet.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
@@ -47,10 +49,16 @@ class GroupMenuPage extends StatelessWidget {
           _MenuHeader(title: translate('preferences')),
           _MenuTile(
             title: translate('language'),
+            subtitle: Language.fromIsoLanguageCode(
+              LocalizationProvider.of(context)
+                  .state
+                  .widget
+                  .delegate
+                  .currentLocale
+                  .toString(),
+            ).name,
             icon: Icons.language,
-            onTap: () {
-              // TODO: Implement Language selector
-            },
+            onTap: () => _showLanguageSelector(context),
           ),
           _MenuTile(
             title: translate('currency'),
@@ -141,6 +149,29 @@ class GroupMenuPage extends StatelessWidget {
     await screenshotFile.writeAsBytes(feedbackScreenshot);
     return screenshotFilePath;
   }
+
+  void _showLanguageSelector(BuildContext context) {
+    final bool isNarrow = MediaQuery.sizeOf(context).width <= 600;
+
+    if (isNarrow) {
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (BuildContext context) => const LanguageSelectorSheet(),
+      );
+    } else {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => const Dialog(
+          child: SizedBox(
+            width: 400,
+            child: LanguageSelectorSheet(),
+          ),
+        ),
+      );
+    }
+  }
 }
 
 class _MenuHeader extends StatelessWidget {
@@ -222,11 +253,13 @@ class _CategoryTile extends StatelessWidget {
 class _MenuTile extends StatelessWidget {
   const _MenuTile({
     required this.title,
+    this.subtitle = '',
     required this.icon,
     required this.onTap,
   });
 
   final String title;
+  final String subtitle;
   final IconData icon;
   final VoidCallback onTap;
 
@@ -242,6 +275,14 @@ class _MenuTile extends StatelessWidget {
           color: theme.colorScheme.onSurface,
         ),
       ),
+      subtitle: subtitle.isNotEmpty
+          ? Text(
+              subtitle,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+            )
+          : null,
       onTap: onTap,
     );
   }

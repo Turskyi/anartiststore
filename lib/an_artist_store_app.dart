@@ -28,6 +28,7 @@ import 'package:anartiststore/ui/empty_favourites.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -92,6 +93,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
 
   @override
   Widget build(BuildContext context) {
+    LocalizationProvider.of(context);
     return ScopedModel<AppStateModel>(
       model: _model.value,
       child: BlocProvider<ProductsBloc>(
@@ -106,6 +108,15 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: Resources.of(context).strings.title,
+            localizationsDelegates: <LocalizationsDelegate<Object?>>[
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              LocalizedApp.of(context).delegate,
+            ],
+            supportedLocales:
+                LocalizedApp.of(context).delegate.supportedLocales,
+            locale: LocalizedApp.of(context).delegate.currentLocale,
             initialRoute: AppRoute.home.path,
             routes: <String, WidgetBuilder>{
               AppRoute.login.path: (BuildContext context) => const LoginPage(),

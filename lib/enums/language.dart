@@ -10,6 +10,11 @@ enum Language {
     name: _ukrainianLanguage,
     isoLanguageCode: _ukrainianIsoLanguageCode,
     flag: '🇺🇦',
+  ),
+  pl(
+    name: _polishLanguage,
+    isoLanguageCode: _polishIsoLanguageCode,
+    flag: '🇵🇱',
   );
 
   const Language({
@@ -25,18 +30,23 @@ enum Language {
   bool get isEnglish => this == Language.en;
 
   static Language fromIsoLanguageCode(String isoLanguageCode) {
-    switch (isoLanguageCode.trim().toLowerCase()) {
-      case englishIsoLanguageCode:
-        return Language.en;
-      case _ukrainianIsoLanguageCode:
-        return Language.uk;
-      default:
-        return Language.en;
+    final String code = isoLanguageCode.trim().toLowerCase();
+    if (code.startsWith(englishIsoLanguageCode.toLowerCase()) || code == 'en') {
+      return Language.en;
+    } else if (code.startsWith(_ukrainianIsoLanguageCode.toLowerCase()) ||
+        code == 'uk') {
+      return Language.uk;
+    } else if (code.startsWith(_polishIsoLanguageCode.toLowerCase()) ||
+        code == 'pl') {
+      return Language.pl;
     }
+    return Language.en;
   }
 }
 
 const String englishIsoLanguageCode = 'en_GB';
 const String _ukrainianIsoLanguageCode = 'uk_UA';
+const String _polishIsoLanguageCode = 'pl_PL';
 const String _englishLanguage = 'English';
 const String _ukrainianLanguage = 'Ukrainian';
+const String _polishLanguage = 'Polski';
