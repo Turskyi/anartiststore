@@ -1,0 +1,14 @@
+- [x] Add `shared_preferences` dependency
+- [x] Create `FavouritesRepository` interface
+- [x] Create `SharedPreferencesFavouritesRepository` implementation
+- [x] Update `ProductsEvent`
+- [x] Update `ProductsState`
+- [x] Update `ProductsBloc`
+- [x] Create `FavouriteButton` widget
+- [x] Create `EmptyFavourites` widget
+- [x] Update `_SearchProductCard` in `backdrop.dart`
+- [x] Update `MobileProductCard`
+- [x] Update `ProductDetailsPage`
+- [x] Initialize repository in `AnArtistStoreApp`
+- [x] Add localization strings
+- [x] Final verification

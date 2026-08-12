@@ -1,5 +1,6 @@
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/router/app_route.dart';
+import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -61,9 +62,18 @@ class MobileProductCard extends StatelessWidget {
               Flexible(
                 child: AspectRatio(
                   aspectRatio: imageAspectRatio,
-                  child: Hero(
-                    tag: 'product_image_${product.id}',
-                    child: imageWidget,
+                  child: Stack(
+                    children: <Widget>[
+                      Hero(
+                        tag: 'product_image_${product.id}',
+                        child: imageWidget,
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: FavouriteButton(productId: product.id),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -73,5 +73,8 @@
   "preferences": "Налаштування",
   "language": "Мова",
   "currency": "Валюта",
-  "theme": "Тема"
+  "theme": "Тема",
+  "favourites_empty_title": "Поки що немає обраних товарів",
+  "favourites_empty_message": "Перегляньте наш каталог і додайте сюди те, що вам найбільше сподобалося!",
+  "go_to_catalog": "ПЕРЕЙТИ ДО КАТАЛОГУ"
 }

@@ -73,5 +73,8 @@
   "preferences": "Preferences",
   "language": "Language",
   "currency": "Currency",
-  "theme": "Theme"
+  "theme": "Theme",
+  "favourites_empty_title": "No Favourites Yet",
+  "favourites_empty_message": "Explore our catalog and add your favorite items here!",
+  "go_to_catalog": "GO TO CATALOG"
 }

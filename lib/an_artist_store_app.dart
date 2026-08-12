@@ -5,12 +5,14 @@ import 'package:anartiststore/data/remote/models/logging_interceptor.dart';
 import 'package:anartiststore/data/remote/retrofit_client/retrofit_rest_client.dart';
 import 'package:anartiststore/data/repositories/email_repository_impl.dart';
 import 'package:anartiststore/data/repositories/products_repository_impl.dart';
+import 'package:anartiststore/data/repositories/shared_preferences_favourites_repository.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/group/group_menu_page.dart';
 import 'package:anartiststore/home_page.dart';
 import 'package:anartiststore/login.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/email_repository.dart';
+import 'package:anartiststore/model/favourites_repository.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/model/products_repository.dart';
 import 'package:anartiststore/page_status.dart';
@@ -22,6 +24,7 @@ import 'package:anartiststore/supplemental/layout_cache.dart';
 import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
 import 'package:anartiststore/ui/app_error_widget.dart';
+import 'package:anartiststore/ui/empty_favourites.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,48 +94,63 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
   Widget build(BuildContext context) {
     return ScopedModel<AppStateModel>(
       model: _model.value,
-      child: PopScope<Object?>(
-        onPopInvokedWithResult: _onWillPop,
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: Resources.of(context).strings.title,
-          initialRoute: AppRoute.home.path,
-          routes: <String, WidgetBuilder>{
-            AppRoute.login.path: (BuildContext context) => const LoginPage(),
-            AppRoute.productDetails.path: (BuildContext context) {
-              final ModalRoute<Object?>? route = ModalRoute.of(context);
-              if (route != null) {
-                final Object? arguments = route.settings.arguments;
-                if (arguments is Product) {
-                  return ProductDetailsPage(product: arguments);
+      child: BlocProvider<ProductsBloc>(
+        create: (BuildContext _) => ProductsBloc(
+          _productRepository,
+          _favouritesRepository,
+        )
+          ..add(const LoadProductsEvent())
+          ..add(const LoadFavouritesEvent()),
+        child: PopScope<Object?>(
+          onPopInvokedWithResult: _onWillPop,
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: Resources.of(context).strings.title,
+            initialRoute: AppRoute.home.path,
+            routes: <String, WidgetBuilder>{
+              AppRoute.login.path: (BuildContext context) => const LoginPage(),
+              AppRoute.productDetails.path: (BuildContext context) {
+                final ModalRoute<Object?>? route = ModalRoute.of(context);
+                if (route != null) {
+                  final Object? arguments = route.settings.arguments;
+                  if (arguments is Product) {
+                    return ProductDetailsPage(product: arguments);
+                  }
                 }
-              }
-              return Scaffold(
-                body: Center(
-                  child: Text(translate('productNotFound')),
-                ),
-              );
-            },
-            AppRoute.home.path: (BuildContext _) => BlocProvider<ProductsBloc>(
-                  create: (BuildContext _) => ProductsBloc(_productRepository)
-                    ..add(const LoadProductsEvent()),
-                  child: BlocBuilder<ProductsBloc, ProductsState>(
+                return Scaffold(
+                  body: Center(
+                    child: Text(translate('productNotFound')),
+                  ),
+                );
+              },
+              AppRoute.home.path: (BuildContext _) =>
+                  BlocBuilder<ProductsBloc, ProductsState>(
                     builder: (BuildContext context, ProductsState state) {
+                      Widget frontLayer;
+                      if (state is FilteredProductsState) {
+                        if (state.group.isFavourites &&
+                            state.filteredProducts.isEmpty) {
+                          frontLayer = const EmptyFavourites();
+                        } else {
+                          frontLayer = ProductGridView(
+                            products: state.filteredProducts,
+                          );
+                        }
+                      } else if (state is LoadedProductsState) {
+                        frontLayer = ProductGridView(products: state.products);
+                      } else if (state is ErrorState) {
+                        frontLayer = AppErrorWidget(
+                          errorMessage: state.errorMessage,
+                        );
+                      } else {
+                        frontLayer = const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
                       final Backdrop backdrop = Backdrop(
                         currentCategory: state.group,
-                        frontLayer: state is FilteredProductsState
-                            ? ProductGridView(
-                                products: state.filteredProducts,
-                              )
-                            : state is LoadedProductsState
-                                ? ProductGridView(products: state.products)
-                                : state is ErrorState
-                                    ? AppErrorWidget(
-                                        errorMessage: state.errorMessage,
-                                      )
-                                    : const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
+                        frontLayer: frontLayer,
                         backLayer: GroupMenuPage(
                           currentCategory: state.group,
                           onCategoryTap: (Group group) => context
@@ -170,9 +188,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                       );
                     },
                   ),
-                ),
-          },
-          theme: kAnArtistStoreTheme,
+            },
+            theme: kAnArtistStoreTheme,
+          ),
         ),
       ),
     );
@@ -204,6 +222,10 @@ ProductsRepository get _productRepository {
   return ProductsRepositoryImpl(
     RetrofitRestClient(Dio()..interceptors.add(const LoggingInterceptor())),
   );
+}
+
+FavouritesRepository get _favouritesRepository {
+  return SharedPreferencesFavouritesRepository();
 }
 
 EmailRepository get _emailRepository {

@@ -1,5 +1,6 @@
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +24,9 @@ class ProductDetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(product.name),
         elevation: 0,
+        actions: <Widget>[
+          FavouriteButton(productId: product.id),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

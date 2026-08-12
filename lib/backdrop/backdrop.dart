@@ -7,6 +7,7 @@ import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/router/app_route.dart';
+import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -278,58 +279,67 @@ class _SearchProductCard extends StatelessWidget {
       },
       child: Card(
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: <Widget>[
-            AspectRatio(
-              aspectRatio: 18 / 11,
-              child: Hero(
-                tag: 'product_image_${product.id}',
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.fitWidth,
-                  loadingBuilder: (
-                    _,
-                    Widget child,
-                    ImageChunkEvent? loadingProgress,
-                  ) {
-                    if (loadingProgress == null) {
-                      return child;
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    }
-                  },
-                  errorBuilder: (_, __, ___) {
-                    return Text(translate('error_loading_image'));
-                  },
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 18 / 11,
+                  child: Hero(
+                    tag: 'product_image_${product.id}',
+                    child: Image.network(
+                      product.imageUrl,
+                      fit: BoxFit.fitWidth,
+                      loadingBuilder: (
+                        _,
+                        Widget child,
+                        ImageChunkEvent? loadingProgress,
+                      ) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        }
+                      },
+                      errorBuilder: (_, __, ___) {
+                        return Text(translate('error_loading_image'));
+                      },
+                    ),
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        product.name,
+                        style: theme.textTheme.titleLarge,
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        formatter.format(product.price),
+                        style: theme.textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    product.name,
-                    style: theme.textTheme.titleLarge,
-                    maxLines: 1,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    formatter.format(product.price),
-                    style: theme.textTheme.titleSmall,
-                  ),
-                ],
-              ),
+            Positioned(
+              top: 4,
+              right: 4,
+              child: FavouriteButton(productId: product.id),
             ),
           ],
         ),

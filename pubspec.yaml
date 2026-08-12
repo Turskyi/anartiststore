@@ -58,6 +58,7 @@ dependencies:
   retrofit: ^4.9.2
   retrofit_generator: ^10.2.8
   scoped_model: ^2.0.0
+  shared_preferences: ^2.5.2
   url_launcher: ^6.3.2
 
 dev_dependencies:
