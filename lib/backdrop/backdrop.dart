@@ -321,15 +321,21 @@ class _SearchProductCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        product.name,
-                        style: theme.textTheme.titleLarge,
-                        maxLines: 1,
+                      Hero(
+                        tag: 'product_name_${product.id}',
+                        child: Text(
+                          product.name,
+                          style: theme.textTheme.titleLarge,
+                          maxLines: 1,
+                        ),
                       ),
                       const SizedBox(height: 8.0),
-                      Text(
-                        formatter.format(product.price),
-                        style: theme.textTheme.titleSmall,
+                      Hero(
+                        tag: 'product_price_${product.id}',
+                        child: Text(
+                          formatter.format(product.price),
+                          style: theme.textTheme.titleSmall,
+                        ),
                       ),
                     ],
                   ),

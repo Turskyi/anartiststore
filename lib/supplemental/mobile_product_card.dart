@@ -84,17 +84,23 @@ class MobileProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      product.name,
-                      style: theme.textTheme.labelLarge,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                    Hero(
+                      tag: 'product_name_${product.id}',
+                      child: Text(
+                        product.name,
+                        style: theme.textTheme.labelLarge,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
                     const SizedBox(height: 4.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.bodySmall,
+                    Hero(
+                      tag: 'product_price_${product.id}',
+                      child: Text(
+                        formatter.format(product.price),
+                        style: theme.textTheme.bodySmall,
+                      ),
                     ),
                   ],
                 ),
