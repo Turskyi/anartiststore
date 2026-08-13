@@ -6,6 +6,7 @@ import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:flutter/material.dart';
@@ -154,7 +155,9 @@ class _BackdropState extends State<Backdrop>
             Text(
               translate(
                 'noResultsFoundFor',
-                args: <String, String>{'query': _searchController.text},
+                args: <String, String>{
+                  constants.queryKey: _searchController.text,
+                },
               ),
               style: Theme.of(context).textTheme.titleLarge,
             ),
@@ -259,97 +262,105 @@ class _SearchProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-      decimalDigits: 2,
-      locale: Localizations.localeOf(context).toString(),
-    );
 
     return ScopedModelDescendant<AppStateModel>(
       builder: (BuildContext context, Widget? child, AppStateModel model) {
+        final NumberFormat formatter = NumberFormat.currency(
+          symbol: '${model.selectedCurrency.symbol} ',
+          decimalDigits: 2,
+        );
         return Semantics(
           hint: translate('viewDetails'),
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: onTap,
-              child: child,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        AspectRatio(
+                          aspectRatio: 18 / 11,
+                          child: Hero(
+                            tag: 'product_image_${product.id}',
+                            child: Image.network(
+                              product.imageUrl,
+                              fit: BoxFit.fitWidth,
+                              loadingBuilder: (
+                                _,
+                                Widget child,
+                                ImageChunkEvent? loadingProgress,
+                              ) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                }
+                              },
+                              errorBuilder: (_, __, ___) {
+                                return Text(translate('error_loading_image'));
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Hero(
+                                tag: 'product_name_${product.id}',
+                                child: Text(
+                                  product.name,
+                                  style: theme.textTheme.titleLarge,
+                                  maxLines: 1,
+                                ),
+                              ),
+                              const SizedBox(height: 8.0),
+                              Hero(
+                                tag: 'product_price_${product.id}',
+                                child: Text(
+                                  formatter.format(
+                                    model.getConvertedPrice(
+                                      product.priceInCents,
+                                    ),
+                                  ),
+                                  style: theme.textTheme.titleSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: FavouriteButton(productId: product.id),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         );
       },
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 18 / 11,
-                  child: Hero(
-                    tag: 'product_image_${product.id}',
-                    child: Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.fitWidth,
-                      loadingBuilder: (
-                        _,
-                        Widget child,
-                        ImageChunkEvent? loadingProgress,
-                      ) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        }
-                      },
-                      errorBuilder: (_, __, ___) {
-                        return Text(translate('error_loading_image'));
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Hero(
-                        tag: 'product_name_${product.id}',
-                        child: Text(
-                          product.name,
-                          style: theme.textTheme.titleLarge,
-                          maxLines: 1,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Hero(
-                        tag: 'product_price_${product.id}',
-                        child: Text(
-                          formatter.format(product.price),
-                          style: theme.textTheme.titleSmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 4,
-              right: 4,
-              child: FavouriteButton(productId: product.id),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

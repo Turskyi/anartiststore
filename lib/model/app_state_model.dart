@@ -1,27 +1,43 @@
+import 'package:anartiststore/data/remote/currency_service.dart';
+import 'package:anartiststore/enums/currency.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/cart.dart';
 import 'package:anartiststore/model/cart_item.dart';
 import 'package:anartiststore/model/contact_info.dart';
+import 'package:anartiststore/model/currency_repository.dart';
 import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/model/products_repository.dart';
+import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:collection/collection.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-double _salesTaxRate = 0.06;
-double _shippingCostPerItem = 7;
-
 class AppStateModel extends Model {
-  AppStateModel(this._productsRepository, this._emailRepository);
+  AppStateModel(
+    this._productsRepository,
+    this._emailRepository,
+    this._currencyRepository,
+    this._currencyService,
+  );
 
   final ProductsRepository _productsRepository;
   final EmailRepository _emailRepository;
+  final CurrencyRepository _currencyRepository;
+  final CurrencyService _currencyService;
 
   // All the available products.
   List<Product> _availableProducts = <Product>[];
 
   // The currently selected category of products.
   Group _selectedCategory = groupAll;
+
+  // The currently selected currency.
+  Currency _selectedCurrency = Currency.eur;
+
+  // Exchange rates with EUR as base.
+  Map<Currency, double> _exchangeRates = <Currency, double>{Currency.eur: 1.0};
+
+  Currency get selectedCurrency => _selectedCurrency;
 
   // The IDs and quantities of products currently in the cart.
   final Map<String, int> _productsInCart = <String, int>{};
@@ -36,7 +52,7 @@ class AppStateModel extends Model {
 
   // Totaled prices of the items in the cart.
   double get subtotalCost {
-    return _productsInCart.keys.map((String id) {
+    final double subtotalInEur = _productsInCart.keys.map((String id) {
       final Product? product = _availableProducts
           .firstWhereOrNull((Product product) => product.id == id);
       final int? quantity = _productsInCart[id];
@@ -46,19 +62,27 @@ class AppStateModel extends Model {
       }
       return 0.0;
     }).fold(0.0, (double sum, double e) => sum + e);
+
+    return subtotalInEur * (_exchangeRates[_selectedCurrency] ?? 1.0);
   }
 
   // Total shipping cost for the items in the cart.
   double get shippingCost {
-    return _shippingCostPerItem *
+    final double shippingInEur = constants.shippingCostPerItem *
         _productsInCart.values.fold(0.0, (num sum, int e) => sum + e);
+    return shippingInEur * (_exchangeRates[_selectedCurrency] ?? 1.0);
   }
 
   // Sales tax for the items in the cart
-  double get tax => subtotalCost * _salesTaxRate;
+  double get tax => subtotalCost * constants.salesTaxRate;
 
   // Total cost to order everything in the cart.
   double get totalCost => subtotalCost + shippingCost + tax;
+
+  double getConvertedPrice(int priceInEurCents) {
+    final double priceInEur = priceInEurCents / 100;
+    return priceInEur * (_exchangeRates[_selectedCurrency] ?? 1.0);
+  }
 
   // Returns a copy of the list of available products, filtered by category.
   List<Product> getProducts() {
@@ -136,12 +160,30 @@ class AppStateModel extends Model {
     notifyListeners();
   }
 
+  Future<void> setCurrency(Currency newCurrency) async {
+    _selectedCurrency = newCurrency;
+    await _currencyRepository.saveSelectedCurrency(newCurrency);
+    notifyListeners();
+  }
+
+  Future<void> loadCurrency() async {
+    _selectedCurrency = await _currencyRepository.getSelectedCurrency();
+    _exchangeRates = await _currencyService.fetchExchangeRates();
+    notifyListeners();
+  }
+
   List<CartItem> _convertProductsInCartToCartItems() {
     final List<CartItem> cartItems = <CartItem>[];
     _productsInCart.forEach((String productId, int quantity) {
       final Product product = getProductById(productId);
-      cartItems
-          .add(CartItem(id: productId, product: product, quantity: quantity));
+      cartItems.add(
+        CartItem(
+          id: productId,
+          product: product,
+          quantity: quantity,
+          convertedPrice: getConvertedPrice(product.priceInCents),
+        ),
+      );
     });
     return cartItems;
   }
@@ -157,6 +199,7 @@ class AppStateModel extends Model {
         items: cartItems,
       ),
       contactInfo: contactInfo,
+      currencyCode: _selectedCurrency.code,
     );
   }
 }

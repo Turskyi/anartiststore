@@ -412,7 +412,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
             enabled: true,
             label: translate(
               'anArtistStoreScreenReaderCart',
-              args: <String, int>{'quantity': totalCartQuantity},
+              args: <String, int>{constants.quantityKey: totalCartQuantity},
             ),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,

@@ -34,5 +34,15 @@ const String termsOfUseUrl = 'https://$domain/terms-of-use';
 const String privacyPolicyUrl = 'https://$domain/privacy-policy';
 const String instagramUrl = 'https://www.instagram.com/anartistdoll/';
 const String flickrUrl = 'https://www.flickr.com/photos/200341024@N05/';
+const String exchangeRateBaseUrl =
+    'https://api.exchangerate-api.com/v4/latest/';
 
 const String adminEmail = 'annaturska93@gmail.com';
+
+const String priceKey = 'price';
+const String productKey = 'product';
+const String quantityKey = 'quantity';
+const String queryKey = 'query';
+
+const double salesTaxRate = 0.06;
+const double shippingCostPerItem = 7.0;

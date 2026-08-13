@@ -55,6 +55,22 @@ working on this project.
   mechanism (e.g., `translate('key')`) and add corresponding entries to the
   translation files.
 
+## Forbidden Patterns
+
+- **NO `dynamic`**: Never use `dynamic`. Use `Object?` and safe casting.
+- **NO `!`**: Never use the bang operator. Use null-aware operators or checks.
+- **NO `as`**: Never use the `as` cast. Use `is` checks for promotion.
+- **NO Helper Build Methods**: Never write `Widget _buildX()`. Use Classes.
+
+## Mandatory Self-Audit
+
+Before submitting any code changes, the AI agent MUST:
+
+1. Grep the new/modified files for `dynamic`, `!`, `as `, and `Text('`.
+2. Verify all `Text` widgets use `translate()`.
+3. Verify all prices use `NumberFormat` with the active currency.
+4. Fix any violations of the "Forbidden Patterns" before presenting the result.
+
 ## Document Maintenance
 
 - **File Length**: This `AGENTS.md` file must not exceed 200 lines. The line

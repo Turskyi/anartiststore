@@ -1,4 +1,5 @@
 import 'package:anartiststore/data/remote/retrofit_client/retrofit_rest_client.dart';
+import 'package:anartiststore/enums/currency.dart';
 import 'package:anartiststore/model/cart.dart';
 import 'package:anartiststore/model/cart_item.dart';
 import 'package:anartiststore/model/contact_info.dart';
@@ -19,10 +20,12 @@ class EmailRepositoryImpl implements EmailRepository {
   Future<void> sendOrderEmail({
     required Cart cart,
     required ContactInfo contactInfo,
+    required String currencyCode,
   }) async {
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
+    final String symbol = Currency.fromCode(currencyCode).symbol;
+    final NumberFormat formatter = NumberFormat.currency(
+      symbol: '$symbol ',
       decimalDigits: 2,
-      locale: 'en_US',
     );
     final String email = contactInfo.email;
     const String subject = 'New Order Received from ${constants.appName}';
@@ -30,11 +33,11 @@ class EmailRepositoryImpl implements EmailRepository {
     final String message = 'Order:\n\n${cart.items.map((CartItem item) {
       final String productName = item.product.name;
       final int quantity = item.quantity;
-      final int priceInCents = item.product.priceInCents;
+      final double price = item.convertedPrice;
       return 'Cart Item ID: ${item.id}\n'
           'Product Name: $productName\n'
           'Quantity: $quantity\n'
-          'Price: ${_formatPrice(priceInCents)}\n';
+          'Price: ${formatter.format(price)}\n';
     }).join('')}\n'
         'Tax: ${formatter.format(cart.tax)}\n\n'
         'Shipping Cost: ${formatter.format(cart.shippingCost)}\n\n'
@@ -49,7 +52,12 @@ class EmailRepositoryImpl implements EmailRepository {
         'User Country: ${contactInfo.country}';
     try {
       await _restClient.order(
-        Email(email: email, subject: subject, message: message),
+        Email(
+          email: email,
+          subject: subject,
+          message: message,
+          currency: currencyCode,
+        ),
       );
     } catch (error, stackTrace) {
       final String errorMessage = 'Error sending order email via API: $error';
@@ -93,10 +101,5 @@ class EmailRepositoryImpl implements EmailRepository {
         }
       }
     }
-  }
-
-  String _formatPrice(int priceInCents) {
-    final NumberFormat formatter = NumberFormat.simpleCurrency(locale: 'en_US');
-    return formatter.format(priceInCents / 100);
   }
 }

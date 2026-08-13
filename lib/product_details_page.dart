@@ -13,9 +13,10 @@ class ProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
+    final AppStateModel model = ScopedModel.of<AppStateModel>(context);
+    final NumberFormat formatter = NumberFormat.currency(
+      symbol: '${model.selectedCurrency.symbol} ',
       decimalDigits: 2,
-      locale: Localizations.localeOf(context).toString(),
     );
     final ThemeData theme = Theme.of(context);
     final bool isWideScreen = MediaQuery.sizeOf(context).width > 800;
@@ -45,6 +46,7 @@ class ProductDetailsPage extends StatelessWidget {
                       product: product,
                       formatter: formatter,
                       theme: theme,
+                      model: model,
                     ),
                   ),
                 ],
@@ -58,6 +60,7 @@ class ProductDetailsPage extends StatelessWidget {
                     product: product,
                     formatter: formatter,
                     theme: theme,
+                    model: model,
                   ),
                 ],
               ),
@@ -105,11 +108,13 @@ class _ProductDetails extends StatelessWidget {
     required this.product,
     required this.formatter,
     required this.theme,
+    required this.model,
   });
 
   final Product product;
   final NumberFormat formatter;
   final ThemeData theme;
+  final AppStateModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +140,7 @@ class _ProductDetails extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              formatter.format(product.price),
+              formatter.format(model.getConvertedPrice(product.priceInCents)),
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSecondaryContainer,
                 fontWeight: FontWeight.bold,

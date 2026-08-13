@@ -124,7 +124,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         2,
                         name: _ordinalSortKeyName,
                       ),
-                      child: ShoppingCartSummary(model: model),
+                      child: const ShoppingCartSummary(),
                     ),
                     const SizedBox(height: 16),
                     const Divider(),
@@ -500,7 +500,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           .then((_) async {
         _onClearCartPressed(model, expandingBottomSheetState);
         if (mounted) {
-          await showDialog(
+          await showDialog<void>(
             context: context,
             builder: (_) => const ConfirmationDialog(),
           ).whenComplete(() {
@@ -510,7 +510,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       }).onError((Object? error, StackTrace stackTrace) async {
         _confirmEnabledNotifier.value = true;
         if (mounted) {
-          await showDialog(
+          await showDialog<void>(
             context: context,
             builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
           );

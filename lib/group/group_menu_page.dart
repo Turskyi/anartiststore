@@ -3,7 +3,9 @@ import 'dart:typed_data';
 
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/enums/language.dart';
+import 'package:anartiststore/group/currency_selector_sheet.dart';
 import 'package:anartiststore/group/language_selector_sheet.dart';
+import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GroupMenuPage extends StatelessWidget {
@@ -31,80 +34,84 @@ class GroupMenuPage extends StatelessWidget {
       // In a full dark mode implementation, this would likely come from
       // theme.colorScheme.surfaceContainer or a custom theme extension.
       color: theme.appBarTheme.backgroundColor,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
-        children: <Widget>[
-          _MenuHeader(title: translate('catalog')),
-          _CategoryTile(
-            category: Group.all,
-            currentCategory: currentCategory,
-            onCategoryTap: onCategoryTap,
-          ),
-          _CategoryTile(
-            category: Group.favourites,
-            currentCategory: currentCategory,
-            onCategoryTap: onCategoryTap,
-          ),
-          const Divider(height: 32),
-          _MenuHeader(title: translate('preferences')),
-          _MenuTile(
-            title: translate('language'),
-            subtitle: Language.fromIsoLanguageCode(
-              LocalizationProvider.of(context)
-                  .state
-                  .widget
-                  .delegate
-                  .currentLocale
-                  .toString(),
-            ).name,
-            icon: Icons.language,
-            onTap: () => _showLanguageSelector(context),
-          ),
-          _MenuTile(
-            title: translate('currency'),
-            icon: Icons.attach_money,
-            onTap: () {
-              // TODO: Implement Currency selector
-            },
-          ),
-          _MenuTile(
-            title: translate('theme'),
-            icon: Icons.brightness_6,
-            onTap: () {
-              // TODO: Implement Theme selector
-            },
-          ),
-          const Divider(height: 32),
-          _MenuHeader(title: translate('info')),
-          _MenuTile(
-            title: translate('about'),
-            icon: Icons.info_outline,
-            onTap: () => launchUrl(Uri.parse(constants.aboutUsUrl)),
-          ),
-          _MenuTile(
-            title: translate('contact'),
-            icon: Icons.contact_support_outlined,
-            onTap: () => launchUrl(Uri.parse(constants.contactUsUrl)),
-          ),
-          _MenuTile(
-            title: translate('report_problem'),
-            icon: Icons.bug_report_outlined,
-            onTap: () => _onReportPressed(context),
-          ),
-          const Divider(height: 32),
-          _MenuHeader(title: translate('legal')),
-          _MenuTile(
-            title: translate('terms_of_use'),
-            icon: Icons.gavel,
-            onTap: () => launchUrl(Uri.parse(constants.termsOfUseUrl)),
-          ),
-          _MenuTile(
-            title: translate('privacy_policy'),
-            icon: Icons.privacy_tip_outlined,
-            onTap: () => launchUrl(Uri.parse(constants.privacyPolicyUrl)),
-          ),
-          const SizedBox(height: 40),
-        ],
+      child: ScopedModelDescendant<AppStateModel>(
+        builder: (BuildContext context, Widget? child, AppStateModel model) {
+          return ListView(
+            padding:
+                const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
+            children: <Widget>[
+              _MenuHeader(title: translate('catalog')),
+              _CategoryTile(
+                category: Group.all,
+                currentCategory: currentCategory,
+                onCategoryTap: onCategoryTap,
+              ),
+              _CategoryTile(
+                category: Group.favourites,
+                currentCategory: currentCategory,
+                onCategoryTap: onCategoryTap,
+              ),
+              const Divider(height: 32),
+              _MenuHeader(title: translate('preferences')),
+              _MenuTile(
+                title: translate('language'),
+                subtitle: Language.fromIsoLanguageCode(
+                  LocalizationProvider.of(context)
+                      .state
+                      .widget
+                      .delegate
+                      .currentLocale
+                      .toString(),
+                ).name,
+                icon: Icons.language,
+                onTap: () => _showLanguageSelector(context),
+              ),
+              _MenuTile(
+                title: translate('currency'),
+                subtitle: model.selectedCurrency.code,
+                icon: Icons.attach_money,
+                onTap: () => _showCurrencySelector(context),
+              ),
+              _MenuTile(
+                title: translate('theme'),
+                icon: Icons.brightness_6,
+                onTap: () {
+                  // TODO: Implement Theme selector
+                },
+              ),
+              const Divider(height: 32),
+              _MenuHeader(title: translate('info')),
+              _MenuTile(
+                title: translate('about'),
+                icon: Icons.info_outline,
+                onTap: () => launchUrl(Uri.parse(constants.aboutUsUrl)),
+              ),
+              _MenuTile(
+                title: translate('contact'),
+                icon: Icons.contact_support_outlined,
+                onTap: () => launchUrl(Uri.parse(constants.contactUsUrl)),
+              ),
+              _MenuTile(
+                title: translate('report_problem'),
+                icon: Icons.bug_report_outlined,
+                onTap: () => _onReportPressed(context),
+              ),
+              const Divider(height: 32),
+              _MenuHeader(title: translate('legal')),
+              _MenuTile(
+                title: translate('terms_of_use'),
+                icon: Icons.gavel,
+                onTap: () => launchUrl(Uri.parse(constants.termsOfUseUrl)),
+              ),
+              _MenuTile(
+                title: translate('privacy_policy'),
+                icon: Icons.privacy_tip_outlined,
+                onTap: () => launchUrl(Uri.parse(constants.privacyPolicyUrl)),
+              ),
+              const SizedBox(height: 40),
+            ],
+          );
+        },
       ),
     );
   }
@@ -167,6 +174,29 @@ class GroupMenuPage extends StatelessWidget {
           child: SizedBox(
             width: 400,
             child: LanguageSelectorSheet(),
+          ),
+        ),
+      );
+    }
+  }
+
+  void _showCurrencySelector(BuildContext context) {
+    final bool isNarrow = MediaQuery.sizeOf(context).width <= 600;
+
+    if (isNarrow) {
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (BuildContext context) => const CurrencySelectorSheet(),
+      );
+    } else {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => const Dialog(
+          child: SizedBox(
+            width: 400,
+            child: CurrencySelectorSheet(),
           ),
         ),
       );
