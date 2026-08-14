@@ -6,6 +6,7 @@ import 'package:anartiststore/error_dialog.dart';
 import 'package:anartiststore/layout/letter_spacing.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/contact_info.dart';
+import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/theme.dart';
@@ -453,17 +454,26 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   List<Widget> _createShoppingCartRows(AppStateModel model) {
-    return model.productsInCart.keys
-        .map(
-          (String id) => ShoppingCartRow(
-            product: model.getProductById(id),
-            quantity: model.productsInCart[id],
+    final List<Widget> rows = <Widget>[];
+
+    for (final String id in model.productsInCart.keys) {
+      final Product? product = model.getProductById(id);
+      final int? quantity = model.productsInCart[id];
+
+      if (product != null && quantity != null) {
+        rows.add(
+          ShoppingCartRow(
+            product: product,
+            quantity: quantity,
             onPressed: () {
               model.removeItemFromCart(id);
             },
           ),
-        )
-        .toList();
+        );
+      }
+    }
+
+    return rows;
   }
 
   void _onClearCartPressed(

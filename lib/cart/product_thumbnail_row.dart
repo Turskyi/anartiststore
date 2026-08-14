@@ -33,9 +33,9 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
     _internalList = List<String>.from(_list.list);
   }
 
-  Product _productWithId(String productId) {
+  Product? _productWithId(String productId) {
     final AppStateModel model = ScopedModel.of<AppStateModel>(context);
-    final Product product = model.getProductById(productId);
+    final Product? product = model.getProductById(productId);
     return product;
   }
 
@@ -43,8 +43,13 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
     String item,
     BuildContext context,
     Animation<double> animation,
-  ) =>
-      ProductThumbnail(animation, animation, _productWithId(item));
+  ) {
+    final Product? product = _productWithId(item);
+    if (product == null) {
+      return const SizedBox.shrink();
+    }
+    return ProductThumbnail(animation, animation, product);
+  }
 
   Widget _buildThumbnail(
     BuildContext context,
@@ -64,10 +69,15 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
       parent: animation,
     );
 
+    final Product? product = _productWithId(_list[index]);
+    if (product == null) {
+      return const SizedBox.shrink();
+    }
+
     return ProductThumbnail(
       thumbnailSize,
       opacity,
-      _productWithId(_list[index]),
+      product,
     );
   }
 
@@ -77,8 +87,10 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
   // If the internalList is longer, then an item has been added.
   void _updateLists() {
     // Update _internalList based on the model
-    _internalList =
-        ScopedModel.of<AppStateModel>(context).productsInCart.keys.toList();
+    final AppStateModel model = ScopedModel.of<AppStateModel>(context);
+    _internalList = model.productsInCart.keys
+        .where((String id) => model.getProductById(id) != null)
+        .toList();
     final Set<String> internalSet = Set<String>.from(_internalList);
     final Set<String> listSet = Set<String>.from(_list.list);
 
@@ -151,8 +163,13 @@ class _ListModel {
 
   void _insert(int index, String item) {
     _items.insert(index, item);
-    _animatedList!
-        .insertItem(index, duration: const Duration(milliseconds: 225));
+    final AnimatedListState? animatedList = _animatedList;
+    if (animatedList != null) {
+      animatedList.insertItem(
+        index,
+        duration: const Duration(milliseconds: 225),
+      );
+    }
   }
 
   void remove(String product) {
@@ -164,10 +181,13 @@ class _ListModel {
 
   void _removeAt(int index) {
     final String removedItem = _items.removeAt(index);
-    _animatedList!.removeItem(index,
-        (BuildContext context, Animation<double> animation) {
-      return removedItemBuilder(removedItem, context, animation);
-    });
+    final AnimatedListState? animatedList = _animatedList;
+    if (animatedList != null) {
+      animatedList.removeItem(index,
+          (BuildContext context, Animation<double> animation) {
+        return removedItemBuilder(removedItem, context, animation);
+      });
+    }
   }
 
   int get length => _items.length;

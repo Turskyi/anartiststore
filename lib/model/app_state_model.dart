@@ -145,8 +145,8 @@ class AppStateModel extends Model {
   }
 
   // Returns the Product instance matching the provided id.
-  Product getProductById(String id) {
-    return _availableProducts.firstWhere((Product p) => p.id == id);
+  Product? getProductById(String id) {
+    return _availableProducts.firstWhereOrNull((Product p) => p.id == id);
   }
 
   // Removes everything from the cart.
@@ -190,15 +190,17 @@ class AppStateModel extends Model {
   List<CartItem> _convertProductsInCartToCartItems() {
     final List<CartItem> cartItems = <CartItem>[];
     _productsInCart.forEach((String productId, int quantity) {
-      final Product product = getProductById(productId);
-      cartItems.add(
-        CartItem(
-          id: productId,
-          product: product,
-          quantity: quantity,
-          convertedPrice: getConvertedPrice(product.priceInCents),
-        ),
-      );
+      final Product? product = getProductById(productId);
+      if (product != null) {
+        cartItems.add(
+          CartItem(
+            id: productId,
+            product: product,
+            quantity: quantity,
+            convertedPrice: getConvertedPrice(product.priceInCents),
+          ),
+        );
+      }
     });
     return cartItems;
   }
