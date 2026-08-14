@@ -3,6 +3,7 @@ import 'package:anartiststore/enums/currency.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/cart.dart';
 import 'package:anartiststore/model/cart_item.dart';
+import 'package:anartiststore/model/cart_repository.dart';
 import 'package:anartiststore/model/contact_info.dart';
 import 'package:anartiststore/model/currency_repository.dart';
 import 'package:anartiststore/model/email_repository.dart';
@@ -18,12 +19,14 @@ class AppStateModel extends Model {
     this._emailRepository,
     this._currencyRepository,
     this._currencyService,
+    this._cartRepository,
   );
 
   final ProductsRepository _productsRepository;
   final EmailRepository _emailRepository;
   final CurrencyRepository _currencyRepository;
   final CurrencyService _currencyService;
+  final CartRepository _cartRepository;
 
   // All the available products.
   List<Product> _availableProducts = <Product>[];
@@ -107,6 +110,7 @@ class AppStateModel extends Model {
       _productsInCart[productId] = currentQuantity + 1;
     }
 
+    _cartRepository.saveCart(_productsInCart);
     notifyListeners();
   }
 
@@ -121,6 +125,7 @@ class AppStateModel extends Model {
       _productsInCart[productId] = currentQuantity + quantity;
     }
 
+    _cartRepository.saveCart(_productsInCart);
     notifyListeners();
   }
 
@@ -135,6 +140,7 @@ class AppStateModel extends Model {
       }
     }
 
+    _cartRepository.saveCart(_productsInCart);
     notifyListeners();
   }
 
@@ -146,12 +152,21 @@ class AppStateModel extends Model {
   // Removes everything from the cart.
   void clearCart() {
     _productsInCart.clear();
+    _cartRepository.clearCart();
     notifyListeners();
   }
 
   // Loads the list of available products from the repo.
   Future<void> loadProducts() async {
     _availableProducts = await _productsRepository.loadProducts(groupAll);
+    notifyListeners();
+  }
+
+  // Loads the cart from the repo.
+  Future<void> loadCart() async {
+    final Map<String, int> persistedCart = await _cartRepository.getCart();
+    _productsInCart.clear();
+    _productsInCart.addAll(persistedCart);
     notifyListeners();
   }
 

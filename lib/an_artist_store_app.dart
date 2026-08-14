@@ -7,6 +7,7 @@ import 'package:anartiststore/data/remote/retrofit_client/currency_rest_client.d
 import 'package:anartiststore/data/remote/retrofit_client/retrofit_rest_client.dart';
 import 'package:anartiststore/data/repositories/email_repository_impl.dart';
 import 'package:anartiststore/data/repositories/products_repository_impl.dart';
+import 'package:anartiststore/data/repositories/shared_preferences_cart_repository.dart';
 import 'package:anartiststore/data/repositories/shared_preferences_currency_repository.dart';
 import 'package:anartiststore/data/repositories/shared_preferences_favourites_repository.dart';
 import 'package:anartiststore/enums/group.dart';
@@ -14,6 +15,7 @@ import 'package:anartiststore/group/group_menu_page.dart';
 import 'package:anartiststore/home_page.dart';
 import 'package:anartiststore/login.dart';
 import 'package:anartiststore/model/app_state_model.dart';
+import 'package:anartiststore/model/cart_repository.dart';
 import 'package:anartiststore/model/currency_repository.dart';
 import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/favourites_repository.dart';
@@ -272,6 +274,10 @@ CurrencyRepository get _currencyRepository {
   return SharedPreferencesCurrencyRepository();
 }
 
+CartRepository get _cartRepository {
+  return SharedPreferencesCartRepository();
+}
+
 CurrencyService get _currencyService {
   return CurrencyService(
     CurrencyRestClient(Dio()..interceptors.add(const LoggingInterceptor())),
@@ -285,9 +291,11 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
         _emailRepository,
         _currencyRepository,
         _currencyService,
+        _cartRepository,
       )
         ..loadProducts()
-        ..loadCurrency();
+        ..loadCurrency()
+        ..loadCart();
 
   @override
   AppStateModel fromPrimitives(Object? data) {
@@ -296,9 +304,11 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
       _emailRepository,
       _currencyRepository,
       _currencyService,
+      _cartRepository,
     )
       ..loadProducts()
-      ..loadCurrency();
+      ..loadCurrency()
+      ..loadCart();
 
     if (data is Map<Object?, Object?>) {
       final Map<String, Object?> appData = Map<String, Object?>.from(data);
