@@ -31,6 +31,7 @@ import 'package:anartiststore/ui/app_error_widget.dart';
 import 'package:anartiststore/ui/empty_favourites.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -107,104 +108,122 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
         )
           ..add(const LoadProductsEvent())
           ..add(const LoadFavouritesEvent()),
-        child: PopScope<Object?>(
-          onPopInvokedWithResult: _onWillPop,
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: Resources.of(context).strings.title,
-            localizationsDelegates: <LocalizationsDelegate<Object?>>[
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              LocalizedApp.of(context).delegate,
-            ],
-            supportedLocales:
-                LocalizedApp.of(context).delegate.supportedLocales,
-            locale: LocalizedApp.of(context).delegate.currentLocale,
-            initialRoute: AppRoute.home.path,
-            routes: <String, WidgetBuilder>{
-              AppRoute.login.path: (BuildContext context) => const LoginPage(),
-              AppRoute.productDetails.path: (BuildContext context) {
-                final ModalRoute<Object?>? route = ModalRoute.of(context);
-                if (route != null) {
-                  final Object? arguments = route.settings.arguments;
-                  if (arguments is Product) {
-                    return ProductDetailsPage(product: arguments);
-                  }
-                }
-                return Scaffold(
-                  body: Center(
-                    child: Text(translate('productNotFound')),
-                  ),
+        child: PageStatus(
+          menuController: _controller,
+          cartController: _expandingController,
+          child: PopScope<Object?>(
+            onPopInvokedWithResult: _onWillPop,
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: Resources.of(context).strings.title,
+              localizationsDelegates: <LocalizationsDelegate<Object?>>[
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                LocalizedApp.of(context).delegate,
+              ],
+              supportedLocales:
+                  LocalizedApp.of(context).delegate.supportedLocales,
+              locale: LocalizedApp.of(context).delegate.currentLocale,
+              initialRoute: AppRoute.home.path,
+              builder: (BuildContext context, Widget? child) {
+                return Stack(
+                  children: <Widget>[
+                    if (child != null) child,
+                    ExcludeSemantics(
+                      child: Scrim(controller: _expandingController),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      child: Semantics(
+                        container: true,
+                        sortKey: const OrdinalSortKey(0, name: 'home'),
+                        child: ExpandingBottomSheet(
+                          hideController: _controller,
+                          expandingController: _expandingController,
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               },
-              AppRoute.home.path: (BuildContext _) =>
-                  BlocBuilder<ProductsBloc, ProductsState>(
-                    builder: (BuildContext context, ProductsState state) {
-                      Widget frontLayer;
-                      if (state is FilteredProductsState) {
-                        if (state.group.isFavourites &&
-                            state.filteredProducts.isEmpty) {
-                          frontLayer = const EmptyFavourites();
+              routes: <String, WidgetBuilder>{
+                AppRoute.login.path: (BuildContext context) =>
+                    const LoginPage(),
+                AppRoute.productDetails.path: (BuildContext context) {
+                  final ModalRoute<Object?>? route = ModalRoute.of(context);
+                  if (route != null) {
+                    final Object? arguments = route.settings.arguments;
+                    if (arguments is Product) {
+                      return ProductDetailsPage(product: arguments);
+                    }
+                  }
+                  return Scaffold(
+                    body: Center(
+                      child: Text(translate('productNotFound')),
+                    ),
+                  );
+                },
+                AppRoute.home.path: (BuildContext _) =>
+                    BlocBuilder<ProductsBloc, ProductsState>(
+                      builder: (BuildContext context, ProductsState state) {
+                        Widget frontLayer;
+                        if (state is FilteredProductsState) {
+                          if (state.group.isFavourites &&
+                              state.filteredProducts.isEmpty) {
+                            frontLayer = const EmptyFavourites();
+                          } else {
+                            frontLayer = ProductGridView(
+                              products: state.filteredProducts,
+                            );
+                          }
+                        } else if (state is LoadedProductsState) {
+                          frontLayer =
+                              ProductGridView(products: state.products);
+                        } else if (state is ErrorState) {
+                          frontLayer = AppErrorWidget(
+                            errorMessage: state.errorMessage,
+                          );
                         } else {
-                          frontLayer = ProductGridView(
-                            products: state.filteredProducts,
+                          frontLayer = const Center(
+                            child: CircularProgressIndicator(),
                           );
                         }
-                      } else if (state is LoadedProductsState) {
-                        frontLayer = ProductGridView(products: state.products);
-                      } else if (state is ErrorState) {
-                        frontLayer = AppErrorWidget(
-                          errorMessage: state.errorMessage,
-                        );
-                      } else {
-                        frontLayer = const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
 
-                      final Backdrop backdrop = Backdrop(
-                        currentCategory: state.group,
-                        frontLayer: frontLayer,
-                        backLayer: GroupMenuPage(
+                        final Backdrop backdrop = Backdrop(
                           currentCategory: state.group,
-                          onCategoryTap: (Group group) => context
-                              .read<ProductsBloc>()
-                              .add(ShowGroupEvent(group)),
-                        ),
-                        frontTitle: Text(
-                          Resources.of(context).strings.title,
-                          style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.fontSize,
+                          frontLayer: frontLayer,
+                          backLayer: GroupMenuPage(
+                            currentCategory: state.group,
+                            onCategoryTap: (Group group) => context
+                                .read<ProductsBloc>()
+                                .add(ShowGroupEvent(group)),
                           ),
-                        ),
-                        backTitle: Text(translate('menu')),
-                        products: state is FilteredProductsState
-                            ? state.filteredProducts
-                            : state.products,
-                      );
-                      return LayoutCache(
-                        layouts: _layouts,
-                        child: PageStatus(
-                          menuController: _controller,
-                          cartController: _expandingController,
-                          child: HomePage(
-                            backdrop: backdrop,
-                            scrim: Scrim(controller: _expandingController),
-                            expandingBottomSheet: ExpandingBottomSheet(
-                              hideController: _controller,
-                              expandingController: _expandingController,
+                          frontTitle: Text(
+                            Resources.of(context).strings.title,
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.fontSize,
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-            },
-            theme: kAnArtistStoreTheme,
+                          backTitle: Text(translate('menu')),
+                          products: state is FilteredProductsState
+                              ? state.filteredProducts
+                              : state.products,
+                        );
+                        return LayoutCache(
+                          layouts: _layouts,
+                          child: HomePage(
+                            backdrop: backdrop,
+                          ),
+                        );
+                      },
+                    ),
+              },
+              theme: kAnArtistStoreTheme,
+            ),
           ),
         ),
       ),
@@ -281,8 +300,8 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
       ..loadProducts()
       ..loadCurrency();
 
-    if (data is Map<dynamic, dynamic>) {
-      final Map<String, dynamic> appData = Map<String, dynamic>.from(data);
+    if (data is Map<Object?, Object?>) {
+      final Map<String, Object?> appData = Map<String, Object?>.from(data);
 
       // Reset selected category.
       final Object? categoryIndex = appData['category_index'];
@@ -309,7 +328,7 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
 
   @override
   Object toPrimitives() {
-    return <String, dynamic>{
+    return <String, Object?>{
       'cart_data': value.productsInCart,
       'category_index': Group.values.indexOf(value.selectedCategory),
     };

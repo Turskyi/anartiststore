@@ -198,6 +198,12 @@ class _ProductDetails extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.sizeOf(context).height -
+              (kToolbarHeight + kMinInteractiveDimension),
+          right: 20,
+          left: 20,
+        ),
       ),
     );
   }
