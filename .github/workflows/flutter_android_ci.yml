@@ -1,9 +1,45 @@
-name: Upload Android build to App Tester.
+name: Flutter Android CI & Quality
 on: [ push ]
 
 jobs:
+  check-code-quality-and-tests:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Check format errors
+        run: dart format --set-exit-if-changed .
+
+      - name: Check lint errors
+        run: flutter analyze .
+
+      - name: Run tests with coverage and random order
+        run: flutter test --coverage --test-randomize-ordering-seed random
+
+      - name: Very Good Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2.1.0
+        with:
+          min_coverage: 29
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: Turskyi/anartiststore
+
   build_apk:
     name: Build Flutter (Android)
+    needs: [ check-code-quality-and-tests ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,6 +91,7 @@ jobs:
         with:
           name: apk-build
           path: build/app/outputs/apk/release/app-release.apk
+
   beta_apk:
     name: Upload Android Beta version to Firebase App Distribution
     needs: [ build_apk ]
