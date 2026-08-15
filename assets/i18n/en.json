@@ -76,5 +76,7 @@
   "theme": "Theme",
   "favourites_empty_title": "No Favourites Yet",
   "favourites_empty_message": "Explore our catalog and add your favorite items here!",
-  "go_to_catalog": "GO TO CATALOG"
+  "go_to_catalog": "GO TO CATALOG",
+  "share": "Share",
+  "shareProductText": "Check out {name} at Anna's Artistic Store:\n{url}"
 }

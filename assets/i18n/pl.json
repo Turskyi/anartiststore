@@ -76,5 +76,7 @@
   "theme": "Motyw",
   "favourites_empty_title": "Brak ulubionych",
   "favourites_empty_message": "Przejrzyj nasz katalog i dodaj tutaj swoje ulubione przedmioty!",
-  "go_to_catalog": "IDŹ DO KATALOGU"
+  "go_to_catalog": "IDŹ DO KATALOGU",
+  "share": "Udostępnij",
+  "shareProductText": "Sprawdź {name} w Artystycznym Sklepie Anny:\n{url}"
 }

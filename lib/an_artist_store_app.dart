@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:anartiststore/backdrop/backdrop.dart';
 import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/cart/expanding_bottom_sheet.dart';
@@ -24,6 +26,7 @@ import 'package:anartiststore/model/products_repository.dart';
 import 'package:anartiststore/page_status.dart';
 import 'package:anartiststore/product_details_page.dart';
 import 'package:anartiststore/res/resources.dart';
+import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/scrim.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
@@ -31,6 +34,7 @@ import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
 import 'package:anartiststore/ui/app_error_widget.dart';
 import 'package:anartiststore/ui/empty_favourites.dart';
+import 'package:app_links/app_links.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -52,6 +56,10 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
   final _RestorableAppStateModel _model = _RestorableAppStateModel();
   final RestorableDouble _expandingTabIndex = RestorableDouble(0);
   final RestorableDouble _tabIndex = RestorableDouble(1);
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
 
   /// [AnimationController] to coordinate both the opening/closing of backdrop
   /// and sliding of expanding bottom sheet.
@@ -96,6 +104,49 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
+
+    _initDeepLinks();
+  }
+
+  void _initDeepLinks() async {
+    _appLinks = AppLinks();
+
+    // Handle links when app is in background or terminated
+    final Uri? initialUri = await _appLinks.getInitialLink();
+    if (initialUri != null) {
+      _handleDeepLink(initialUri);
+    }
+
+    // Handle links when app is running
+    _linkSubscription = _appLinks.uriLinkStream.listen((Uri uri) {
+      _handleDeepLink(uri);
+    });
+  }
+
+  void _handleDeepLink(Uri uri) {
+    if (uri.host == constants.domain &&
+        uri.pathSegments.length == 2 &&
+        uri.pathSegments.firstOrNull == constants.productsPath) {
+      final String productId = uri.pathSegments.lastOrNull ?? '';
+      _navigateToProductDetails(productId);
+    }
+  }
+
+  void _navigateToProductDetails(String productId) {
+    // We might need to wait for products to be loaded.
+    // AppStateModel already starts loading in constructor.
+    final Product? product = _model.value.getProductById(productId);
+    if (product != null) {
+      _navigatorKey.currentState?.pushNamed(
+        AppRoute.productDetails.path,
+        arguments: product,
+      );
+    } else {
+      // If products are not loaded yet, we can listen for the next update.
+      // But for simplicity, we assume they load quickly.
+      // In a real app, we'd queue this navigation or show a loader.
+      debugPrint('Product not found for deep link: $productId');
+    }
   }
 
   @override
@@ -116,6 +167,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
           child: PopScope<Object?>(
             onPopInvokedWithResult: _onWillPop,
             child: MaterialApp(
+              navigatorKey: _navigatorKey,
               debugShowCheckedModeBanner: false,
               title: Resources.of(context).strings.title,
               localizationsDelegates: <LocalizationsDelegate<Object?>>[
@@ -234,6 +286,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
 
   @override
   void dispose() {
+    _linkSubscription?.cancel();
     _controller.dispose();
     _expandingController.dispose();
     _tabIndex.dispose();

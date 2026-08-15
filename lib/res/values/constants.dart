@@ -39,10 +39,13 @@ const String exchangeRateBaseUrl =
 
 const String adminEmail = 'annaturska93@gmail.com';
 
+const String nameKey = 'name';
 const String priceKey = 'price';
 const String productKey = 'product';
+const String productsPath = 'products';
 const String quantityKey = 'quantity';
 const String queryKey = 'query';
+const String urlKey = 'url';
 
 const double salesTaxRate = 0.06;
 const double shippingCostPerItem = 7.0;

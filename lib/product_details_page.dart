@@ -1,6 +1,7 @@
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/ui/favourite_button.dart';
+import 'package:anartiststore/ui/share_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         title: Text(widget.product.name),
         elevation: 0,
         actions: <Widget>[
+          ShareButton(product: widget.product),
           FavouriteButton(productId: widget.product.id),
         ],
       ),

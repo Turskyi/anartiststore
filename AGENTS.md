@@ -24,6 +24,12 @@ working on this project.
   (via `const` constructors), ensures proper lifecycle management, and makes
   the widget tree easier to debug in the Flutter Inspector.
 
+### Function Organization
+
+- **Write code like a book**: Functions should be organized such that they can
+  be read top-down. The caller should be placed above the callee, and public
+  methods should be placed above private methods.
+
 ### Theming
 
 - **Avoid Constant Colors**: Do not hardcode specific colors using constants
