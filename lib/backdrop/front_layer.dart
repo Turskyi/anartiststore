@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class FrontLayer extends StatelessWidget {
   const FrontLayer({
+    required this.child,
     super.key,
     this.onTap,
-    required this.child,
   });
 
   final VoidCallback? onTap;

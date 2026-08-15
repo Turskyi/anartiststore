@@ -43,9 +43,9 @@ double _paddedThumbnailHeight(BuildContext context) {
 
 class ExpandingBottomSheet extends StatefulWidget {
   const ExpandingBottomSheet({
-    super.key,
     required this.hideController,
     required this.expandingController,
+    super.key,
   });
 
   final AnimationController hideController;

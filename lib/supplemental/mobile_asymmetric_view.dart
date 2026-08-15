@@ -4,7 +4,10 @@ import 'package:anartiststore/supplemental/two_product_card_column.dart';
 import 'package:flutter/material.dart';
 
 class MobileAsymmetricView extends StatelessWidget {
-  const MobileAsymmetricView({super.key, required this.products});
+  const MobileAsymmetricView({
+    required this.products,
+    super.key,
+  });
 
   final List<Product> products;
 

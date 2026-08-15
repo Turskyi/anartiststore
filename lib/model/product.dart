@@ -4,11 +4,11 @@ class Product {
   const Product({
     required this.group,
     required this.id,
-    this.isFeatured = false,
     required this.name,
     required this.description,
     required this.priceInCents,
     required this.imageUrl,
+    this.isFeatured = false,
   });
 
   final Group group;

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class PageStatus extends InheritedWidget {
   const PageStatus({
-    super.key,
     required this.cartController,
     required this.menuController,
     required super.child,
+    super.key,
   });
 
   final AnimationController cartController;

@@ -6,6 +6,7 @@ import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/enums/language.dart';
 import 'package:anartiststore/group/currency_selector_sheet.dart';
 import 'package:anartiststore/group/language_selector_sheet.dart';
+import 'package:anartiststore/group/menu_tile.dart';
 import 'package:anartiststore/group/theme_selector_sheet.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
@@ -21,9 +22,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class GroupMenuPage extends StatelessWidget {
   const GroupMenuPage({
-    super.key,
     required this.currentCategory,
     required this.onCategoryTap,
+    super.key,
   });
 
   final Group currentCategory;
@@ -56,7 +57,7 @@ class GroupMenuPage extends StatelessWidget {
               ),
               const Divider(height: 32),
               _MenuHeader(title: translate('preferences')),
-              _MenuTile(
+              MenuTile(
                 title: translate('language'),
                 subtitle: Language.fromIsoLanguageCode(
                   LocalizationProvider.of(context)
@@ -69,13 +70,13 @@ class GroupMenuPage extends StatelessWidget {
                 icon: Icons.language,
                 onTap: () => _showLanguageSelector(context),
               ),
-              _MenuTile(
+              MenuTile(
                 title: translate('currency'),
                 subtitle: model.selectedCurrency.code,
                 icon: Icons.attach_money,
                 onTap: () => _showCurrencySelector(context),
               ),
-              _MenuTile(
+              MenuTile(
                 title: translate('theme'),
                 subtitle: _getThemeModeName(AppOptions.of(context).themeMode),
                 icon: Icons.brightness_6,
@@ -83,31 +84,31 @@ class GroupMenuPage extends StatelessWidget {
               ),
               const Divider(height: 32),
               _MenuHeader(title: translate('info')),
-              _MenuTile(
+              MenuTile(
                 title: translate('about'),
                 icon: Icons.info_outline,
                 onTap: () =>
                     Navigator.pushNamed(context, AppRoute.aboutUs.path),
               ),
-              _MenuTile(
+              MenuTile(
                 title: translate('contact'),
                 icon: Icons.contact_support_outlined,
                 onTap: () =>
                     Navigator.pushNamed(context, AppRoute.contact.path),
               ),
-              _MenuTile(
+              MenuTile(
                 title: translate('report_problem'),
                 icon: Icons.bug_report_outlined,
                 onTap: () => _onReportPressed(context),
               ),
               const Divider(height: 32),
               _MenuHeader(title: translate('legal')),
-              _MenuTile(
+              MenuTile(
                 title: translate('terms_of_use'),
                 icon: Icons.gavel,
                 onTap: () => launchUrl(Uri.parse(constants.termsOfUseUrl)),
               ),
-              _MenuTile(
+              MenuTile(
                 title: translate('privacy_policy'),
                 icon: Icons.privacy_tip_outlined,
                 onTap: () => launchUrl(Uri.parse(constants.privacyPolicyUrl)),
@@ -317,44 +318,6 @@ class _CategoryTile extends StatelessWidget {
             )
           : null,
       onTap: () => onCategoryTap(category),
-    );
-  }
-}
-
-class _MenuTile extends StatelessWidget {
-  const _MenuTile({
-    required this.title,
-    this.subtitle = '',
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: Icon(icon, color: theme.colorScheme.onSurface),
-      title: Text(
-        title,
-        style: theme.textTheme.bodyLarge?.copyWith(
-          color: theme.colorScheme.onSurface,
-        ),
-      ),
-      subtitle: subtitle.isNotEmpty
-          ? Text(
-              subtitle,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-              ),
-            )
-          : null,
-      onTap: onTap,
     );
   }
 }

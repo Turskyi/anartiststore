@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 /// See https://medium.com/flutter/managing-flutter-application-state-with-inheritedwidgets-1140452befe1
 class ModelBindingScope extends InheritedWidget {
   const ModelBindingScope({
-    super.key,
     required this.modelBindingState,
     required super.child,
+    super.key,
   });
 
   final ModelBindingState modelBindingState;

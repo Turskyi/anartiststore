@@ -8,10 +8,10 @@ import 'package:scoped_model/scoped_model.dart';
 
 class ShoppingCartRow extends StatelessWidget {
   const ShoppingCartRow({
-    super.key,
     required this.product,
     required this.quantity,
     this.onPressed,
+    super.key,
   });
 
   final Product product;
