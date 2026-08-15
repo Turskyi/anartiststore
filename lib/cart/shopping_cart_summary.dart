@@ -1,6 +1,5 @@
 import 'package:anartiststore/layout/letter_spacing.dart';
 import 'package:anartiststore/model/app_state_model.dart';
-import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/theme.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +12,13 @@ class ShoppingCartSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle smallAmountStyle = Theme.of(context)
-        .textTheme
-        .bodyMedium!
-        .copyWith(color: kAnArtistStoreGreen600);
-    final TextStyle largeAmountStyle = Theme.of(context)
-        .textTheme
-        .headlineMedium!
-        .copyWith(letterSpacing: letterSpacingOrNone(mediumLetterSpacing));
+    final ThemeData theme = Theme.of(context);
+    final TextStyle smallAmountStyle = theme.textTheme.bodyMedium!.copyWith(
+      color: theme.colorScheme.onSecondaryContainer.withValues(alpha: 0.8),
+    );
+    final TextStyle largeAmountStyle = theme.textTheme.headlineMedium!.copyWith(
+      letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
+    );
 
     return ScopedModelDescendant<AppStateModel>(
       builder: (BuildContext context, Widget? child, AppStateModel model) {

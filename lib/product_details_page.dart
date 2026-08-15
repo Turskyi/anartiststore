@@ -1,5 +1,6 @@
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:anartiststore/ui/share_button.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       decimalDigits: 2,
     );
     final ThemeData theme = Theme.of(context);
-    final bool isWideScreen = MediaQuery.sizeOf(context).width > 800;
+    final bool isWideScreen =
+        MediaQuery.sizeOf(context).width > constants.kDesktopBreakpoint;
 
     return Scaffold(
       appBar: AppBar(

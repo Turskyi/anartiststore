@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:anartiststore/data/app_options.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/enums/language.dart';
 import 'package:anartiststore/group/currency_selector_sheet.dart';
 import 'package:anartiststore/group/language_selector_sheet.dart';
+import 'package:anartiststore/group/theme_selector_sheet.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:feedback/feedback.dart';
@@ -74,10 +76,9 @@ class GroupMenuPage extends StatelessWidget {
               ),
               _MenuTile(
                 title: translate('theme'),
+                subtitle: _getThemeModeName(AppOptions.of(context).themeMode),
                 icon: Icons.brightness_6,
-                onTap: () {
-                  // TODO: Implement Theme selector
-                },
+                onTap: () => _showThemeSelector(context),
               ),
               const Divider(height: 32),
               _MenuHeader(title: translate('info')),
@@ -158,7 +159,8 @@ class GroupMenuPage extends StatelessWidget {
   }
 
   void _showLanguageSelector(BuildContext context) {
-    final bool isNarrow = MediaQuery.sizeOf(context).width <= 600;
+    final bool isNarrow =
+        MediaQuery.sizeOf(context).width <= constants.kMobileBreakpoint;
 
     if (isNarrow) {
       showModalBottomSheet<void>(
@@ -172,7 +174,7 @@ class GroupMenuPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => const Dialog(
           child: SizedBox(
-            width: 400,
+            width: constants.kDialogWidth,
             child: LanguageSelectorSheet(),
           ),
         ),
@@ -181,7 +183,8 @@ class GroupMenuPage extends StatelessWidget {
   }
 
   void _showCurrencySelector(BuildContext context) {
-    final bool isNarrow = MediaQuery.sizeOf(context).width <= 600;
+    final bool isNarrow =
+        MediaQuery.sizeOf(context).width <= constants.kMobileBreakpoint;
 
     if (isNarrow) {
       showModalBottomSheet<void>(
@@ -195,11 +198,46 @@ class GroupMenuPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => const Dialog(
           child: SizedBox(
-            width: 400,
+            width: constants.kDialogWidth,
             child: CurrencySelectorSheet(),
           ),
         ),
       );
+    }
+  }
+
+  void _showThemeSelector(BuildContext context) {
+    final bool isNarrow =
+        MediaQuery.sizeOf(context).width <= constants.kMobileBreakpoint;
+
+    if (isNarrow) {
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (BuildContext _) => const ThemeSelectorSheet(),
+      );
+    } else {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext _) => const Dialog(
+          child: SizedBox(
+            width: constants.kDialogWidth,
+            child: ThemeSelectorSheet(),
+          ),
+        ),
+      );
+    }
+  }
+
+  String _getThemeModeName(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return translate('theme_system');
+      case ThemeMode.light:
+        return translate('theme_light');
+      case ThemeMode.dark:
+        return translate('theme_dark');
     }
   }
 }

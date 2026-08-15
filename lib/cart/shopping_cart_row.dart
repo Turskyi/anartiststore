@@ -1,6 +1,5 @@
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -141,7 +140,6 @@ class ShoppingCartRow extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       const Divider(
-                        color: kAnArtistStoreGreen900,
                         height: 10,
                       ),
                     ],

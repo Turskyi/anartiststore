@@ -7,7 +7,6 @@ import 'package:anartiststore/layout/letter_spacing.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/contact_info.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/theme.dart';
 import 'package:email_validator/email_validator.dart';
@@ -42,9 +41,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData localTheme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: kAnArtistStoreBlue50,
+      backgroundColor: theme.colorScheme.secondaryContainer,
       body: SafeArea(
         child: ScopedModelDescendant<AppStateModel>(
           builder: (
@@ -81,7 +80,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           Expanded(
                             child: Text(
                               translate('anArtistStoreCartPageCaption'),
-                              style: localTheme.textTheme.titleMedium
+                              style: theme.textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -104,8 +103,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         child: Text(
                           translate('reviewOrder'),
                           style: TextStyle(
-                            fontSize: localTheme.textTheme.titleSmall?.fontSize,
-                            color: Colors.grey.shade700,
+                            fontSize: theme.textTheme.titleSmall?.fontSize,
+                            color: theme.colorScheme.onSurface
+                                .withValues(alpha: 0.7),
                           ),
                         ),
                       ),
@@ -145,7 +145,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 translate('deliveryInformation'),
                                 style: TextStyle(
                                   fontSize:
-                                      localTheme.textTheme.titleLarge?.fontSize,
+                                      theme.textTheme.titleLarge?.fontSize,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -352,7 +352,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     Radius.circular(7),
                                   ),
                                 ),
-                                backgroundColor: kAnArtistStoreBlue100,
+                                backgroundColor: theme.colorScheme.primary,
+                                foregroundColor: theme.colorScheme.onPrimary,
                               ),
                               onPressed: () => _onClearCartPressed(
                                 model,
@@ -398,9 +399,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                       Radius.circular(7),
                                     ),
                                   ),
-                                  backgroundColor: kAnArtistStoreBlue100,
-                                  disabledBackgroundColor:
-                                      kAnArtistStoreBlue100,
+                                  backgroundColor: theme.colorScheme.primary,
+                                  foregroundColor: theme.colorScheme.onPrimary,
+                                  disabledBackgroundColor: theme
+                                      .colorScheme.primary
+                                      .withValues(alpha: 0.5),
                                 ),
                                 onPressed: isEnabled
                                     ? () => _onConfirmPressed(

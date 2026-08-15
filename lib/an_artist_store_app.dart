@@ -43,6 +43,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'data/app_options.dart';
+
 class AnArtistStoreApp extends StatefulWidget {
   const AnArtistStoreApp({super.key});
 
@@ -277,6 +279,8 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                     ),
               },
               theme: kAnArtistStoreTheme,
+              darkTheme: kAnArtistStoreDarkTheme,
+              themeMode: AppOptions.of(context).themeMode,
             ),
           ),
         ),

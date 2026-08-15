@@ -1,4 +1,5 @@
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/supplemental/mobile_product_card.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,8 @@ class ProductGridView extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         // Adapt rows based on height for better desktop/tablet experience
-        final int crossAxisCount = constraints.maxHeight > 800 ? 3 : 2;
+        final int crossAxisCount =
+            constraints.maxHeight > constants.kDesktopBreakpoint ? 3 : 2;
 
         const double spacing = 8.0;
         const EdgeInsets padding = EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 28.0);

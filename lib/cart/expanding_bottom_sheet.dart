@@ -7,7 +7,6 @@ import 'package:anartiststore/cart/thumbnail_height.dart';
 import 'package:anartiststore/layout/text_scale.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/page_status.dart';
-import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -399,7 +398,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
           ),
         ),
         elevation: 4,
-        color: kAnArtistStoreBlue50,
+        color: Theme.of(context).colorScheme.secondaryContainer,
         child: _cartIsVisible
             ? _buildShoppingCartPage()
             : _buildThumbnails(context, numProducts),

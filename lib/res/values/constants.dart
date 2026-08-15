@@ -16,6 +16,9 @@ const int maxThumbnailCount = 3;
 
 /// Height of a thumbnail.
 const double defaultThumbnailHeight = 40.0;
+const double kMobileBreakpoint = 600.0;
+const double kDesktopBreakpoint = 800.0;
+const double kDialogWidth = 400.0;
 const double startColumnWidth = 60.0;
 const int emailMaxLength = 40;
 const int nameMaxLength = 33;

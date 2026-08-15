@@ -13,3 +13,7 @@ const Color kAnArtistStoreErrorRed = Color(0xFFC5032B);
 const Color kAnArtistStoreSurfaceWhite = Color(0xFFFAFBFF);
 
 const Color kAnArtistStoreTeal = Color(0xFF107A6D);
+
+const Color kAnArtistStoreBackgroundDark = Color(0xFF1A2626);
+const Color kAnArtistStoreSurfaceDark = Color(0xFF2D4442);
+const Color kAnArtistStoreOnSurfaceDark = Color(0xFFE6F6FE);
