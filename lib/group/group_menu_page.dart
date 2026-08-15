@@ -92,7 +92,8 @@ class GroupMenuPage extends StatelessWidget {
               _MenuTile(
                 title: translate('contact'),
                 icon: Icons.contact_support_outlined,
-                onTap: () => launchUrl(Uri.parse(constants.contactUsUrl)),
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoute.contact.path),
               ),
               _MenuTile(
                 title: translate('report_problem'),

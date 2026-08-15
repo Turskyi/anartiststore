@@ -7,6 +7,7 @@ import 'package:anartiststore/data/remote/currency_service.dart';
 import 'package:anartiststore/data/remote/models/logging_interceptor.dart';
 import 'package:anartiststore/data/remote/retrofit_client/currency_rest_client.dart';
 import 'package:anartiststore/data/remote/retrofit_client/retrofit_rest_client.dart';
+import 'package:anartiststore/data/repositories/contact_repository_impl.dart';
 import 'package:anartiststore/data/repositories/email_repository_impl.dart';
 import 'package:anartiststore/data/repositories/products_repository_impl.dart';
 import 'package:anartiststore/data/repositories/shared_preferences_cart_repository.dart';
@@ -18,6 +19,7 @@ import 'package:anartiststore/home_page.dart';
 import 'package:anartiststore/login.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/cart_repository.dart';
+import 'package:anartiststore/model/contact_repository.dart';
 import 'package:anartiststore/model/currency_repository.dart';
 import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/favourites_repository.dart';
@@ -30,6 +32,7 @@ import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/scrim.dart';
 import 'package:anartiststore/settings/about_us_page.dart';
+import 'package:anartiststore/settings/contact_page.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
 import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
@@ -210,6 +213,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                 AppRoute.aboutUs.path: (BuildContext _) {
                   return const AboutUsPage();
                 },
+                AppRoute.contact.path: (BuildContext _) {
+                  return const ContactPage();
+                },
                 AppRoute.productDetails.path: (BuildContext context) {
                   final ModalRoute<Object?>? route = ModalRoute.of(context);
                   if (route != null) {
@@ -331,6 +337,12 @@ EmailRepository get _emailRepository {
   );
 }
 
+ContactRepository get _contactRepository {
+  return ContactRepositoryImpl(
+    RetrofitRestClient(Dio()..interceptors.add(const LoggingInterceptor())),
+  );
+}
+
 CurrencyRepository get _currencyRepository {
   return SharedPreferencesCurrencyRepository();
 }
@@ -350,6 +362,7 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
   AppStateModel createDefaultValue() => AppStateModel(
         _productRepository,
         _emailRepository,
+        _contactRepository,
         _currencyRepository,
         _currencyService,
         _cartRepository,
@@ -363,6 +376,7 @@ class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
     final AppStateModel appState = AppStateModel(
       _productRepository,
       _emailRepository,
+      _contactRepository,
       _currencyRepository,
       _currencyService,
       _cartRepository,

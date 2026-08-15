@@ -26,9 +26,13 @@ working on this project.
 
 ### Function Organization
 
-- **Write code like a book**: Functions should be organized such that they can
-  be read top-down. The caller should be placed above the callee, and public
-  methods should be placed above private methods.
+- **Write code like a book**: Functions and properties should be organized
+  such that they can be read top-down. The caller should be placed above the
+  callee, and public members should be placed above private members.
+- **Lifecycle Awareness**: In classes with a defined lifecycle (like Flutter
+  Widgets or BLoCs), members should follow the logical lifecycle order. For
+  example, `initState` and `build` should be placed above `dispose`, as
+  `dispose` represents the end of the lifecycle.
 
 ### Theming
 

@@ -90,5 +90,15 @@
   "about_us_mission_title": "Nasza misja",
   "about_us_mission_text": "U podstaw twórczości Anny leży misja stworzenia sanktuarium wyobraźni dla tych, którzy szukają ucieczki od codzienności. Jej sztuka to nie tylko ucieczka, ale brama do introspekcji i płótno dla najgłębszych przemyśleń duszy. W świecie, który często wymaga konformizmu, kreacje Anny są buntem — deklaracją wolności do bycia innym, do głębokiego odczuwania i śmiałego życia.\n\nChoć jej droga prowadziła od znajomych ulic Zaporoża do niepewnych ścieżek Zielonej Góry, jej sztuka pozostaje wiernym towarzyszem, źródłem pocieszenia i siły. Ma nadzieję, że dzięki jej twórczości inni odnajdą ten sam komfort i inspirację, które prowadziły ją przez wiele życiowych zakrętów.",
   "about_us_instagram_prompt": "W sprawach zapytań prosimy o kontakt z Anną przez Instagram:",
-  "about_us_instagram_handle": "@anartistdoll"
+  "about_us_instagram_handle": "@anartistdoll",
+  "contact_title": "Kontakt",
+  "contact_name_label": "Imię i nazwisko",
+  "contact_name_hint": "Jan Kowalski",
+  "contact_email_label": "Adres e-mail",
+  "contact_email_hint": "example@something.something",
+  "contact_message_label": "Wiadomość",
+  "contact_message_hint": "Twoja wiadomość",
+  "contact_submit_button": "Wyślij",
+  "contact_success_message": "Wiadomość została wysłana pomyślnie!",
+  "contact_error_message": "Nie udało się wysłać wiadomości. Spróbuj ponownie."
 }

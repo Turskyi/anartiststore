@@ -5,6 +5,7 @@ import 'package:anartiststore/model/cart.dart';
 import 'package:anartiststore/model/cart_item.dart';
 import 'package:anartiststore/model/cart_repository.dart';
 import 'package:anartiststore/model/contact_info.dart';
+import 'package:anartiststore/model/contact_repository.dart';
 import 'package:anartiststore/model/currency_repository.dart';
 import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/product.dart';
@@ -17,6 +18,7 @@ class AppStateModel extends Model {
   AppStateModel(
     this._productsRepository,
     this._emailRepository,
+    this._contactRepository,
     this._currencyRepository,
     this._currencyService,
     this._cartRepository,
@@ -24,6 +26,7 @@ class AppStateModel extends Model {
 
   final ProductsRepository _productsRepository;
   final EmailRepository _emailRepository;
+  final ContactRepository _contactRepository;
   final CurrencyRepository _currencyRepository;
   final CurrencyService _currencyService;
   final CartRepository _cartRepository;
@@ -216,6 +219,19 @@ class AppStateModel extends Model {
         items: cartItems,
       ),
       contactInfo: contactInfo,
+      currencyCode: _selectedCurrency.code,
+    );
+  }
+
+  Future<void> sendContactMessage({
+    required String name,
+    required String email,
+    required String message,
+  }) {
+    return _contactRepository.sendContactMessage(
+      name: name,
+      email: email,
+      message: message,
       currencyCode: _selectedCurrency.code,
     );
   }

@@ -5,6 +5,7 @@ import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/cart.dart';
 import 'package:anartiststore/model/cart_repository.dart';
 import 'package:anartiststore/model/contact_info.dart';
+import 'package:anartiststore/model/contact_repository.dart';
 import 'package:anartiststore/model/currency_repository.dart';
 import 'package:anartiststore/model/email_repository.dart';
 import 'package:anartiststore/model/product.dart';
@@ -22,6 +23,16 @@ class MockEmailRepository implements EmailRepository {
   Future<void> sendOrderEmail({
     required Cart cart,
     required ContactInfo contactInfo,
+    required String currencyCode,
+  }) async {}
+}
+
+class MockContactRepository implements ContactRepository {
+  @override
+  Future<void> sendContactMessage({
+    required String name,
+    required String email,
+    required String message,
     required String currencyCode,
   }) async {}
 }
@@ -69,6 +80,7 @@ void main() {
       model = AppStateModel(
         MockProductsRepository(),
         MockEmailRepository(),
+        MockContactRepository(),
         MockCurrencyRepository(),
         MockCurrencyService(),
         cartRepository,
