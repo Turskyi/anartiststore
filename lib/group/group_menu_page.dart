@@ -9,6 +9,7 @@ import 'package:anartiststore/group/language_selector_sheet.dart';
 import 'package:anartiststore/group/theme_selector_sheet.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
+import 'package:anartiststore/router/app_route.dart';
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -85,7 +86,8 @@ class GroupMenuPage extends StatelessWidget {
               _MenuTile(
                 title: translate('about'),
                 icon: Icons.info_outline,
-                onTap: () => launchUrl(Uri.parse(constants.aboutUsUrl)),
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoute.aboutUs.path),
               ),
               _MenuTile(
                 title: translate('contact'),

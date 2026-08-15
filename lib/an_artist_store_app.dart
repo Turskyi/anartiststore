@@ -29,6 +29,7 @@ import 'package:anartiststore/res/resources.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/scrim.dart';
+import 'package:anartiststore/settings/about_us_page.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
 import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
@@ -206,6 +207,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
               routes: <String, WidgetBuilder>{
                 AppRoute.login.path: (BuildContext context) =>
                     const LoginPage(),
+                AppRoute.aboutUs.path: (BuildContext _) {
+                  return const AboutUsPage();
+                },
                 AppRoute.productDetails.path: (BuildContext context) {
                   final ModalRoute<Object?>? route = ModalRoute.of(context);
                   if (route != null) {

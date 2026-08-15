@@ -76,6 +76,7 @@ Before submitting any code changes, the AI agent MUST:
 2. Verify all `Text` widgets use `translate()`.
 3. Verify all prices use `NumberFormat` with the active currency.
 4. Fix any violations of the "Forbidden Patterns" before presenting the result.
+5. Verify there is only one class per file (respecting the allowed exceptions).
 
 ## Document Maintenance
 

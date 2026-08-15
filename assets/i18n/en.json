@@ -81,5 +81,14 @@
   "favourites_empty_message": "Explore our catalog and add your favorite items here!",
   "go_to_catalog": "GO TO CATALOG",
   "share": "Share",
-  "shareProductText": "Check out {name} at Anna's Artistic Store:\n{url}"
+  "shareProductText": "Check out {name} at Anna's Artistic Store:\n{url}",
+  "about_us_title": "About Us",
+  "about_us_story_title": "Our Story",
+  "about_us_story_text": "Anna has always been an artistic soul, from sketching as a child to finding her unique style in urban fashion as a teenager. Her passion for creativity extends to her work as a photo-model, where she embraces every opportunity to stand in front of the camera.\n\nSelf-taught in Photoshop and with a circle of friends in rock climbing and mono-wheel communities, Anna has designed popular, functional bags for their equipment. Her time at a kids' accessories atelier sparked her distinctive approach to creating soft dolls—each piece a reflection of her complex personality, even if a little eerie at times.\n\nAnna's resilience shines through her life's challenges, including standing up for her dignity at work and valuing her personal time. She is a multifaceted individual, balancing her artistic pursuits with her role as a dental hygienist to support her life in Zielona Góra—a city she resides in but not without longing for change.",
+  "about_us_art_title": "Our Art",
+  "about_us_art_text": "Anna's art is a vibrant tapestry of life's colors, woven from the threads of her diverse experiences. Her current focus is on paintings, from the kaleidoscopic portrait of a cat to the serene beauty captured on maple leaves, inviting onlookers into a world where every hue sings and every line tells a story.\n\nHer artistic journey has been diverse, encompassing the creation of intricate soft dolls and functional equipment for adventurers. However, her true passion and current professional focus lies in expressing herself through the canvas.",
+  "about_us_mission_title": "Our Mission",
+  "about_us_mission_text": "At the heart of Anna's work lies a mission to create a sanctuary of imagination for those who seek refuge from the mundane. Her art is not just an escape but a gateway to introspection and a canvas for the soul's deepest musings. In a world that often demands conformity, Anna's creations are a rebellion—a declaration of the freedom to be different, to feel deeply, and to live boldly.\n\nWhile her journey has taken her from the familiar streets of Zaporizhzhia to the uncertain paths of Zielona Góra, her art remains a steadfast companion, a source of solace and strength. It is her hope that through her creations, others may find the same comfort and inspiration that has guided her through life's many turns.",
+  "about_us_instagram_prompt": "For inquiries, please reach out to Anna via Instagram:",
+  "about_us_instagram_handle": "@anartistdoll"
 }
