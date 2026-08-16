@@ -1,74 +1,12 @@
-import 'package:anartiststore/data/remote/currency_service.dart';
-import 'package:anartiststore/enums/currency.dart';
-import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
-import 'package:anartiststore/model/cart.dart';
-import 'package:anartiststore/model/cart_repository.dart';
-import 'package:anartiststore/model/contact_info.dart';
-import 'package:anartiststore/model/contact_repository.dart';
-import 'package:anartiststore/model/currency_repository.dart';
-import 'package:anartiststore/model/email_repository.dart';
-import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/model/products_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class MockProductsRepository implements ProductsRepository {
-  @override
-  Future<List<Product>> loadProducts([Group group = Group.all]) async =>
-      <Product>[];
-}
-
-class MockEmailRepository implements EmailRepository {
-  @override
-  Future<void> sendOrderEmail({
-    required Cart cart,
-    required ContactInfo contactInfo,
-    required String currencyCode,
-  }) async {}
-}
-
-class MockContactRepository implements ContactRepository {
-  @override
-  Future<void> sendContactMessage({
-    required String name,
-    required String email,
-    required String message,
-    required String currencyCode,
-  }) async {}
-}
-
-class MockCurrencyRepository implements CurrencyRepository {
-  @override
-  Future<Currency> getSelectedCurrency() async => Currency.eur;
-
-  @override
-  Future<void> saveSelectedCurrency(Currency currency) async {}
-}
-
-class MockCurrencyService implements CurrencyService {
-  @override
-  Future<Map<Currency, double>> fetchExchangeRates() async =>
-      <Currency, double>{Currency.eur: 1.0};
-}
-
-class MockCartRepository implements CartRepository {
-  Map<String, int> savedCart = <String, int>{};
-  bool clearCalled = false;
-
-  @override
-  Future<Map<String, int>> getCart() async => savedCart;
-
-  @override
-  Future<void> saveCart(Map<String, int> cart) async {
-    savedCart = Map<String, int>.from(cart);
-  }
-
-  @override
-  Future<void> clearCart() async {
-    clearCalled = true;
-    savedCart.clear();
-  }
-}
+import 'mocks/mock_cart_repository.dart';
+import 'mocks/mock_contact_repository.dart';
+import 'mocks/mock_currency_repository.dart';
+import 'mocks/mock_currency_service.dart';
+import 'mocks/mock_email_repository.dart';
+import 'mocks/mock_products_repository.dart';
 
 void main() {
   group('AppStateModel Persistence', () {
