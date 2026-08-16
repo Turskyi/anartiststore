@@ -71,6 +71,9 @@ working on this project.
 - **NO `!`**: Never use the bang operator. Use null-aware operators or checks.
 - **NO `as`**: Never use the `as` cast. Use `is` checks for promotion.
 - **NO Helper Build Methods**: Never write `Widget _buildX()`. Use Classes.
+- **NO Multiple Classes per File**: Never include more than one class per
+  file, except for the explicit exceptions (StatefulWidgets/States and
+  enum-like sealed hierarchies). Helper widgets MUST be in their own files.
 
 ## Mandatory Self-Audit
 

@@ -106,7 +106,8 @@ class GroupMenuPage extends StatelessWidget {
               MenuTile(
                 title: translate('terms_of_use'),
                 icon: Icons.gavel,
-                onTap: () => launchUrl(Uri.parse(constants.termsOfUseUrl)),
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoute.termsOfUse.path),
               ),
               MenuTile(
                 title: translate('privacy_policy'),

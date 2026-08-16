@@ -3,7 +3,8 @@ enum AppRoute {
   login('/login'),
   productDetails('/productDetails'),
   aboutUs('/aboutUs'),
-  contact('/contact');
+  contact('/contact'),
+  termsOfUse('/termsOfUse');
 
   const AppRoute(this.path);
 

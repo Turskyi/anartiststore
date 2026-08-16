@@ -33,6 +33,7 @@ import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/scrim.dart';
 import 'package:anartiststore/settings/about_us_page.dart';
 import 'package:anartiststore/settings/contact_page.dart';
+import 'package:anartiststore/settings/terms_of_use_page.dart';
 import 'package:anartiststore/supplemental/layout_cache.dart';
 import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
@@ -215,6 +216,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                 },
                 AppRoute.contact.path: (BuildContext _) {
                   return const ContactPage();
+                },
+                AppRoute.termsOfUse.path: (BuildContext _) {
+                  return const TermsOfUsePage();
                 },
                 AppRoute.productDetails.path: (BuildContext context) {
                   final ModalRoute<Object?>? route = ModalRoute.of(context);
