@@ -4,7 +4,9 @@ enum AppRoute {
   productDetails('/productDetails'),
   aboutUs('/aboutUs'),
   contact('/contact'),
-  termsOfUse('/termsOfUse');
+  termsOfUse('/termsOfUse'),
+  privacyPolicy('/privacyPolicy'),
+  cookiePolicy('/cookiePolicy');
 
   const AppRoute(this.path);
 

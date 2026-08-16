@@ -18,7 +18,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class GroupMenuPage extends StatelessWidget {
   const GroupMenuPage({
@@ -112,7 +111,14 @@ class GroupMenuPage extends StatelessWidget {
               MenuTile(
                 title: translate('privacy_policy'),
                 icon: Icons.privacy_tip_outlined,
-                onTap: () => launchUrl(Uri.parse(constants.privacyPolicyUrl)),
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoute.privacyPolicy.path),
+              ),
+              MenuTile(
+                title: translate('cookie_title'),
+                icon: Icons.cookie_outlined,
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoute.cookiePolicy.path),
               ),
               const SizedBox(height: 40),
             ],
