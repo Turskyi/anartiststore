@@ -37,11 +37,13 @@ class MobileProductCard extends StatelessWidget {
             if (loadingProgress == null) {
               return child;
             } else {
+              final int? expectedTotalBytes =
+                  loadingProgress.expectedTotalBytes;
               return Center(
                 child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
+                  value: expectedTotalBytes != null
                       ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
+                          expectedTotalBytes
                       : null,
                 ),
               );
@@ -60,59 +62,78 @@ class MobileProductCard extends StatelessWidget {
               onTap: () {
                 _navigateToProductDetails(context);
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child: AspectRatio(
-                      aspectRatio: imageAspectRatio,
-                      child: Stack(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  // We need a finite width to allow the children to size
+                  // themselves.
+                  final double width = constraints.maxWidth.isFinite
+                      ? constraints.maxWidth
+                      : 150.0;
+
+                  return FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: SizedBox(
+                      width: width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Hero(
-                            tag: 'product_image_${product.id}',
-                            child: imageWidget,
+                          AspectRatio(
+                            aspectRatio: imageAspectRatio,
+                            child: Stack(
+                              children: <Widget>[
+                                Hero(
+                                  tag: 'product_image_${product.id}',
+                                  child: imageWidget,
+                                ),
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: FavouriteButton(productId: product.id),
+                                ),
+                              ],
+                            ),
                           ),
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            child: FavouriteButton(productId: product.id),
+                          SizedBox(
+                            height: kTextBoxHeight *
+                                MediaQuery.textScalerOf(context).scale(1),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Hero(
+                                    tag: 'product_name_${product.id}',
+                                    child: Text(
+                                      product.name,
+                                      style: theme.textTheme.labelLarge,
+                                      softWrap: false,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Hero(
+                                    tag: 'product_price_${product.id}',
+                                    child: Text(
+                                      formatter.format(
+                                        model.getConvertedPrice(
+                                          product.priceInCents,
+                                        ),
+                                      ),
+                                      style: theme.textTheme.bodySmall,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: kTextBoxHeight *
-                        MediaQuery.textScalerOf(context).scale(1),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Hero(
-                          tag: 'product_name_${product.id}',
-                          child: Text(
-                            product.name,
-                            style: theme.textTheme.labelLarge,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Hero(
-                          tag: 'product_price_${product.id}',
-                          child: Text(
-                            formatter.format(
-                              model.getConvertedPrice(product.priceInCents),
-                            ),
-                            style: theme.textTheme.bodySmall,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),
@@ -121,8 +142,8 @@ class MobileProductCard extends StatelessWidget {
     );
   }
 
-  void _navigateToProductDetails(BuildContext context) {
-    Navigator.of(context).pushNamed(
+  Future<void> _navigateToProductDetails(BuildContext context) {
+    return Navigator.of(context).pushNamed(
       AppRoute.productDetails.path,
       arguments: product,
     );

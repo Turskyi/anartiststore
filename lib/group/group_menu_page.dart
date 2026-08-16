@@ -32,7 +32,7 @@ class GroupMenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Container(
+    return Material(
       // Note: This background color is currently tied to the Backdrop style.
       // In a full dark mode implementation, this would likely come from
       // theme.colorScheme.surfaceContainer or a custom theme extension.

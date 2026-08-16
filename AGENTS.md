@@ -33,6 +33,10 @@ working on this project.
   Widgets or BLoCs), members should follow the logical lifecycle order. For
   example, `initState` and `build` should be placed above `dispose`, as
   `dispose` represents the end of the lifecycle.
+- **Prefer Explicit `else` Blocks**: Avoid "early returns" (e.g., returning
+  early inside an `if` block and then continuing at the top level). Instead,
+  use explicit `else` blocks to make the logic branches clear and easy to
+  follow.
 
 ### Theming
 
