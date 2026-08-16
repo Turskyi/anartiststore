@@ -6,32 +6,37 @@ sealed class ProductsState {
     this.group = Group.all,
     this.products = const <Product>[],
     this.favouriteIds = const <String>{},
+    this.isLoading = false,
   });
 
   final Group group;
   final List<Product> products;
   final Set<String> favouriteIds;
+  final bool isLoading;
 
   ProductsState copyWith({
     Group? group,
     List<Product>? products,
     Set<String>? favouriteIds,
+    bool? isLoading,
   });
 }
 
 final class ProductsInitial extends ProductsState {
-  const ProductsInitial();
+  const ProductsInitial() : super(isLoading: true);
 
   @override
   ProductsState copyWith({
     Group? group,
     List<Product>? products,
     Set<String>? favouriteIds,
+    bool? isLoading,
   }) {
     return LoadedProductsState(
       products: products ?? this.products,
       group: group ?? this.group,
       favouriteIds: favouriteIds ?? this.favouriteIds,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }
@@ -41,6 +46,7 @@ final class LoadedProductsState extends ProductsState {
     required super.products,
     required super.group,
     super.favouriteIds,
+    super.isLoading,
   });
 
   @override
@@ -48,11 +54,13 @@ final class LoadedProductsState extends ProductsState {
     Group? group,
     List<Product>? products,
     Set<String>? favouriteIds,
+    bool? isLoading,
   }) {
     return LoadedProductsState(
       products: products ?? this.products,
       group: group ?? this.group,
       favouriteIds: favouriteIds ?? this.favouriteIds,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }
@@ -62,6 +70,7 @@ final class FilteredProductsState extends LoadedProductsState {
     required super.products,
     required super.group,
     super.favouriteIds,
+    super.isLoading,
     this.filteredProducts = const <Product>[],
   });
 
@@ -72,12 +81,14 @@ final class FilteredProductsState extends LoadedProductsState {
     Group? group,
     List<Product>? products,
     Set<String>? favouriteIds,
+    bool? isLoading,
     List<Product>? filteredProducts,
   }) {
     return FilteredProductsState(
       products: products ?? this.products,
       group: group ?? this.group,
       favouriteIds: favouriteIds ?? this.favouriteIds,
+      isLoading: isLoading ?? this.isLoading,
       filteredProducts: filteredProducts ?? this.filteredProducts,
     );
   }
@@ -89,6 +100,7 @@ final class ErrorState extends ProductsState {
     super.products,
     super.group,
     super.favouriteIds,
+    super.isLoading,
   });
 
   final String errorMessage;
@@ -98,6 +110,7 @@ final class ErrorState extends ProductsState {
     Group? group,
     List<Product>? products,
     Set<String>? favouriteIds,
+    bool? isLoading,
     String? errorMessage,
   }) {
     return ErrorState(
@@ -105,6 +118,7 @@ final class ErrorState extends ProductsState {
       products: products ?? this.products,
       group: group ?? this.group,
       favouriteIds: favouriteIds ?? this.favouriteIds,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }

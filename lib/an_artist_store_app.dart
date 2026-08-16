@@ -39,6 +39,7 @@ import 'package:anartiststore/supplemental/product_grid_view.dart';
 import 'package:anartiststore/theme.dart';
 import 'package:anartiststore/ui/app_error_widget.dart';
 import 'package:anartiststore/ui/empty_favourites.dart';
+import 'package:anartiststore/ui/skeleton_product_grid_view.dart';
 import 'package:app_links/app_links.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -238,7 +239,13 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                     BlocBuilder<ProductsBloc, ProductsState>(
                       builder: (BuildContext context, ProductsState state) {
                         Widget frontLayer;
-                        if (state is FilteredProductsState) {
+                        if (state is ErrorState) {
+                          frontLayer = AppErrorWidget(
+                            errorMessage: state.errorMessage,
+                          );
+                        } else if (state.isLoading && state.products.isEmpty) {
+                          frontLayer = const SkeletonProductGridView();
+                        } else if (state is FilteredProductsState) {
                           if (state.group.isFavourites &&
                               state.filteredProducts.isEmpty) {
                             frontLayer = const EmptyFavourites();
@@ -247,17 +254,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                               products: state.filteredProducts,
                             );
                           }
-                        } else if (state is LoadedProductsState) {
+                        } else {
                           frontLayer =
                               ProductGridView(products: state.products);
-                        } else if (state is ErrorState) {
-                          frontLayer = AppErrorWidget(
-                            errorMessage: state.errorMessage,
-                          );
-                        } else {
-                          frontLayer = const Center(
-                            child: CircularProgressIndicator(),
-                          );
                         }
 
                         final Backdrop backdrop = Backdrop(
