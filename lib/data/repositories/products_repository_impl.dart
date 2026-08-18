@@ -2,6 +2,7 @@ import 'package:anartiststore/data/remote/models/product_catalog_response/produc
 import 'package:anartiststore/data/remote/models/product_catalog_response/product_catalog_response/product_response.dart';
 import 'package:anartiststore/data/remote/retrofit_client/retrofit_rest_client.dart';
 import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/enums/product_availability.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/model/products_repository.dart';
 
@@ -24,6 +25,9 @@ class ProductsRepositoryImpl implements ProductsRepository {
           description: productResponse.description,
           priceInCents: productResponse.price,
           imageUrl: productResponse.imageUrl,
+          availability: ProductAvailability.fromString(
+            productResponse.availability,
+          ),
         ),
       );
     }

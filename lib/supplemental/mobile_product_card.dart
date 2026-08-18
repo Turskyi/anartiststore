@@ -1,3 +1,4 @@
+import 'package:anartiststore/enums/product_availability.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/router/app_route.dart';
@@ -30,28 +31,35 @@ class MobileProductCard extends StatelessWidget {
           decimalDigits: 2,
         );
 
-        final Image imageWidget = Image.network(
-          product.imageUrl,
-          fit: BoxFit.contain,
-          loadingBuilder: (_, Widget child, ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            } else {
-              final int? expectedTotalBytes =
-                  loadingProgress.expectedTotalBytes;
-              return Center(
-                child: CircularProgressIndicator(
-                  value: expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          expectedTotalBytes
-                      : null,
-                ),
-              );
-            }
-          },
-          errorBuilder: (_, __, ___) {
-            return Text(translate('error_loading_image'));
-          },
+        final bool isAvailable =
+            product.availability == ProductAvailability.available;
+
+        final Widget imageWidget = Opacity(
+          opacity: isAvailable ? 1.0 : 0.5,
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.contain,
+            loadingBuilder:
+                (_, Widget child, ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                final int? expectedTotalBytes =
+                    loadingProgress.expectedTotalBytes;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            expectedTotalBytes
+                        : null,
+                  ),
+                );
+              }
+            },
+            errorBuilder: (_, __, ___) {
+              return Text(translate('error_loading_image'));
+            },
+          ),
         );
 
         return Semantics(
@@ -91,6 +99,28 @@ class MobileProductCard extends StatelessWidget {
                                   right: 0,
                                   child: FavouriteButton(productId: product.id),
                                 ),
+                                if (!isAvailable)
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      color:
+                                          Colors.black.withValues(alpha: 0.6),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
+                                      child: Text(
+                                        product.availability ==
+                                                ProductAvailability.reserved
+                                            ? translate('availabilityReserved')
+                                            : translate('availabilitySold'),
+                                        textAlign: TextAlign.center,
+                                        style: theme.textTheme.labelSmall
+                                            ?.copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
                               ],
                             ),
                           ),

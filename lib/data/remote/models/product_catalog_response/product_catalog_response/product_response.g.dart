@@ -15,6 +15,10 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
       price: (json['price'] as num).toInt(),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      availability: json['availability'] as String?,
+      reservedAt: json['reservedAt'] == null
+          ? null
+          : DateTime.parse(json['reservedAt'] as String),
     );
 
 Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
@@ -26,4 +30,6 @@ Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
       'price': instance.price,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
+      'availability': instance.availability,
+      'reservedAt': instance.reservedAt?.toIso8601String(),
     };

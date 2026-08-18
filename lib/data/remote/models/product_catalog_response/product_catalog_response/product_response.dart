@@ -14,6 +14,8 @@ class ProductResponse {
     required this.price,
     required this.createdAt,
     required this.updatedAt,
+    this.availability,
+    this.reservedAt,
   });
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,8 @@ class ProductResponse {
   final int price;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String? availability;
+  final DateTime? reservedAt;
 
   Group get group => Group.values.firstWhere(
         (Group groupElement) =>

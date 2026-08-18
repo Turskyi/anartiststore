@@ -1,6 +1,7 @@
 import 'package:anartiststore/data/remote/currency_service.dart';
 import 'package:anartiststore/enums/currency.dart';
 import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/enums/product_availability.dart';
 import 'package:anartiststore/model/cart.dart';
 import 'package:anartiststore/model/cart_item.dart';
 import 'package:anartiststore/model/cart_repository.dart';
@@ -106,6 +107,12 @@ class AppStateModel extends Model {
 
   // Adds a product to the cart.
   void addProductToCart(String productId) {
+    final Product? product = getProductById(productId);
+    if (product == null ||
+        product.availability != ProductAvailability.available) {
+      return;
+    }
+
     final int? currentQuantity = _productsInCart[productId];
     if (currentQuantity == null) {
       _productsInCart[productId] = 1;
@@ -121,6 +128,12 @@ class AppStateModel extends Model {
   // quantity must be non-null positive value.
   void addMultipleProductsToCart(String productId, int quantity) {
     assert(quantity > 0);
+    final Product? product = getProductById(productId);
+    if (product == null ||
+        product.availability != ProductAvailability.available) {
+      return;
+    }
+
     final int? currentQuantity = _productsInCart[productId];
     if (currentQuantity == null) {
       _productsInCart[productId] = quantity;
@@ -162,6 +175,7 @@ class AppStateModel extends Model {
   // Loads the list of available products from the repo.
   Future<void> loadProducts() async {
     _availableProducts = await _productsRepository.loadProducts(groupAll);
+    _reconcileCart();
     notifyListeners();
   }
 
@@ -170,7 +184,26 @@ class AppStateModel extends Model {
     final Map<String, int> persistedCart = await _cartRepository.getCart();
     _productsInCart.clear();
     _productsInCart.addAll(persistedCart);
+    _reconcileCart();
     notifyListeners();
+  }
+
+  void _reconcileCart() {
+    final List<String> toRemove = <String>[];
+    _productsInCart.forEach((String productId, int quantity) {
+      final Product? product = getProductById(productId);
+      if (product == null ||
+          product.availability != ProductAvailability.available) {
+        toRemove.add(productId);
+      }
+    });
+
+    if (toRemove.isNotEmpty) {
+      for (final String id in toRemove) {
+        _productsInCart.remove(id);
+      }
+      _cartRepository.saveCart(_productsInCart);
+    }
   }
 
   void setCategory(Group newCategory) {

@@ -1,3 +1,4 @@
+import 'package:anartiststore/enums/product_availability.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
@@ -190,6 +191,14 @@ class _ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isAvailable =
+        product.availability == ProductAvailability.available;
+    final String? availabilityText = !isAvailable
+        ? (product.availability == ProductAvailability.reserved
+            ? translate('currentlyReserved')
+            : translate('alreadySold'))
+        : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -203,22 +212,46 @@ class _ProductDetails extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Hero(
-          tag: 'product_price_${product.id}',
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.secondaryContainer,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              formatter.format(model.getConvertedPrice(product.priceInCents)),
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.onSecondaryContainer,
-                fontWeight: FontWeight.bold,
+        Row(
+          children: <Widget>[
+            Hero(
+              tag: 'product_price_${product.id}',
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.secondaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  formatter
+                      .format(model.getConvertedPrice(product.priceInCents)),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.onSecondaryContainer,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
+            if (availabilityText != null) ...<Widget>[
+              const SizedBox(width: 12),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  availabilityText,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: theme.colorScheme.onErrorContainer,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
         const SizedBox(height: 24),
         Text(
@@ -230,16 +263,20 @@ class _ProductDetails extends StatelessWidget {
           width: double.infinity,
           height: 56,
           child: ElevatedButton(
-            onPressed: () => onAddToCart(model),
+            onPressed: isAvailable ? () => onAddToCart(model) : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.onPrimary,
+              disabledBackgroundColor:
+                  theme.colorScheme.onSurface.withValues(alpha: 0.12),
+              disabledForegroundColor:
+                  theme.colorScheme.onSurface.withValues(alpha: 0.38),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
             ),
             child: Text(
-              translate('addToCart'),
+              isAvailable ? translate('addToCart') : (availabilityText ?? ''),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

@@ -1,4 +1,5 @@
 import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/enums/product_availability.dart';
 
 class Product {
   const Product({
@@ -9,6 +10,7 @@ class Product {
     required this.priceInCents,
     required this.imageUrl,
     this.isFeatured = false,
+    this.availability = ProductAvailability.available,
   });
 
   final Group group;
@@ -18,6 +20,7 @@ class Product {
   final String description;
   final int priceInCents;
   final String imageUrl;
+  final ProductAvailability availability;
 
   double get price => priceInCents / 100;
 }

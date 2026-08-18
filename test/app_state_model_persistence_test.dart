@@ -1,4 +1,7 @@
+import 'package:anartiststore/enums/group.dart';
+import 'package:anartiststore/enums/product_availability.dart';
 import 'package:anartiststore/model/app_state_model.dart';
+import 'package:anartiststore/model/product.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'mocks/mock_cart_repository.dart';
@@ -12,17 +15,49 @@ void main() {
   group('AppStateModel Persistence', () {
     late AppStateModel model;
     late MockCartRepository cartRepository;
+    late MockProductsRepository productsRepository;
 
-    setUp(() {
+    setUp(() async {
       cartRepository = MockCartRepository();
+      productsRepository = MockProductsRepository();
+      productsRepository.products = <Product>[
+        const Product(
+          id: 'p1',
+          name: 'Product 1',
+          description: 'Description 1',
+          priceInCents: 1000,
+          imageUrl: 'url1',
+          group: Group.all,
+          availability: ProductAvailability.available,
+        ),
+        const Product(
+          id: 'p2',
+          name: 'Product 2',
+          description: 'Description 2',
+          priceInCents: 2000,
+          imageUrl: 'url2',
+          group: Group.all,
+          availability: ProductAvailability.available,
+        ),
+        const Product(
+          id: 'p_unavailable',
+          name: 'Product Unavailable',
+          description: 'Description U',
+          priceInCents: 3000,
+          imageUrl: 'url3',
+          group: Group.all,
+          availability: ProductAvailability.reserved,
+        ),
+      ];
       model = AppStateModel(
-        MockProductsRepository(),
+        productsRepository,
         MockEmailRepository(),
         MockContactRepository(),
         MockCurrencyRepository(),
         MockCurrencyService(),
         cartRepository,
       );
+      await model.loadProducts();
     });
 
     test('addProductToCart triggers saveCart', () async {
@@ -60,6 +95,23 @@ void main() {
       await model.loadCart();
 
       expect(model.productsInCart['p2'], 3);
+    });
+
+    test('loadCart removes unavailable products', () async {
+      cartRepository.savedCart = <String, int>{
+        'p2': 3,
+        'p_unavailable': 1,
+      };
+
+      await model.loadCart();
+
+      expect(model.productsInCart['p2'], 3);
+      expect(model.productsInCart['p_unavailable'], isNull);
+    });
+
+    test('addProductToCart ignores unavailable product', () async {
+      model.addProductToCart('p_unavailable');
+      expect(model.productsInCart['p_unavailable'], isNull);
     });
   });
 }
