@@ -116,48 +116,24 @@ class AppStateModel extends Model {
     final int? currentQuantity = _productsInCart[productId];
     if (currentQuantity == null) {
       _productsInCart[productId] = 1;
-    } else {
-      _productsInCart[productId] = currentQuantity + 1;
+      _cartRepository.saveCart(_productsInCart);
+      notifyListeners();
     }
-
-    _cartRepository.saveCart(_productsInCart);
-    notifyListeners();
   }
 
-  // Adds products to the cart by a certain amount.
-  // quantity must be non-null positive value.
+  // Adds products to the cart.
+  // Since all products are one-of-a-kind, it only adds a single unit.
   void addMultipleProductsToCart(String productId, int quantity) {
-    assert(quantity > 0);
-    final Product? product = getProductById(productId);
-    if (product == null ||
-        product.availability != ProductAvailability.available) {
-      return;
-    }
-
-    final int? currentQuantity = _productsInCart[productId];
-    if (currentQuantity == null) {
-      _productsInCart[productId] = quantity;
-    } else {
-      _productsInCart[productId] = currentQuantity + quantity;
-    }
-
-    _cartRepository.saveCart(_productsInCart);
-    notifyListeners();
+    addProductToCart(productId);
   }
 
   // Removes an item from the cart.
   void removeItemFromCart(String productId) {
-    final int? currentQuantity = _productsInCart[productId];
-    if (currentQuantity != null) {
-      if (currentQuantity == 1) {
-        _productsInCart.remove(productId);
-      } else {
-        _productsInCart[productId] = currentQuantity - 1;
-      }
+    if (_productsInCart.containsKey(productId)) {
+      _productsInCart.remove(productId);
+      _cartRepository.saveCart(_productsInCart);
+      notifyListeners();
     }
-
-    _cartRepository.saveCart(_productsInCart);
-    notifyListeners();
   }
 
   // Returns the Product instance matching the provided id.
@@ -190,11 +166,15 @@ class AppStateModel extends Model {
 
   void _reconcileCart() {
     final List<String> toRemove = <String>[];
+    bool changed = false;
     _productsInCart.forEach((String productId, int quantity) {
       final Product? product = getProductById(productId);
       if (product == null ||
           product.availability != ProductAvailability.available) {
         toRemove.add(productId);
+      } else if (quantity != 1) {
+        _productsInCart[productId] = 1;
+        changed = true;
       }
     });
 
@@ -202,6 +182,10 @@ class AppStateModel extends Model {
       for (final String id in toRemove) {
         _productsInCart.remove(id);
       }
+      changed = true;
+    }
+
+    if (changed) {
       _cartRepository.saveCart(_productsInCart);
     }
   }

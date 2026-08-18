@@ -65,19 +65,16 @@ void main() {
       expect(cartRepository.savedCart['p1'], 1);
 
       model.addProductToCart('p1');
-      expect(cartRepository.savedCart['p1'], 2);
+      expect(cartRepository.savedCart['p1'], 1);
     });
 
     test('addMultipleProductsToCart triggers saveCart', () async {
       model.addMultipleProductsToCart('p1', 5);
-      expect(cartRepository.savedCart['p1'], 5);
+      expect(cartRepository.savedCart['p1'], 1);
     });
 
     test('removeItemFromCart triggers saveCart', () async {
-      model.addMultipleProductsToCart('p1', 2);
-      model.removeItemFromCart('p1');
-      expect(cartRepository.savedCart['p1'], 1);
-
+      model.addProductToCart('p1');
       model.removeItemFromCart('p1');
       expect(cartRepository.savedCart['p1'], isNull);
     });
@@ -89,15 +86,16 @@ void main() {
       expect(cartRepository.savedCart, isEmpty);
     });
 
-    test('loadCart restores persisted data', () async {
+    test('loadCart restores persisted data and enforces quantity 1', () async {
       cartRepository.savedCart = <String, int>{'p2': 3};
 
       await model.loadCart();
 
-      expect(model.productsInCart['p2'], 3);
+      expect(model.productsInCart['p2'], 1);
     });
 
-    test('loadCart removes unavailable products', () async {
+    test('loadCart removes unavailable products and enforces quantity 1',
+        () async {
       cartRepository.savedCart = <String, int>{
         'p2': 3,
         'p_unavailable': 1,
@@ -105,7 +103,7 @@ void main() {
 
       await model.loadCart();
 
-      expect(model.productsInCart['p2'], 3);
+      expect(model.productsInCart['p2'], 1);
       expect(model.productsInCart['p_unavailable'], isNull);
     });
 

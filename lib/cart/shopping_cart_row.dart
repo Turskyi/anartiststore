@@ -46,7 +46,7 @@ class ShoppingCartRow extends StatelessWidget {
                   child: SizedBox(
                     width: constants.startColumnWidth,
                     child: IconButton(
-                      icon: const Icon(Icons.remove_circle_outline),
+                      icon: const Icon(Icons.close),
                       onPressed: onPressed,
                       tooltip: translate('anArtistStoreTooltipRemoveItem'),
                     ),
@@ -75,13 +75,14 @@ class ShoppingCartRow extends StatelessWidget {
                               if (loadingProgress == null) {
                                 return child;
                               } else {
+                                final int? expectedTotalBytes =
+                                    loadingProgress.expectedTotalBytes;
                                 return Center(
                                   child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
+                                    value: expectedTotalBytes != null
                                         ? loadingProgress
                                                 .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
+                                            expectedTotalBytes
                                         : null,
                                   ),
                                 );
@@ -102,35 +103,24 @@ class ShoppingCartRow extends StatelessWidget {
                                       children: <Widget>[
                                         Expanded(
                                           child: SelectableText(
-                                            translate(
-                                              'anArtistStoreProductQuantity',
-                                              args: <String, int>{
-                                                constants.quantityKey:
-                                                    quantity ?? 0,
-                                              },
+                                            product.name,
+                                            style: (localTheme.textTheme
+                                                        .titleMedium ??
+                                                    const TextStyle())
+                                                .copyWith(
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ),
                                         SelectableText(
-                                          translate(
-                                            'anArtistStoreProductPrice',
-                                            args: <String, String>{
-                                              constants.priceKey:
-                                                  formatter.format(
-                                                model.getConvertedPrice(
-                                                  product.priceInCents,
-                                                ),
-                                              ),
-                                            },
+                                          formatter.format(
+                                            model.getConvertedPrice(
+                                              product.priceInCents,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  SelectableText(
-                                    product.name,
-                                    style: localTheme.textTheme.titleMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
                                   ),
                                 ],
                               ),
