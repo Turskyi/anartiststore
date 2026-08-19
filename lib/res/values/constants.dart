@@ -5,8 +5,8 @@ const String supportEmail = 'support@$developerDomain';
 const String domain = 'anartist.$developerDomain';
 const String webAddress = 'https://$domain';
 const String baseUrl = 'https://$domain/api/';
-
-const String logoWithoutBackgroundAsset = 'assets/images/logo_without_bg.png';
+const String imagePath = 'assets/images/';
+const String logoWithoutBackgroundAsset = '${imagePath}logo_without_bg.png';
 
 /// Sentinel value for the system text scale factor option.
 const double systemTextScaleFactorOption = -1;
@@ -16,6 +16,9 @@ const int maxThumbnailCount = 3;
 
 /// Height of a thumbnail.
 const double defaultThumbnailHeight = 40.0;
+const double kMobileBreakpoint = 600.0;
+const double kDesktopBreakpoint = 800.0;
+const double kDialogWidth = 400.0;
 const double startColumnWidth = 60.0;
 const int emailMaxLength = 40;
 const int nameMaxLength = 33;
@@ -34,5 +37,18 @@ const String termsOfUseUrl = 'https://$domain/terms-of-use';
 const String privacyPolicyUrl = 'https://$domain/privacy-policy';
 const String instagramUrl = 'https://www.instagram.com/anartistdoll/';
 const String flickrUrl = 'https://www.flickr.com/photos/200341024@N05/';
+const String exchangeRateBaseUrl =
+    'https://api.exchangerate-api.com/v4/latest/';
 
 const String adminEmail = 'annaturska93@gmail.com';
+
+const String nameKey = 'name';
+const String priceKey = 'price';
+const String productKey = 'product';
+const String productsPath = 'products';
+const String quantityKey = 'quantity';
+const String queryKey = 'query';
+const String urlKey = 'url';
+
+const double salesTaxRate = 0.06;
+const double shippingCostPerItem = 7.0;

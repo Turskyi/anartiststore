@@ -46,6 +46,18 @@
 <body>
 <!--suppress HtmlUnknownTarget -->
 <script src="flutter_bootstrap.js" async></script>
+
+<script defer
+        id='merchantWidgetScript'
+        src="https://www.gstatic.com/shopping/merchant/merchantwidget.js"></script>
+<script>
+    merchantWidgetScript.addEventListener('load', function () {
+      merchantwidget.start({
+           merchant_id: 5496025545,
+           position: 'BOTTOM_RIGHT'
+      });
+    });
+</script>
 </body>
 
 </html>

@@ -7,5 +7,6 @@ abstract interface class EmailRepository {
   Future<void> sendOrderEmail({
     required Cart cart,
     required ContactInfo contactInfo,
+    required String currencyCode,
   });
 }

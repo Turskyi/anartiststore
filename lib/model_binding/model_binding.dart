@@ -7,9 +7,9 @@ import 'package:flutter/scheduler.dart';
 
 class ModelBinding extends StatefulWidget {
   const ModelBinding({
-    super.key,
     required this.initialModel,
     required this.child,
+    super.key,
   });
 
   final AppOptions initialModel;

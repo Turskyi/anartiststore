@@ -27,9 +27,9 @@ class AppOptions {
     required this.themeMode,
     required double? textScaleFactor,
     required this.customTextDirection,
+    required this.platform,
     Locale? locale,
     this.timeDilation = 1.0,
-    required this.platform,
     this.isTestMode = kDebugMode,
   })  : _textScaleFactor = textScaleFactor ?? 1.0,
         _locale = locale;

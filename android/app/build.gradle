@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
+    id("kotlin-android")
+    id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
-    id 'com.google.firebase.crashlytics'
+    id('com.google.firebase.crashlytics')
 }
 
 def localProperties = new Properties()
@@ -43,9 +43,8 @@ def SIGNING_KEY_RELEASE_KEY_PASSWORD = keyProperties.getProperty('SIGNING_KEY_RE
 
 android {
     namespace "store.anartist.anartiststore"
-    compileSdk flutter.compileSdkVersion
-    //TODO: change back to "ndkVersion flutter.ndkVersion", when the error "One or more plugins require a higher Android NDK version." is gone
-    ndkVersion "27.0.12077973"
+    compileSdk 37
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -65,7 +64,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 37
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -121,6 +120,10 @@ android {
             signingConfig signingConfigs.dev
         }
     }
+
+    lint {
+        checkReleaseBuilds = false
+    }
 }
 
 flutter {
@@ -128,6 +131,6 @@ flutter {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.17.0"))
     implementation("com.google.firebase:firebase-crashlytics")
 }

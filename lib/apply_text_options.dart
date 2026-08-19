@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 /// Applies text [AppOptions] to a widget.
 class ApplyTextOptions extends StatelessWidget {
   const ApplyTextOptions({
-    super.key,
     required this.child,
+    super.key,
   });
 
   final Widget child;

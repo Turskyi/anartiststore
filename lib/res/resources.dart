@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class Resources extends InheritedWidget {
   const Resources({
-    super.key,
-    this.strings = const Strings(),
     required super.child,
+    this.strings = const Strings(),
+    super.key,
   });
 
   final Strings strings;

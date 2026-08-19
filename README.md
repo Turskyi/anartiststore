@@ -5,6 +5,8 @@
 [![Upload Android build to App Tester.](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/flutter_android_ci.yml)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Turskyi/anartiststore)
 [![Codemagic build status](https://api.codemagic.io/apps/662ead9c9886cf5b17c644ee/662ead9c9886cf5b17c644ed/status_badge.svg)](https://codemagic.io/app/662ead9c9886cf5b17c644ee/662ead9c9886cf5b17c644ed/latest_build)
+[![Deploy to Firebase Hosting on PR](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-pull-request.yml)
+[![Deploy to Firebase Hosting on merge](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-merge.yml)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/anartiststore">
 
 # Anna\'s Artistic Store (Flutter)
@@ -13,6 +15,21 @@
 showcasing unique
 and handmade creations by talented artist Anna. From stylish clothes to
 whimsical soft toys, each piece is crafted with care and passion.
+
+## Web Versions
+
+This project has two web versions available:
+
+* **Next.js Version:**
+  [https://anartist.turskyi.com](https://anartist.turskyi.com)
+* This version is built with Next.js and serves as a backend RESTful API
+  provider. It offers server-side rendering and is optimized for SEO.
+* **Flutter Web Version:**
+  [https://anna-ecommerce.web.app](https://anna-ecommerce.web.app)
+* This is a direct web build from the Flutter project. It's available due to the
+  easy web hosting provided by Firebase and is a convenient way to access the
+  app in a browser. Please note that server-side rendering and SEO optimization
+  are not as robust as in the Next.js version.
 
 ## PROJECT SPECIFICATION
 
@@ -30,13 +47,14 @@ whimsical soft toys, each piece is crafted with care and passion.
 new Android Package (APK) to
 [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
 after every push,
-[Codemagic](https://codemagic.io/start/) is used to deliver new release app
+[Codemagic](https://codemagic.io/start/) is used to deliver a new release app
 bundle to **Google Play** after every merge to **master** branch;
 
 • State management approach: [BLoC](https://bloclibrary.dev);
 
 • App testing platforms:
-[Firebase App Distribution](https://appdistribution.firebase.dev/i/897887a1fe4fa458);
+[Firebase App Distribution](https://appdistribution.firebase.dev/i/897887a1fe4fa458),
+[TestFlight](https://testflight.apple.com/join/CAWv7eC2);
 
 **Code Readability:** code is easily readable with no unnecessary blank lines,
 no unused variables or methods, and no commented-out code, all variables,

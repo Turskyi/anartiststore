@@ -24,7 +24,7 @@ class EmailResponse {
 
   EmailResponse copyWith({
     EmailId? emailId,
-    dynamic error,
+    Object? error,
   }) {
     return EmailResponse(
       emailId: emailId ?? this.emailId,

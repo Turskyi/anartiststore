@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Scrim extends StatelessWidget {
-  const Scrim({super.key, required this.controller});
+  const Scrim({
+    required this.controller,
+    super.key,
+  });
 
   final AnimationController controller;
 

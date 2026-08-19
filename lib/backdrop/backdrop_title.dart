@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class BackdropTitle extends AnimatedWidget {
   const BackdropTitle({
-    super.key,
     required Animation<double> super.listenable,
     required this.onMenuPressed,
     required this.frontTitle,
     required this.backTitle,
+    super.key,
   }) : _listenable = listenable;
   final void Function() onMenuPressed;
   final Widget frontTitle;

@@ -6,7 +6,9 @@ import 'package:anartiststore/bloc/products_bloc.dart';
 import 'package:anartiststore/enums/group.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:anartiststore/settings/info_page.dart';
+import 'package:anartiststore/res/values/constants.dart' as constants;
+import 'package:anartiststore/router/app_route.dart';
+import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -45,7 +47,6 @@ class Backdrop extends StatefulWidget {
 
 class _BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
-  final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
   final SearchController _searchController = SearchController();
   late AnimationController _animationController;
 
@@ -114,85 +115,23 @@ class _BackdropState extends State<Backdrop>
               return _buildGridCards();
             },
           ),
-          IconButton(
-            icon: Icon(
-              Icons.info_outline,
-              semanticLabel: translate('info'),
-            ),
-            onPressed: () => Navigator.push(
-              context,
-              PageRouteBuilder<Widget>(
-                pageBuilder: (
-                  BuildContext context,
-                  Animation<double> animation1,
-                  Animation<double> animation2,
-                ) =>
-                    const InfoPage(),
-                transitionDuration: const Duration(seconds: 1),
-                transitionsBuilder: (
-                  BuildContext context,
-                  Animation<double> animation,
-                  Animation<double> animationTime,
-                  Widget child,
-                ) {
-                  animation = CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.elasticInOut,
-                  );
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1.0, 0.0),
-                      end: const Offset(0.0, 0.0),
-                    ).animate(animation),
-                    child: child,
-                  );
-                },
-              ),
-            ),
-          ),
         ],
       ),
-      body: LayoutBuilder(builder: _buildStack),
+      body: _BackdropStack(
+        listenable: _animationController.view,
+        backLayer: widget.backLayer,
+        frontLayer: widget.frontLayer,
+        frontLayerVisible: _frontLayerVisible,
+        onTap: _toggleBackdropLayerVisibility,
+      ),
     );
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _searchController.dispose();
     super.dispose();
-  }
-
-  Widget _buildStack(BuildContext context, BoxConstraints constraints) {
-    const double layerTitleHeight = 48.0;
-    final Size layerSize = constraints.biggest;
-    final double layerTop = layerSize.height - layerTitleHeight;
-
-    Animation<RelativeRect> layerAnimation = RelativeRectTween(
-      begin: RelativeRect.fromLTRB(
-        0.0,
-        layerTop,
-        0.0,
-        layerTop - layerSize.height,
-      ),
-      end: const RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
-    ).animate(_animationController.view);
-
-    return Stack(
-      key: _backdropKey,
-      children: <Widget>[
-        ExcludeSemantics(
-          excluding: _frontLayerVisible,
-          child: widget.backLayer,
-        ),
-        PositionedTransition(
-          rect: layerAnimation,
-          child: FrontLayer(
-            onTap: _toggleBackdropLayerVisibility,
-            child: widget.frontLayer,
-          ),
-        ),
-      ],
-    );
   }
 
   void _toggleBackdropLayerVisibility() {
@@ -216,7 +155,9 @@ class _BackdropState extends State<Backdrop>
             Text(
               translate(
                 'noResultsFoundFor',
-                args: <String, String>{'query': _searchController.text},
+                args: <String, String>{
+                  constants.queryKey: _searchController.text,
+                },
               ),
               style: Theme.of(context).textTheme.titleLarge,
             ),
@@ -225,64 +166,115 @@ class _BackdropState extends State<Backdrop>
       ];
     }
 
-    final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-      decimalDigits: 2,
-      locale: Localizations.localeOf(context).toString(),
-    );
-
     // Calculate the number of rows needed, each row containing two cards
     final int rowCount = (widget.products.length / 2).ceil();
 
     // Generate the rows of cards
     return List<Widget>.generate(rowCount, (int rowIndex) {
-      // Get the index of the products for the start of this row
       final int startIndex = rowIndex * 2;
-      // Get the products for this row (1 or 2 products)
       List<Product> productsForRow = widget.products.sublist(
         startIndex,
         min(startIndex + 2, widget.products.length),
       );
 
-      // Create a row for the two products
       return Row(
         children: productsForRow.map((Product product) {
           return Expanded(
-            child: ScopedModelDescendant<AppStateModel>(
-              builder:
-                  (BuildContext context, Widget? child, AppStateModel model) {
-                return Semantics(
-                  hint: translate('anArtistStoreScreenReaderProductAddToCart'),
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () {
-                        model.addProductToCart(product.id);
-                        _searchController.text = '';
-                        Navigator.of(context).pop();
-                        // Show a brief notification (snackbar) at the top of
-                        // the screen.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(translate('productAdded')),
-                            duration: const Duration(seconds: 2),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            margin: EdgeInsets.only(
-                              bottom: 40,
-                              right: 20,
-                              left: 20,
-                            ),
-                          ),
-                        );
-                      },
-                      child: child,
-                    ),
-                  ),
+            child: _SearchProductCard(
+              product: product,
+              onTap: () {
+                _searchController.text = '';
+                Navigator.of(context).pushReplacementNamed(
+                  AppRoute.productDetails.path,
+                  arguments: product,
                 );
               },
+            ),
+          );
+        }).toList(),
+      );
+    });
+  }
+}
+
+class _BackdropStack extends StatelessWidget {
+  const _BackdropStack({
+    required this.listenable,
+    required this.backLayer,
+    required this.frontLayer,
+    required this.frontLayerVisible,
+    required this.onTap,
+  });
+
+  final Animation<double> listenable;
+  final Widget backLayer;
+  final Widget frontLayer;
+  final bool frontLayerVisible;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        const double layerTitleHeight = 48.0;
+        final Size layerSize = constraints.biggest;
+        final double layerTop = layerSize.height - layerTitleHeight;
+
+        Animation<RelativeRect> layerAnimation = RelativeRectTween(
+          begin: RelativeRect.fromLTRB(
+            0.0,
+            layerTop,
+            0.0,
+            layerTop - layerSize.height,
+          ),
+          end: const RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        ).animate(listenable);
+
+        return Stack(
+          children: <Widget>[
+            ExcludeSemantics(
+              excluding: frontLayerVisible,
+              child: backLayer,
+            ),
+            PositionedTransition(
+              rect: layerAnimation,
+              child: FrontLayer(
+                onTap: onTap,
+                child: frontLayer,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _SearchProductCard extends StatelessWidget {
+  const _SearchProductCard({
+    required this.product,
+    required this.onTap,
+  });
+
+  final Product product;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return ScopedModelDescendant<AppStateModel>(
+      builder: (BuildContext context, Widget? child, AppStateModel model) {
+        final NumberFormat formatter = NumberFormat.currency(
+          symbol: '${model.selectedCurrency.symbol} ',
+          decimalDigits: 2,
+        );
+        return Semantics(
+          hint: translate('viewDetails'),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: onTap,
               child: Card(
                 clipBehavior: Clip.antiAlias,
                 child: Stack(
@@ -293,32 +285,37 @@ class _BackdropState extends State<Backdrop>
                       children: <Widget>[
                         AspectRatio(
                           aspectRatio: 18 / 11,
-                          child: Image.network(
-                            product.imageUrl,
-                            fit: BoxFit.fitWidth,
-                            loadingBuilder: (
-                              _,
-                              Widget child,
-                              ImageChunkEvent? loadingProgress,
-                            ) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              }
-                            },
-                            errorBuilder: (_, __, ___) {
-                              return Text(translate('error_loading_image'));
-                            },
+                          child: Hero(
+                            tag: 'product_image_${product.id}',
+                            child: Image.network(
+                              product.imageUrl,
+                              fit: BoxFit.fitWidth,
+                              loadingBuilder: (
+                                _,
+                                Widget child,
+                                ImageChunkEvent? loadingProgress,
+                              ) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                }
+                              },
+                              errorBuilder: (_, __, ___) {
+                                return Text(translate('error_loading_image'));
+                              },
+                            ),
                           ),
                         ),
                         Padding(
@@ -327,35 +324,43 @@ class _BackdropState extends State<Backdrop>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                product.name,
-                                style: theme.textTheme.titleLarge,
-                                maxLines: 1,
+                              Hero(
+                                tag: 'product_name_${product.id}',
+                                child: Text(
+                                  product.name,
+                                  style: theme.textTheme.titleLarge,
+                                  maxLines: 1,
+                                ),
                               ),
                               const SizedBox(height: 8.0),
-                              Text(
-                                formatter.format(product.price),
-                                style: theme.textTheme.titleSmall,
+                              Hero(
+                                tag: 'product_price_${product.id}',
+                                child: Text(
+                                  formatter.format(
+                                    model.getConvertedPrice(
+                                      product.priceInCents,
+                                    ),
+                                  ),
+                                  style: theme.textTheme.titleSmall,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white.withValues(alpha: 0.6),
-                        child: const Icon(Icons.add_shopping_cart),
-                      ),
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: FavouriteButton(productId: product.id),
                     ),
                   ],
                 ),
               ),
             ),
-          );
-        }).toList(),
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 }

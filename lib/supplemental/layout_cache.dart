@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class LayoutCache extends InheritedWidget {
   const LayoutCache({
-    super.key,
     required this.layouts,
     required super.child,
+    super.key,
   });
 
   static Map<String, List<List<int>>> of(BuildContext context) {

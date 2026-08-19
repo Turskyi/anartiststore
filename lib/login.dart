@@ -1,5 +1,4 @@
 import 'package:anartiststore/res/resources.dart';
-import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:flutter/material.dart';
 
@@ -56,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: kAnArtistStoreGreen900,
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
                     shape: const BeveledRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7.0)),
                     ),
@@ -69,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: kAnArtistStoreGreen900,
-                    backgroundColor: kAnArtistStoreBlue100,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     elevation: 8.0,
                     shape: const BeveledRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7.0)),

@@ -1,12 +1,48 @@
-name: Upload Android build to App Tester.
+name: Flutter Android CI & Quality
 on: [ push ]
 
 jobs:
-  build_apk:
-    name: Build Flutter (Android)
+  check-code-quality-and-tests:
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Check format errors
+        run: dart format --set-exit-if-changed .
+
+      - name: Check lint errors
+        run: flutter analyze .
+
+      - name: Run tests with coverage and random order
+        run: flutter test --coverage --test-randomize-ordering-seed random
+
+      - name: Very Good Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2.1.0
+        with:
+          min_coverage: 29
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: Turskyi/anartiststore
+
+  build_apk:
+    name: Build Flutter (Android)
+    needs: [ check-code-quality-and-tests ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Write google-services.json file
         run: |
@@ -39,31 +75,34 @@ jobs:
         env:
           DEBUG_KEYSTORE: ${{ secrets.DEBUG_KEYSTORE }}
 
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          distribution: 'zulu'
+          java-version: '21'
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
       - run: flutter pub get
 
       - run: flutter build apk --release
       - name: Upload APK
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: apk-build
-          path: build/app/outputs/apk/release
+          path: build/app/outputs/apk/release/app-release.apk
+
   beta_apk:
     name: Upload Android Beta version to Firebase App Distribution
     needs: [ build_apk ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: set up JDK 1.8
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v4
+      - name: set up JDK 21
+        uses: actions/setup-java@v4
         with:
-          java-version: 1.8
+          distribution: 'zulu'
+          java-version: '21'
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -74,6 +113,6 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
+          serviceCredentialsFileContent: ${{secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS}}
           groups: testers
           file: app-release.apk

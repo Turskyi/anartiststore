@@ -7,7 +7,6 @@ import 'package:anartiststore/cart/thumbnail_height.dart';
 import 'package:anartiststore/layout/text_scale.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/page_status.dart';
-import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -44,9 +43,9 @@ double _paddedThumbnailHeight(BuildContext context) {
 
 class ExpandingBottomSheet extends StatefulWidget {
   const ExpandingBottomSheet({
-    super.key,
     required this.hideController,
     required this.expandingController,
+    super.key,
   });
 
   final AnimationController hideController;
@@ -399,7 +398,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
           ),
         ),
         elevation: 4,
-        color: kAnArtistStoreBlue50,
+        color: Theme.of(context).colorScheme.secondaryContainer,
         child: _cartIsVisible
             ? _buildShoppingCartPage()
             : _buildThumbnails(context, numProducts),
@@ -412,7 +411,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
             enabled: true,
             label: translate(
               'anArtistStoreScreenReaderCart',
-              args: <String, int>{'quantity': totalCartQuantity},
+              args: <String, int>{constants.quantityKey: totalCartQuantity},
             ),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,

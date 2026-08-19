@@ -14,16 +14,23 @@ class Email {
     required this.email,
     required this.subject,
     required this.message,
+    required this.currency,
   });
 
   final String email;
   final String subject;
   final String message;
+  final String currency;
 
   Map<String, Object?> toJson() => _$EmailToJson(this);
 
   @override
   String toString() {
-    return 'Email{email: $email, subject: $subject, message: $message}';
+    return 'Email{'
+        'email: $email, '
+        'subject: $subject, '
+        'message: $message, '
+        'currency: $currency,'
+        '}';
   }
 }

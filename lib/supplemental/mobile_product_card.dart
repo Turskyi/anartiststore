@@ -1,5 +1,8 @@
+import 'package:anartiststore/enums/product_availability.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
+import 'package:anartiststore/router/app_route.dart';
+import 'package:anartiststore/ui/favourite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
@@ -7,8 +10,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 class MobileProductCard extends StatelessWidget {
   const MobileProductCard({
-    this.imageAspectRatio = 33 / 49,
     required this.product,
+    this.imageAspectRatio = 1.0,
     super.key,
   }) : assert(imageAspectRatio > 0);
 
@@ -19,111 +22,160 @@ class MobileProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-      decimalDigits: 2,
-      locale: Localizations.localeOf(context).toString(),
-    );
     final ThemeData theme = Theme.of(context);
-
-    final Image imageWidget = Image.network(
-      product.imageUrl,
-      fit: BoxFit.cover,
-      loadingBuilder: (_, Widget child, ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
-        }
-      },
-      errorBuilder: (_, __, ___) {
-        return Text(translate('error_loading_image'));
-      },
-    );
 
     return ScopedModelDescendant<AppStateModel>(
       builder: (BuildContext context, Widget? child, AppStateModel model) {
+        final NumberFormat formatter = NumberFormat.currency(
+          symbol: '${model.selectedCurrency.symbol} ',
+          decimalDigits: 2,
+        );
+
+        final bool isAvailable =
+            product.availability == ProductAvailability.available;
+
+        final Widget imageWidget = Opacity(
+          opacity: isAvailable ? 1.0 : 0.5,
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.contain,
+            loadingBuilder:
+                (_, Widget child, ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                final int? expectedTotalBytes =
+                    loadingProgress.expectedTotalBytes;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            expectedTotalBytes
+                        : null,
+                  ),
+                );
+              }
+            },
+            errorBuilder: (_, __, ___) {
+              return Text(translate('error_loading_image'));
+            },
+          ),
+        );
+
         return Semantics(
-          hint: translate('anArtistStoreScreenReaderProductAddToCart'),
+          hint: translate('viewDetails'),
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
-                model.addProductToCart(product.id);
-                // Show a brief notification (snackbar) at the top of the
-                // screen.
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(translate('productAdded')),
-                    duration: const Duration(seconds: 2),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    margin: EdgeInsets.only(
-                      bottom: MediaQuery.sizeOf(context).height -
-                          (kToolbarHeight + kMinInteractiveDimension),
-                      right: 20,
-                      left: 20,
-                    ),
-                  ),
-                );
+                _navigateToProductDetails(context);
               },
-              child: child,
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  // We need a finite width to allow the children to size
+                  // themselves.
+                  final double width = constraints.maxWidth.isFinite
+                      ? constraints.maxWidth
+                      : 150.0;
+
+                  return FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: SizedBox(
+                      width: width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          AspectRatio(
+                            aspectRatio: imageAspectRatio,
+                            child: Stack(
+                              children: <Widget>[
+                                Hero(
+                                  tag: 'product_image_${product.id}',
+                                  child: imageWidget,
+                                ),
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: FavouriteButton(productId: product.id),
+                                ),
+                                if (!isAvailable)
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      color:
+                                          Colors.black.withValues(alpha: 0.6),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
+                                      child: Text(
+                                        product.availability ==
+                                                ProductAvailability.reserved
+                                            ? translate('availabilityReserved')
+                                            : translate('availabilitySold'),
+                                        textAlign: TextAlign.center,
+                                        style: theme.textTheme.labelSmall
+                                            ?.copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: kTextBoxHeight *
+                                MediaQuery.textScalerOf(context).scale(1),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Hero(
+                                    tag: 'product_name_${product.id}',
+                                    child: Text(
+                                      product.name,
+                                      style: theme.textTheme.labelLarge,
+                                      softWrap: false,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Hero(
+                                    tag: 'product_price_${product.id}',
+                                    child: Text(
+                                      formatter.format(
+                                        model.getConvertedPrice(
+                                          product.priceInCents,
+                                        ),
+                                      ),
+                                      style: theme.textTheme.bodySmall,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );
       },
-      child: Stack(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: imageAspectRatio,
-                child: imageWidget,
-              ),
-              SizedBox(
-                height:
-                    kTextBoxHeight * MediaQuery.textScalerOf(context).scale(1),
-                width: 121.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      product.name,
-                      style: theme.textTheme.labelLarge,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4),
-            child: CircleAvatar(
-              backgroundColor: Colors.white.withValues(alpha: 0.6),
-              child: const Icon(Icons.add_shopping_cart),
-            ),
-          ),
-        ],
-      ),
+    );
+  }
+
+  Future<void> _navigateToProductDetails(BuildContext context) {
+    return Navigator.of(context).pushNamed(
+      AppRoute.productDetails.path,
+      arguments: product,
     );
   }
 }

@@ -1,0 +1,14 @@
+{
+  "spellright.language": [],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "github-actions-workflow"
+  ],
+  "spellright.parserByClass": {
+    "github-actions-workflow": {
+      "parser": "code"
+    }
+  }
+}

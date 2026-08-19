@@ -32,6 +32,16 @@ class SearchEvent extends ProductsEvent {
   int get hashCode => super.hashCode ^ query.hashCode;
 }
 
+class ToggleFavouriteEvent extends ProductsEvent {
+  const ToggleFavouriteEvent(this.productId);
+
+  final String productId;
+}
+
+class LoadFavouritesEvent extends ProductsEvent {
+  const LoadFavouritesEvent();
+}
+
 class ClearEvent extends ProductsEvent {
   const ClearEvent();
 }

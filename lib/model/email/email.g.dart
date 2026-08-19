@@ -10,4 +10,5 @@ Map<String, dynamic> _$EmailToJson(Email instance) => <String, dynamic>{
       'email': instance.email,
       'subject': instance.subject,
       'message': instance.message,
+      'currency': instance.currency,
     };
