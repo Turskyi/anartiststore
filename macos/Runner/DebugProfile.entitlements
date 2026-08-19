@@ -10,14 +10,6 @@
 	<true/>
 	<key>com.apple.security.network.client</key>
 	<true/>
-	<key>com.apple.security.network.exception.domains</key>
-	<dict>
-		<key>anartist.turskyi.com</key>
-		<dict>
-			<key>com.apple.security.network.exception.requires-forward-secrecy</key>
-			<true/>
-		</dict>
-	</dict>
 	<key>com.apple.security.network.server</key>
 	<true/>
 </dict>
