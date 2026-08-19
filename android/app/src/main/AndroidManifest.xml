@@ -1,8 +1,8 @@
 <!--suppress AndroidUnknownAttribute -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="9"
-    android:versionName="1.0.9">
+    android:versionCode="10"
+    android:versionName="1.1.0">
 
     <!--suppress AndroidDomInspection -->
     <application
