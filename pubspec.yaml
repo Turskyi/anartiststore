@@ -23,7 +23,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.1.0+10
 
 environment:
-  sdk: '>=3.3.2 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependency_overrides:
   intl: ^0.20.3
@@ -64,7 +64,7 @@ dependencies:
   scoped_model: ^2.0.0
   share_plus: ^13.3.0
   shared_preferences: ^2.5.5
-  shimmer: ^3.0.0
+  shimmer: ^4.0.0
   url_launcher: ^6.3.2
 
 dev_dependencies:
