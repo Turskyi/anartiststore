@@ -16,13 +16,12 @@ class CutCornersBorder extends OutlineInputBorder {
     BorderRadius? borderRadius,
     double? gapPadding,
     double? cut,
-  }) =>
-      CutCornersBorder(
-        borderRadius: borderRadius ?? this.borderRadius,
-        borderSide: borderSide ?? this.borderSide,
-        cut: cut ?? this.cut,
-        gapPadding: gapPadding ?? this.gapPadding,
-      );
+  }) => CutCornersBorder(
+    borderRadius: borderRadius ?? this.borderRadius,
+    borderSide: borderSide ?? this.borderSide,
+    cut: cut ?? this.cut,
+    gapPadding: gapPadding ?? this.gapPadding,
+  );
 
   final double cut;
 

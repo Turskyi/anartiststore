@@ -7,10 +7,7 @@ part 'product_catalog_response.g.dart';
 
 @JsonSerializable()
 class ProductCatalogResponse {
-  const ProductCatalogResponse({
-    required this.products,
-    this.totalPages,
-  });
+  const ProductCatalogResponse({required this.products, this.totalPages});
 
   factory ProductCatalogResponse.fromJson(Map<String, dynamic> json) {
     return _$ProductCatalogResponseFromJson(json);
@@ -28,11 +25,10 @@ class ProductCatalogResponse {
   ProductCatalogResponse copyWith({
     List<ProductResponse>? products,
     int? totalPages,
-  }) =>
-      ProductCatalogResponse(
-        products: products ?? this.products,
-        totalPages: totalPages ?? this.totalPages,
-      );
+  }) => ProductCatalogResponse(
+    products: products ?? this.products,
+    totalPages: totalPages ?? this.totalPages,
+  );
 
   @override
   bool operator ==(Object other) {

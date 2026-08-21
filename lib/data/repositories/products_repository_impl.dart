@@ -14,8 +14,8 @@ class ProductsRepositoryImpl implements ProductsRepository {
   @override
   Future<List<Product>> loadProducts([Group group = Group.all]) async {
     final List<Product> products = <Product>[];
-    final ProductCatalogResponse response =
-        await _restClient.getProductCatalog();
+    final ProductCatalogResponse response = await _restClient
+        .getProductCatalog();
     for (ProductResponse productResponse in response.products) {
       products.add(
         Product(

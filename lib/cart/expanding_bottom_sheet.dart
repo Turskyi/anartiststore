@@ -55,8 +55,8 @@ class ExpandingBottomSheet extends StatefulWidget {
   ExpandingBottomSheetState createState() => ExpandingBottomSheetState();
 
   static ExpandingBottomSheetState of(BuildContext context) {
-    final ExpandingBottomSheetState? result =
-        context.findAncestorStateOfType<ExpandingBottomSheetState>();
+    final ExpandingBottomSheetState? result = context
+        .findAncestorStateOfType<ExpandingBottomSheetState>();
     if (result != null) {
       return result;
     }
@@ -96,24 +96,22 @@ Animation<T> _getEmphasizedEasingAnimation<T>({
     secondWeight = _peakVelocityTime;
   }
 
-  return TweenSequence<T>(
-    <TweenSequenceItem<T>>[
-      TweenSequenceItem<T>(
-        weight: firstWeight,
-        tween: Tween<T>(
-          begin: begin,
-          end: peak,
-        ).chain(CurveTween(curve: firstCurve)),
-      ),
-      TweenSequenceItem<T>(
-        weight: secondWeight,
-        tween: Tween<T>(
-          begin: peak,
-          end: end,
-        ).chain(CurveTween(curve: secondCurve)),
-      ),
-    ],
-  ).animate(parent);
+  return TweenSequence<T>(<TweenSequenceItem<T>>[
+    TweenSequenceItem<T>(
+      weight: firstWeight,
+      tween: Tween<T>(
+        begin: begin,
+        end: peak,
+      ).chain(CurveTween(curve: firstCurve)),
+    ),
+    TweenSequenceItem<T>(
+      weight: secondWeight,
+      tween: Tween<T>(
+        begin: peak,
+        end: end,
+      ).chain(CurveTween(curve: secondCurve)),
+    ),
+  ]).animate(parent);
 }
 
 /// Calculates the value where two double Animations should be joined.
@@ -122,8 +120,9 @@ double _getPeakPoint({required double begin, required double end}) {
 }
 
 class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
-  final GlobalKey _expandingBottomSheetKey =
-      GlobalKey(debugLabel: 'Expanding bottom sheet');
+  final GlobalKey _expandingBottomSheetKey = GlobalKey(
+    debugLabel: 'Expanding bottom sheet',
+  );
 
   // The width of the Material, calculated by _widthFor() & based on the number
   // of products in the cart. 64.0 is the width when there are 0 products
@@ -181,10 +180,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
       );
     } else {
       // Closing animation
-      return Tween<double>(
-        begin: _height,
-        end: screenHeight,
-      ).animate(
+      return Tween<double>(begin: _height, end: screenHeight).animate(
         CurvedAnimation(
           parent: _controller.view,
           curve: const Interval(0.434, 1, curve: Curves.linear), // not used
@@ -267,7 +263,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
     final int cartThumbnailGap = numProducts > 0 ? 16 : 0;
     final double thumbnailsWidth =
         min(numProducts, constants.maxThumbnailCount) *
-            _paddedThumbnailHeight(context);
+        _paddedThumbnailHeight(context);
     final num overflowNumberWidth = numProducts > constants.maxThumbnailCount
         ? 30 * cappedTextScale(context)
         : 0;
@@ -336,7 +332,8 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
             ),
             Container(
               // Accounts for the overflow number
-              width: min(numProducts, constants.maxThumbnailCount) *
+              width:
+                  min(numProducts, constants.maxThumbnailCount) *
                       _paddedThumbnailHeight(context) +
                   (numProducts > 0 ? _thumbnailGap : 0),
               height: _height - _bottomSafeArea,
@@ -444,10 +441,7 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
       parent: widget.hideController,
     );
 
-    return SlideTransition(
-      position: _slideAnimation,
-      child: child,
-    );
+    return SlideTransition(position: _slideAnimation, child: child);
   }
 
   @override
@@ -463,10 +457,13 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
           animation: widget.expandingController,
           builder: (BuildContext context, Widget? child) =>
               ScopedModelDescendant<AppStateModel>(
-            builder:
-                (BuildContext context, Widget? child, AppStateModel model) =>
-                    _buildSlideAnimation(context, _buildCart(context)),
-          ),
+                builder:
+                    (
+                      BuildContext context,
+                      Widget? child,
+                      AppStateModel model,
+                    ) => _buildSlideAnimation(context, _buildCart(context)),
+              ),
         ),
       ),
     );

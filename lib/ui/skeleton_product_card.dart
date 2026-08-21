@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SkeletonProductCard extends StatelessWidget {
-  const SkeletonProductCard({
-    this.imageAspectRatio = 1.0,
-    super.key,
-  }) : assert(imageAspectRatio > 0);
+  const SkeletonProductCard({this.imageAspectRatio = 1.0, super.key})
+    : assert(imageAspectRatio > 0);
 
   final double imageAspectRatio;
 
@@ -37,7 +35,8 @@ class SkeletonProductCard extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: MobileProductCard.kTextBoxHeight *
+            height:
+                MobileProductCard.kTextBoxHeight *
                 MediaQuery.textScalerOf(context).scale(1),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,

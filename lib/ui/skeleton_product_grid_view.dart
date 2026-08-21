@@ -16,7 +16,8 @@ class SkeletonProductGridView extends StatelessWidget {
         const EdgeInsets padding = EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 28.0);
 
         final double totalHeight = constraints.maxHeight;
-        final double availableHeight = totalHeight -
+        final double availableHeight =
+            totalHeight -
             padding.top -
             padding.bottom -
             (spacing * (crossAxisCount - 1));
@@ -42,9 +43,7 @@ class SkeletonProductGridView extends StatelessWidget {
             childAspectRatio: childAspectRatio,
           ),
           itemBuilder: (BuildContext context, int index) {
-            return const SkeletonProductCard(
-              imageAspectRatio: 1.0,
-            );
+            return const SkeletonProductCard(imageAspectRatio: 1.0);
           },
         );
       },

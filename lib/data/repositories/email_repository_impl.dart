@@ -30,15 +30,16 @@ class EmailRepositoryImpl implements EmailRepository {
     final String email = contactInfo.email;
     const String subject = 'New Order Received from ${constants.appName}';
     // Format the order details into a message.
-    final String message = 'Order:\n\n${cart.items.map((CartItem item) {
-      final String productName = item.product.name;
-      final int quantity = item.quantity;
-      final double price = item.convertedPrice;
-      return 'Cart Item ID: ${item.id}\n'
-          'Product Name: $productName\n'
-          'Quantity: $quantity\n'
-          'Price: ${formatter.format(price)}\n';
-    }).join('')}\n'
+    final String message =
+        'Order:\n\n${cart.items.map((CartItem item) {
+          final String productName = item.product.name;
+          final int quantity = item.quantity;
+          final double price = item.convertedPrice;
+          return 'Cart Item ID: ${item.id}\n'
+              'Product Name: $productName\n'
+              'Quantity: $quantity\n'
+              'Price: ${formatter.format(price)}\n';
+        }).join('')}\n'
         'Tax: ${formatter.format(cart.tax)}\n\n'
         'Shipping Cost: ${formatter.format(cart.shippingCost)}\n\n'
         'Subtotal: ${formatter.format(cart.subtotalCost)}\n\n'
@@ -95,7 +96,8 @@ class EmailRepositoryImpl implements EmailRepository {
           await sender.FlutterEmailSender.send(email);
           debugPrint('Order email sent successfully via fallback method.');
         } catch (fallbackError, fallbackStackTrace) {
-          final String fallbackErrorMessage = 'Fallback email failed: '
+          final String fallbackErrorMessage =
+              'Fallback email failed: '
               '$fallbackError';
           debugPrint('$fallbackErrorMessage\nStackTrace: $fallbackStackTrace');
         }

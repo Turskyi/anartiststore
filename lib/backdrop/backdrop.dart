@@ -98,8 +98,9 @@ class _BackdropState extends State<Backdrop>
                 Navigator.of(context).pop();
               },
             ),
-            viewBackgroundColor:
-                Theme.of(context).searchViewTheme.backgroundColor,
+            viewBackgroundColor: Theme.of(
+              context,
+            ).searchViewTheme.backgroundColor,
             searchController: _searchController,
             builder: (_, SearchController controller) {
               return IconButton(
@@ -147,10 +148,7 @@ class _BackdropState extends State<Backdrop>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 20),
-            const Icon(
-              Icons.search_off_outlined,
-              size: 150,
-            ),
+            const Icon(Icons.search_off_outlined, size: 150),
             const SizedBox(height: 20),
             Text(
               translate(
@@ -232,16 +230,10 @@ class _BackdropStack extends StatelessWidget {
 
         return Stack(
           children: <Widget>[
-            ExcludeSemantics(
-              excluding: frontLayerVisible,
-              child: backLayer,
-            ),
+            ExcludeSemantics(excluding: frontLayerVisible, child: backLayer),
             PositionedTransition(
               rect: layerAnimation,
-              child: FrontLayer(
-                onTap: onTap,
-                child: frontLayer,
-              ),
+              child: FrontLayer(onTap: onTap, child: frontLayer),
             ),
           ],
         );
@@ -251,10 +243,7 @@ class _BackdropStack extends StatelessWidget {
 }
 
 class _SearchProductCard extends StatelessWidget {
-  const _SearchProductCard({
-    required this.product,
-    required this.onTap,
-  });
+  const _SearchProductCard({required this.product, required this.onTap});
 
   final Product product;
   final VoidCallback onTap;
@@ -290,37 +279,46 @@ class _SearchProductCard extends StatelessWidget {
                             child: Image.network(
                               product.imageUrl,
                               fit: BoxFit.fitWidth,
-                              loadingBuilder: (
-                                _,
-                                Widget child,
-                                ImageChunkEvent? loadingProgress,
-                              ) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value:
-                                          loadingProgress.expectedTotalBytes !=
+                              loadingBuilder:
+                                  (
+                                    _,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value:
+                                              loadingProgress
+                                                      .expectedTotalBytes !=
                                                   null
                                               ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
                                               : null,
-                                    ),
-                                  );
-                                }
-                              },
-                              errorBuilder: (_, __, ___) {
-                                return Text(translate('error_loading_image'));
-                              },
+                                        ),
+                                      );
+                                    }
+                                  },
+                              errorBuilder:
+                                  (BuildContext _, Object _, StackTrace? _) {
+                                    return Text(
+                                      translate('error_loading_image'),
+                                    );
+                                  },
                             ),
                           ),
                         ),
                         Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            12.0,
+                            16.0,
+                            8.0,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[

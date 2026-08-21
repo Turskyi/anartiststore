@@ -22,10 +22,7 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Image.asset(
-                  constants.logoWithoutBackgroundAsset,
-                  height: 260,
-                ),
+                Image.asset(constants.logoWithoutBackgroundAsset, height: 260),
                 Text(
                   Resources.of(context).strings.title,
                   style: Theme.of(context).textTheme.headlineSmall,
@@ -33,21 +30,17 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             const SizedBox(height: 24.0),
-// [Name]
+            // [Name]
             TextField(
               controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-              ),
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
-// spacer
+            // spacer
             const SizedBox(height: 16.0),
-// [Password]
+            // [Password]
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
             OverflowBar(

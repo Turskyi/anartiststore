@@ -12,9 +12,7 @@ class TermsOfUsePage extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(translate('terms_of_use')),
-      ),
+      appBar: AppBar(title: Text(translate('terms_of_use'))),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[

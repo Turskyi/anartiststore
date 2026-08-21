@@ -12,9 +12,7 @@ class AboutUsPage extends StatelessWidget {
     final TextTheme textTheme = theme.textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(translate('about_us_title')),
-      ),
+      appBar: AppBar(title: Text(translate('about_us_title'))),
       body: ListView(
         padding: const EdgeInsets.all(24.0),
         children: <Widget>[
@@ -56,10 +54,7 @@ class AboutUsPage extends StatelessWidget {
 }
 
 class _Section extends StatelessWidget {
-  const _Section({
-    required this.title,
-    required this.text,
-  });
+  const _Section({required this.title, required this.text});
 
   final String title;
   final String text;
@@ -73,15 +68,10 @@ class _Section extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
-        Text(
-          text,
-          style: textTheme.bodyLarge,
-        ),
+        Text(text, style: textTheme.bodyLarge),
       ],
     );
   }

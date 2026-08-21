@@ -31,8 +31,8 @@ class AppOptions {
     Locale? locale,
     this.timeDilation = 1.0,
     this.isTestMode = kDebugMode,
-  })  : _textScaleFactor = textScaleFactor ?? 1.0,
-        _locale = locale;
+  }) : _textScaleFactor = textScaleFactor ?? 1.0,
+       _locale = locale;
 
   final ThemeMode themeMode;
   final double _textScaleFactor;
@@ -107,16 +107,15 @@ class AppOptions {
     double? timeDilation,
     TargetPlatform? platform,
     bool? isTestMode,
-  }) =>
-      AppOptions(
-        themeMode: themeMode ?? this.themeMode,
-        textScaleFactor: textScaleFactor ?? _textScaleFactor,
-        customTextDirection: customTextDirection ?? this.customTextDirection,
-        locale: locale ?? this.locale,
-        timeDilation: timeDilation ?? this.timeDilation,
-        platform: platform ?? this.platform,
-        isTestMode: isTestMode ?? this.isTestMode,
-      );
+  }) => AppOptions(
+    themeMode: themeMode ?? this.themeMode,
+    textScaleFactor: textScaleFactor ?? _textScaleFactor,
+    customTextDirection: customTextDirection ?? this.customTextDirection,
+    locale: locale ?? this.locale,
+    timeDilation: timeDilation ?? this.timeDilation,
+    platform: platform ?? this.platform,
+    isTestMode: isTestMode ?? this.isTestMode,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -131,24 +130,24 @@ class AppOptions {
 
   @override
   int get hashCode => Object.hash(
-        themeMode,
-        _textScaleFactor,
-        customTextDirection,
-        locale,
-        timeDilation,
-        platform,
-        isTestMode,
-      );
+    themeMode,
+    _textScaleFactor,
+    customTextDirection,
+    locale,
+    timeDilation,
+    platform,
+    isTestMode,
+  );
 
   static AppOptions of(BuildContext context) {
-    final ModelBindingScope scope =
-        context.dependOnInheritedWidgetOfExactType<ModelBindingScope>()!;
+    final ModelBindingScope scope = context
+        .dependOnInheritedWidgetOfExactType<ModelBindingScope>()!;
     return scope.modelBindingState.currentModel;
   }
 
   static void update(BuildContext context, AppOptions newModel) {
-    final ModelBindingScope scope =
-        context.dependOnInheritedWidgetOfExactType<ModelBindingScope>()!;
+    final ModelBindingScope scope = context
+        .dependOnInheritedWidgetOfExactType<ModelBindingScope>()!;
     scope.modelBindingState.updateModel(newModel);
   }
 }

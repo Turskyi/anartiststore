@@ -45,8 +45,9 @@ class CurrencySelectorSheet extends StatelessWidget {
                   title: Text(
                     '${currency.name} (${currency.code})',
                     style: TextStyle(
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isSelected
                           ? theme.colorScheme.primary
                           : theme.colorScheme.onSurface,

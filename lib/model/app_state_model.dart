@@ -59,23 +59,27 @@ class AppStateModel extends Model {
 
   // Totaled prices of the items in the cart.
   double get subtotalCost {
-    final double subtotalInEur = _productsInCart.keys.map((String id) {
-      final Product? product = _availableProducts
-          .firstWhereOrNull((Product product) => product.id == id);
-      final int? quantity = _productsInCart[id];
+    final double subtotalInEur = _productsInCart.keys
+        .map((String id) {
+          final Product? product = _availableProducts.firstWhereOrNull(
+            (Product product) => product.id == id,
+          );
+          final int? quantity = _productsInCart[id];
 
-      if (product != null && quantity != null) {
-        return product.price * quantity;
-      }
-      return 0.0;
-    }).fold(0.0, (double sum, double e) => sum + e);
+          if (product != null && quantity != null) {
+            return product.price * quantity;
+          }
+          return 0.0;
+        })
+        .fold(0.0, (double sum, double e) => sum + e);
 
     return subtotalInEur * (_exchangeRates[_selectedCurrency] ?? 1.0);
   }
 
   // Total shipping cost for the items in the cart.
   double get shippingCost {
-    final double shippingInEur = constants.shippingCostPerItem *
+    final double shippingInEur =
+        constants.shippingCostPerItem *
         _productsInCart.values.fold(0.0, (num sum, int e) => sum + e);
     return shippingInEur * (_exchangeRates[_selectedCurrency] ?? 1.0);
   }

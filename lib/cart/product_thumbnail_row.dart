@@ -26,8 +26,9 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
     super.initState();
     _list = _ListModel(
       listKey: _listKey,
-      initialItems:
-          ScopedModel.of<AppStateModel>(context).productsInCart.keys.toList(),
+      initialItems: ScopedModel.of<AppStateModel>(
+        context,
+      ).productsInCart.keys.toList(),
       removedItemBuilder: _buildRemovedThumbnail,
     );
     _internalList = List<String>.from(_list.list);
@@ -56,13 +57,13 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
     int index,
     Animation<double> animation,
   ) {
-    final Animation<double> thumbnailSize =
-        Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(
-        curve: const Interval(0.33, 1, curve: Curves.easeIn),
-        parent: animation,
-      ),
-    );
+    final Animation<double> thumbnailSize = Tween<double>(begin: 0.8, end: 1)
+        .animate(
+          CurvedAnimation(
+            curve: const Interval(0.33, 1, curve: Curves.easeIn),
+            parent: animation,
+          ),
+        );
 
     final Animation<double> opacity = CurvedAnimation(
       curve: const Interval(0.33, 1, curve: Curves.linear),
@@ -74,11 +75,7 @@ class _ProductThumbnailRowState extends State<ProductThumbnailRow> {
       return const SizedBox.shrink();
     }
 
-    return ProductThumbnail(
-      thumbnailSize,
-      opacity,
-      product,
-    );
+    return ProductThumbnail(thumbnailSize, opacity, product);
   }
 
   // If the lists are the same length, assume nothing has changed.
@@ -152,7 +149,7 @@ class _ListModel {
 
   final GlobalKey<AnimatedListState> listKey;
   final Widget Function(String, BuildContext, Animation<double>)
-      removedItemBuilder;
+  removedItemBuilder;
   final List<String> _items;
 
   AnimatedListState? get _animatedList => listKey.currentState;
@@ -183,8 +180,10 @@ class _ListModel {
     final String removedItem = _items.removeAt(index);
     final AnimatedListState? animatedList = _animatedList;
     if (animatedList != null) {
-      animatedList.removeItem(index,
-          (BuildContext context, Animation<double> animation) {
+      animatedList.removeItem(index, (
+        BuildContext context,
+        Animation<double> animation,
+      ) {
         return removedItemBuilder(removedItem, context, animation);
       });
     }

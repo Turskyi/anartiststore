@@ -8,14 +8,12 @@ class LanguageSelectorSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final String currentIsoCode = LocalizationProvider.of(context)
-        .state
-        .widget
-        .delegate
-        .currentLocale
-        .toString();
-    final Language currentLanguage =
-        Language.fromIsoLanguageCode(currentIsoCode);
+    final String currentIsoCode = LocalizationProvider.of(
+      context,
+    ).state.widget.delegate.currentLocale.toString();
+    final Language currentLanguage = Language.fromIsoLanguageCode(
+      currentIsoCode,
+    );
 
     return SafeArea(
       child: Column(
@@ -49,8 +47,9 @@ class LanguageSelectorSheet extends StatelessWidget {
                   title: Text(
                     language.name,
                     style: TextStyle(
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isSelected
                           ? theme.colorScheme.primary
                           : theme.colorScheme.onSurface,

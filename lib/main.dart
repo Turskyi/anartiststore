@@ -16,8 +16,8 @@ void main() async {
   final LocalizationDelegate localizationDelegate =
       await getLocalizationDelegate();
 
-  final ThemeMode themeMode =
-      await SharedPreferencesSettingsRepository().getThemeMode();
+  final ThemeMode themeMode = await SharedPreferencesSettingsRepository()
+      .getThemeMode();
 
   runApp(
     BetterFeedback(

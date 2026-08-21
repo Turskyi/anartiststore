@@ -41,22 +41,22 @@ class MobileProductCard extends StatelessWidget {
             fit: BoxFit.contain,
             loadingBuilder:
                 (_, Widget child, ImageChunkEvent? loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              } else {
-                final int? expectedTotalBytes =
-                    loadingProgress.expectedTotalBytes;
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            expectedTotalBytes
-                        : null,
-                  ),
-                );
-              }
-            },
-            errorBuilder: (_, __, ___) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    final int? expectedTotalBytes =
+                        loadingProgress.expectedTotalBytes;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                  expectedTotalBytes
+                            : null,
+                      ),
+                    );
+                  }
+                },
+            errorBuilder: (BuildContext _, Object _, StackTrace? _) {
               return Text(translate('error_loading_image'));
             },
           ),
@@ -105,8 +105,9 @@ class MobileProductCard extends StatelessWidget {
                                     left: 0,
                                     right: 0,
                                     child: Container(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.6),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.6,
+                                      ),
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 4,
                                       ),
@@ -125,7 +126,8 @@ class MobileProductCard extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: kTextBoxHeight *
+                            height:
+                                kTextBoxHeight *
                                 MediaQuery.textScalerOf(context).scale(1),
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
@@ -173,9 +175,8 @@ class MobileProductCard extends StatelessWidget {
   }
 
   Future<void> _navigateToProductDetails(BuildContext context) {
-    return Navigator.of(context).pushNamed(
-      AppRoute.productDetails.path,
-      arguments: product,
-    );
+    return Navigator.of(
+      context,
+    ).pushNamed(AppRoute.productDetails.path, arguments: product);
   }
 }

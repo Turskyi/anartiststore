@@ -10,9 +10,7 @@ class CookiePolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(translate('cookie_title')),
-      ),
+      appBar: AppBar(title: Text(translate('cookie_title'))),
       body: ListView(
         padding: const EdgeInsets.all(24.0),
         children: <Widget>[

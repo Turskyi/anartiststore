@@ -22,10 +22,7 @@ class EmailResponse {
 
   Map<String, dynamic> toJson() => _$EmailResponseToJson(this);
 
-  EmailResponse copyWith({
-    EmailId? emailId,
-    Object? error,
-  }) {
+  EmailResponse copyWith({EmailId? emailId, Object? error}) {
     return EmailResponse(
       emailId: emailId ?? this.emailId,
       error: error ?? this.error,

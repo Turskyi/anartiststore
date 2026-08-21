@@ -41,18 +41,16 @@ class ErrorDialog extends StatelessWidget {
         ),
         TextButton(
           child: Text(translate('provideFeedback')),
-          onPressed: () => PackageInfo.fromPlatform().then(
-            (PackageInfo packageInfo) {
-              if (context.mounted) {
-                BetterFeedback.of(context).show(
-                  (UserFeedback feedback) => _sendFeedback(
-                    feedback: feedback,
-                    packageInfo: packageInfo,
-                  ),
-                );
-              }
-            },
-          ),
+          onPressed: () => PackageInfo.fromPlatform().then((
+            PackageInfo packageInfo,
+          ) {
+            if (context.mounted) {
+              BetterFeedback.of(context).show(
+                (UserFeedback feedback) =>
+                    _sendFeedback(feedback: feedback, packageInfo: packageInfo),
+              );
+            }
+          }),
         ),
       ],
     );
@@ -62,14 +60,17 @@ class ErrorDialog extends StatelessWidget {
     required UserFeedback feedback,
     required PackageInfo packageInfo,
   }) {
-    return _writeImageToStorage(feedback.screenshot)
-        .then((String screenshotFilePath) {
+    return _writeImageToStorage(feedback.screenshot).then((
+      String screenshotFilePath,
+    ) {
       return FlutterEmailSender.send(
         Email(
-          body: '${feedback.text}\n\n${packageInfo.packageName}\n'
+          body:
+              '${feedback.text}\n\n${packageInfo.packageName}\n'
               '${packageInfo.version}\n'
               '${packageInfo.buildNumber}',
-          subject: '${translate('appFeedback')}: '
+          subject:
+              '${translate('appFeedback')}: '
               '${packageInfo.appName}',
           recipients: <String>[constants.techSupportEmail],
           attachmentPaths: <String>[screenshotFilePath],

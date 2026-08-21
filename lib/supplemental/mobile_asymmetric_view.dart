@@ -4,10 +4,7 @@ import 'package:anartiststore/supplemental/two_product_card_column.dart';
 import 'package:flutter/material.dart';
 
 class MobileAsymmetricView extends StatelessWidget {
-  const MobileAsymmetricView({
-    required this.products,
-    super.key,
-  });
+  const MobileAsymmetricView({required this.products, super.key});
 
   final List<Product> products;
 
@@ -46,9 +43,7 @@ class MobileAsymmetricView extends StatelessWidget {
         width += 32.0;
       } else {
         /// Odd cases
-        column = OneProductCardColumn(
-          product: products[_oddCasesIndex(index)],
-        );
+        column = OneProductCardColumn(product: products[_oddCasesIndex(index)]);
       }
       return SizedBox(
         width: width,

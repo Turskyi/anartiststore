@@ -35,11 +35,7 @@ class BackdropTitle extends AnimatedWidget {
                     opacity: animation.value,
                     child: const Padding(
                       padding: EdgeInsets.only(top: 12.0, left: 8),
-                      child: Icon(
-                        Icons.menu,
-                        semanticLabel: 'menu',
-                        size: 36,
-                      ),
+                      child: Icon(Icons.menu, semanticLabel: 'menu', size: 36),
                     ),
                   ),
                   FractionalTranslation(

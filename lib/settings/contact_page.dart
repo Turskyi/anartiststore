@@ -21,9 +21,7 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(translate('contact_title')),
-      ),
+      appBar: AppBar(title: Text(translate('contact_title'))),
       body: ScopedModelDescendant<AppStateModel>(
         builder: (BuildContext context, Widget? child, AppStateModel model) {
           return Form(
@@ -119,9 +117,7 @@ class _ContactPageState extends State<ContactPage> {
       } catch (error) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(translate('contact_error_message')),
-            ),
+            SnackBar(content: Text(translate('contact_error_message'))),
           );
         }
       } finally {

@@ -1,26 +1,10 @@
 /// [Currency] is an `enum` object that contains all supported currencies by
 /// project.
 enum Currency {
-  eur(
-    name: 'Euro',
-    code: 'EUR',
-    symbol: '€',
-  ),
-  pln(
-    name: 'Polish Zloty',
-    code: 'PLN',
-    symbol: 'zł',
-  ),
-  uah(
-    name: 'Ukrainian Hryvnia',
-    code: 'UAH',
-    symbol: '₴',
-  ),
-  cad(
-    name: 'Canadian Dollar',
-    code: 'CAD',
-    symbol: '\$',
-  );
+  eur(name: 'Euro', code: 'EUR', symbol: '€'),
+  pln(name: 'Polish Zloty', code: 'PLN', symbol: 'zł'),
+  uah(name: 'Ukrainian Hryvnia', code: 'UAH', symbol: '₴'),
+  cad(name: 'Canadian Dollar', code: 'CAD', symbol: '\$');
 
   const Currency({
     required this.name,

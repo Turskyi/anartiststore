@@ -16,12 +16,7 @@ class EmailId {
 
   Map<String, dynamic> toJson() => _$EmailIdToJson(this);
 
-  EmailId copyWith({
-    String? id,
-  }) =>
-      EmailId(
-        id: id ?? this.id,
-      );
+  EmailId copyWith({String? id}) => EmailId(id: id ?? this.id);
 
   @override
   bool operator ==(Object other) {

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FrontLayer extends StatelessWidget {
-  const FrontLayer({
-    required this.child,
-    super.key,
-    this.onTap,
-  });
+  const FrontLayer({required this.child, super.key, this.onTap});
 
   final VoidCallback? onTap;
   final Widget child;
