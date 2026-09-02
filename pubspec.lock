@@ -690,10 +690,10 @@ packages:
     dependency: "direct main"
     description:
       name: retrofit_generator
-      sha256: b130dd5a2325ed2bd55dc31a83fe54dd76a87d1a35f1f7d302c8b74b5dbb3d04
+      sha256: d516c08859e0f6b8930004f1dd78466ac3e9dbc8a1883a7860a3bcd2acc07268
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.9"
+    version: "10.2.10"
   scoped_model:
     dependency: "direct main"
     description:

@@ -60,7 +60,7 @@ dependencies:
   package_info_plus: ^10.2.1
   path_provider: ^2.1.6
   retrofit: ^4.10.0
-  retrofit_generator: ^10.2.9
+  retrofit_generator: ^10.2.10
   scoped_model: ^2.0.0
   share_plus: ^13.3.0
   shared_preferences: ^2.5.5
