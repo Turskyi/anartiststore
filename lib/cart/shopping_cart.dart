@@ -46,11 +46,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       backgroundColor: theme.colorScheme.secondaryContainer,
       body: SafeArea(
         child: ScopedModelDescendant<AppStateModel>(
-          builder: (
-            BuildContext context,
-            _,
-            AppStateModel model,
-          ) {
+          builder: (BuildContext context, _, AppStateModel model) {
             final ExpandingBottomSheetState expandingBottomSheetState =
                 ExpandingBottomSheet.of(context);
             const double buttonHeight = 44.0;
@@ -80,8 +76,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           Expanded(
                             child: Text(
                               translate('anArtistStoreCartPageCaption'),
-                              style: theme.textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -104,8 +101,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           translate('reviewOrder'),
                           style: TextStyle(
                             fontSize: theme.textTheme.titleSmall?.fontSize,
-                            color: theme.colorScheme.onSurface
-                                .withValues(alpha: 0.7),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.7,
+                            ),
                           ),
                         ),
                       ),
@@ -116,9 +114,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         1,
                         name: _ordinalSortKeyName,
                       ),
-                      child: Column(
-                        children: _createShoppingCartRows(model),
-                      ),
+                      child: Column(children: _createShoppingCartRows(model)),
                     ),
                     Semantics(
                       sortKey: const OrdinalSortKey(
@@ -152,30 +148,32 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               const SizedBox(height: 16),
                               ValueListenableBuilder<bool>(
                                 valueListenable: _emailValidNotifier,
-                                builder: (_, bool isValid, __) {
-                                  return TextFormField(
-                                    controller: _emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    inputFormatters: <TextInputFormatter>[
-                                      LengthLimitingTextInputFormatter(
-                                        constants.emailMaxLength,
-                                      ),
-                                    ],
-                                    decoration: InputDecoration(
-                                      labelText: translate('email'),
-                                      errorText: isValid
-                                          ? null
-                                          : translate('enterValidEmail'),
-                                    ),
-                                    validator: (String? value) {
-                                      if (value == null || value.isEmpty) {
-                                        return translate('emailIsRequired');
-                                      }
-                                      return null;
+                                builder:
+                                    (BuildContext _, bool isValid, Widget? _) {
+                                      return TextFormField(
+                                        controller: _emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        inputFormatters: <TextInputFormatter>[
+                                          LengthLimitingTextInputFormatter(
+                                            constants.emailMaxLength,
+                                          ),
+                                        ],
+                                        decoration: InputDecoration(
+                                          labelText: translate('email'),
+                                          errorText: isValid
+                                              ? null
+                                              : translate('enterValidEmail'),
+                                        ),
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return translate('emailIsRequired');
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: _validateEmail,
+                                      );
                                     },
-                                    onChanged: _validateEmail,
-                                  );
-                                },
                               ),
                               const SizedBox(height: 16),
                               TextFormField(
@@ -387,48 +385,52 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             ),
                             child: ValueListenableBuilder<bool>(
                               valueListenable: _confirmEnabledNotifier,
-                              builder: (
-                                BuildContext context,
-                                bool isEnabled,
-                                Widget? child,
-                              ) =>
-                                  ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: const BeveledRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(7),
+                              builder:
+                                  (
+                                    BuildContext context,
+                                    bool isEnabled,
+                                    Widget? child,
+                                  ) => ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const BeveledRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(7),
+                                        ),
+                                      ),
+                                      backgroundColor:
+                                          theme.colorScheme.primary,
+                                      foregroundColor:
+                                          theme.colorScheme.onPrimary,
+                                      disabledBackgroundColor: theme
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.5),
+                                    ),
+                                    onPressed: isEnabled
+                                        ? () => _onConfirmPressed(
+                                            model: model,
+                                            expandingBottomSheetState:
+                                                expandingBottomSheetState,
+                                          )
+                                        : null,
+                                    child: Container(
+                                      height: buttonHeight,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                      ),
+                                      child: isEnabled
+                                          ? Text(
+                                              translate('confirmOrder'),
+                                              style: TextStyle(
+                                                letterSpacing:
+                                                    letterSpacingOrNone(
+                                                      largeLetterSpacing,
+                                                    ),
+                                              ),
+                                            )
+                                          : const LinearProgressIndicator(),
                                     ),
                                   ),
-                                  backgroundColor: theme.colorScheme.primary,
-                                  foregroundColor: theme.colorScheme.onPrimary,
-                                  disabledBackgroundColor: theme
-                                      .colorScheme.primary
-                                      .withValues(alpha: 0.5),
-                                ),
-                                onPressed: isEnabled
-                                    ? () => _onConfirmPressed(
-                                          model: model,
-                                          expandingBottomSheetState:
-                                              expandingBottomSheetState,
-                                        )
-                                    : null,
-                                child: Container(
-                                  height: buttonHeight,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
-                                  child: isEnabled
-                                      ? Text(
-                                          translate('confirmOrder'),
-                                          style: TextStyle(
-                                            letterSpacing: letterSpacingOrNone(
-                                              largeLetterSpacing,
-                                            ),
-                                          ),
-                                        )
-                                      : const LinearProgressIndicator(),
-                                ),
-                              ),
                             ),
                           ),
                         ),
@@ -499,36 +501,38 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     if (_formKey.currentState?.validate() ?? false) {
       await model
           .checkout(
-        ContactInfo(
-          email: _emailController.text,
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          phoneNumber: _phoneNumberController.text,
-          street: _streetController.text,
-          city: _cityController.text,
-          postalCode: _postalCodeController.text,
-          country: _countryController.text,
-        ),
-      )
+            ContactInfo(
+              email: _emailController.text,
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              phoneNumber: _phoneNumberController.text,
+              street: _streetController.text,
+              city: _cityController.text,
+              postalCode: _postalCodeController.text,
+              country: _countryController.text,
+            ),
+          )
           .then((_) async {
-        _onClearCartPressed(model, expandingBottomSheetState);
-        if (mounted) {
-          await showDialog<void>(
-            context: context,
-            builder: (_) => const ConfirmationDialog(),
-          ).whenComplete(() {
+            _onClearCartPressed(model, expandingBottomSheetState);
+            if (mounted) {
+              await showDialog<void>(
+                context: context,
+                builder: (_) => const ConfirmationDialog(),
+              ).whenComplete(() {
+                _confirmEnabledNotifier.value = true;
+              });
+            }
+          })
+          .onError((Object? error, StackTrace stackTrace) async {
             _confirmEnabledNotifier.value = true;
+            if (mounted) {
+              await showDialog<void>(
+                context: context,
+                builder: (_) =>
+                    ErrorDialog(error: error, stackTrace: stackTrace),
+              );
+            }
           });
-        }
-      }).onError((Object? error, StackTrace stackTrace) async {
-        _confirmEnabledNotifier.value = true;
-        if (mounted) {
-          await showDialog<void>(
-            context: context,
-            builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
-          );
-        }
-      });
     } else {
       _confirmEnabledNotifier.value = true;
     }

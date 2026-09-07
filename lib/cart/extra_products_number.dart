@@ -30,8 +30,9 @@ class ExtraProductsNumber extends StatelessWidget {
 
     final int numOverflowProducts = _calculateOverflow(model);
     // Maximum of 99 so padding doesn't get messy.
-    final int displayedOverflowProducts =
-        numOverflowProducts <= 99 ? numOverflowProducts : 99;
+    final int displayedOverflowProducts = numOverflowProducts <= 99
+        ? numOverflowProducts
+        : 99;
     return Text(
       '+$displayedOverflowProducts',
       style: Theme.of(context).primaryTextTheme.labelLarge,

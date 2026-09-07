@@ -10,5 +10,6 @@
     "github-actions-workflow": {
       "parser": "code"
     }
-  }
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
 }

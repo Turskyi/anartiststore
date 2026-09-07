@@ -19,8 +19,9 @@ import 'mocks/mock_favourites_repository.dart';
 import 'mocks/mock_products_repository.dart';
 
 void main() {
-  testWidgets('MobileProductCard does not overflow when scaled down to zero',
-      (WidgetTester tester) async {
+  testWidgets('MobileProductCard does not overflow when scaled down to zero', (
+    WidgetTester tester,
+  ) async {
     final LocalizationDelegate delegate = await LocalizationDelegate.create(
       fallbackLocale: Language.en.isoLanguageCode,
       supportedLocales: Language.values
@@ -89,8 +90,9 @@ void main() {
     }
   });
 
-  testWidgets('MobileProductCard does not overflow with extreme text scaling',
-      (WidgetTester tester) async {
+  testWidgets('MobileProductCard does not overflow with extreme text scaling', (
+    WidgetTester tester,
+  ) async {
     final LocalizationDelegate delegate = await LocalizationDelegate.create(
       fallbackLocale: Language.en.isoLanguageCode,
       supportedLocales: Language.values

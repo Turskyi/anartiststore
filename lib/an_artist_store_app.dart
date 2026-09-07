@@ -86,10 +86,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
     registerForRestoration(_model, 'app_state_model');
     registerForRestoration(_tabIndex, 'tab_index');
     final RestorableDouble expandingTabIndex = RestorableDouble(0);
-    registerForRestoration(
-      expandingTabIndex,
-      'expanding_tab_index',
-    );
+    registerForRestoration(expandingTabIndex, 'expanding_tab_index');
     _controller.value = _tabIndex.value;
     _expandingController.value = expandingTabIndex.value;
   }
@@ -165,12 +162,10 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
     return ScopedModel<AppStateModel>(
       model: _model.value,
       child: BlocProvider<ProductsBloc>(
-        create: (BuildContext _) => ProductsBloc(
-          _productRepository,
-          _favouritesRepository,
-        )
-          ..add(const LoadProductsEvent())
-          ..add(const LoadFavouritesEvent()),
+        create: (BuildContext _) =>
+            ProductsBloc(_productRepository, _favouritesRepository)
+              ..add(const LoadProductsEvent())
+              ..add(const LoadFavouritesEvent()),
         child: PageStatus(
           menuController: _controller,
           cartController: _expandingController,
@@ -186,14 +181,15 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                 GlobalCupertinoLocalizations.delegate,
                 LocalizedApp.of(context).delegate,
               ],
-              supportedLocales:
-                  LocalizedApp.of(context).delegate.supportedLocales,
+              supportedLocales: LocalizedApp.of(
+                context,
+              ).delegate.supportedLocales,
               locale: LocalizedApp.of(context).delegate.currentLocale,
               initialRoute: AppRoute.home.path,
               builder: (BuildContext context, Widget? child) {
                 return Stack(
                   children: <Widget>[
-                    if (child != null) child,
+                    ?child,
                     ExcludeSemantics(
                       child: Scrim(controller: _expandingController),
                     ),
@@ -238,9 +234,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                     }
                   }
                   return Scaffold(
-                    body: Center(
-                      child: Text(translate('productNotFound')),
-                    ),
+                    body: Center(child: Text(translate('productNotFound'))),
                   );
                 },
                 AppRoute.home.path: (BuildContext _) =>
@@ -263,8 +257,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                             );
                           }
                         } else {
-                          frontLayer =
-                              ProductGridView(products: state.products);
+                          frontLayer = ProductGridView(
+                            products: state.products,
+                          );
                         }
 
                         final Backdrop backdrop = Backdrop(
@@ -279,10 +274,9 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                           frontTitle: Text(
                             Resources.of(context).strings.title,
                             style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.fontSize,
+                              fontSize: Theme.of(
+                                context,
+                              ).textTheme.titleMedium?.fontSize,
                             ),
                           ),
                           backTitle: Text(translate('menu')),
@@ -292,9 +286,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                         );
                         return LayoutCache(
                           layouts: _layouts,
-                          child: HomePage(
-                            backdrop: backdrop,
-                          ),
+                          child: HomePage(backdrop: backdrop),
                         );
                       },
                     ),
@@ -320,7 +312,7 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
   }
 
   /// Closes the bottom sheet if it is open.
-  Future<bool> _onWillPop(bool _, Object? __) async {
+  Future<bool> _onWillPop(bool _, Object? _) async {
     final AnimationStatus status = _expandingController.status;
     if (status == AnimationStatus.completed ||
         status == AnimationStatus.forward) {
@@ -370,31 +362,33 @@ CurrencyService get _currencyService {
 
 class _RestorableAppStateModel extends RestorableListenable<AppStateModel> {
   @override
-  AppStateModel createDefaultValue() => AppStateModel(
-        _productRepository,
-        _emailRepository,
-        _contactRepository,
-        _currencyRepository,
-        _currencyService,
-        _cartRepository,
-      )
+  AppStateModel createDefaultValue() =>
+      AppStateModel(
+          _productRepository,
+          _emailRepository,
+          _contactRepository,
+          _currencyRepository,
+          _currencyService,
+          _cartRepository,
+        )
         ..loadProducts()
         ..loadCurrency()
         ..loadCart();
 
   @override
   AppStateModel fromPrimitives(Object? data) {
-    final AppStateModel appState = AppStateModel(
-      _productRepository,
-      _emailRepository,
-      _contactRepository,
-      _currencyRepository,
-      _currencyService,
-      _cartRepository,
-    )
-      ..loadProducts()
-      ..loadCurrency()
-      ..loadCart();
+    final AppStateModel appState =
+        AppStateModel(
+            _productRepository,
+            _emailRepository,
+            _contactRepository,
+            _currencyRepository,
+            _currencyService,
+            _cartRepository,
+          )
+          ..loadProducts()
+          ..loadCurrency()
+          ..loadCart();
 
     if (data is Map<Object?, Object?>) {
       final Map<String, Object?> appData = Map<String, Object?>.from(data);

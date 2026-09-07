@@ -70,10 +70,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _ProductImage(
-                    product: widget.product,
-                    imageKey: _imageKey,
-                  ),
+                  _ProductImage(product: widget.product, imageKey: _imageKey),
                   const SizedBox(height: 24),
                   _ProductDetails(
                     product: widget.product,
@@ -97,11 +94,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         content: Text(translate('productAdded')),
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height -
+          bottom:
+              MediaQuery.sizeOf(context).height -
               (kToolbarHeight + kMinInteractiveDimension),
           right: 20,
           left: 20,
@@ -111,8 +107,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   void _runFlyAnimation() {
-    final RenderObject? renderObject =
-        _imageKey.currentContext?.findRenderObject();
+    final RenderObject? renderObject = _imageKey.currentContext
+        ?.findRenderObject();
     if (renderObject is! RenderBox) return;
 
     final Size size = renderObject.size;
@@ -136,10 +132,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 }
 
 class _ProductImage extends StatelessWidget {
-  const _ProductImage({
-    required this.product,
-    required this.imageKey,
-  });
+  const _ProductImage({required this.product, required this.imageKey});
 
   final Product product;
   final GlobalKey imageKey;
@@ -165,9 +158,9 @@ class _ProductImage extends StatelessWidget {
               ),
             );
           },
-          errorBuilder: (_, __, ___) => Center(
-            child: Text(translate('error_loading_image')),
-          ),
+          errorBuilder: (BuildContext _, Object _, StackTrace? _) {
+            return Center(child: Text(translate('error_loading_image')));
+          },
         ),
       ),
     );
@@ -195,8 +188,8 @@ class _ProductDetails extends StatelessWidget {
         product.availability == ProductAvailability.available;
     final String? availabilityText = !isAvailable
         ? (product.availability == ProductAvailability.reserved
-            ? translate('currentlyReserved')
-            : translate('alreadySold'))
+              ? translate('currentlyReserved')
+              : translate('alreadySold'))
         : null;
 
     return Column(
@@ -217,15 +210,18 @@ class _ProductDetails extends StatelessWidget {
             Hero(
               tag: 'product_price_${product.id}',
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  formatter
-                      .format(model.getConvertedPrice(product.priceInCents)),
+                  formatter.format(
+                    model.getConvertedPrice(product.priceInCents),
+                  ),
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.onSecondaryContainer,
                     fontWeight: FontWeight.bold,
@@ -236,8 +232,10 @@ class _ProductDetails extends StatelessWidget {
             if (availabilityText != null) ...<Widget>[
               const SizedBox(width: 12),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.errorContainer,
                   borderRadius: BorderRadius.circular(20),
@@ -254,10 +252,7 @@ class _ProductDetails extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        Text(
-          product.description,
-          style: theme.textTheme.bodyLarge,
-        ),
+        Text(product.description, style: theme.textTheme.bodyLarge),
         const SizedBox(height: 40),
         SizedBox(
           width: double.infinity,
@@ -267,20 +262,19 @@ class _ProductDetails extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.onPrimary,
-              disabledBackgroundColor:
-                  theme.colorScheme.onSurface.withValues(alpha: 0.12),
-              disabledForegroundColor:
-                  theme.colorScheme.onSurface.withValues(alpha: 0.38),
+              disabledBackgroundColor: theme.colorScheme.onSurface.withValues(
+                alpha: 0.12,
+              ),
+              disabledForegroundColor: theme.colorScheme.onSurface.withValues(
+                alpha: 0.38,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
             ),
             child: Text(
               isAvailable ? translate('addToCart') : (availabilityText ?? ''),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ),
         ),
@@ -366,10 +360,7 @@ class _FlyingImageState extends State<_FlyingImage>
                   borderRadius: BorderRadius.circular(
                     (16 * (1 - t)).clamp(0.0, 16.0),
                   ),
-                  child: Image.network(
-                    widget.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network(widget.imageUrl, fit: BoxFit.cover),
                 ),
               ),
             ),

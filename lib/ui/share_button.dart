@@ -5,10 +5,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ShareButton extends StatelessWidget {
-  const ShareButton({
-    required this.product,
-    super.key,
-  });
+  const ShareButton({required this.product, super.key});
 
   final Product product;
 
@@ -22,11 +19,7 @@ class ShareButton extends StatelessWidget {
         constants.urlKey: url,
       },
     );
-    SharePlus.instance.share(
-      ShareParams(
-        text: text,
-      ),
-    );
+    SharePlus.instance.share(ShareParams(text: text));
   }
 
   @override

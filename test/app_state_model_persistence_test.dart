@@ -94,18 +94,17 @@ void main() {
       expect(model.productsInCart['p2'], 1);
     });
 
-    test('loadCart removes unavailable products and enforces quantity 1',
-        () async {
-      cartRepository.savedCart = <String, int>{
-        'p2': 3,
-        'p_unavailable': 1,
-      };
+    test(
+      'loadCart removes unavailable products and enforces quantity 1',
+      () async {
+        cartRepository.savedCart = <String, int>{'p2': 3, 'p_unavailable': 1};
 
-      await model.loadCart();
+        await model.loadCart();
 
-      expect(model.productsInCart['p2'], 1);
-      expect(model.productsInCart['p_unavailable'], isNull);
-    });
+        expect(model.productsInCart['p2'], 1);
+        expect(model.productsInCart['p_unavailable'], isNull);
+      },
+    );
 
     test('addProductToCart ignores unavailable product', () async {
       model.addProductToCart('p_unavailable');

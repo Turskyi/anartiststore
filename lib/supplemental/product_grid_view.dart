@@ -4,10 +4,7 @@ import 'package:anartiststore/supplemental/mobile_product_card.dart';
 import 'package:flutter/material.dart';
 
 class ProductGridView extends StatelessWidget {
-  const ProductGridView({
-    required this.products,
-    super.key,
-  });
+  const ProductGridView({required this.products, super.key});
 
   final List<Product> products;
 
@@ -24,7 +21,8 @@ class ProductGridView extends StatelessWidget {
 
         // Calculate the height available for one cell (cross axis)
         final double totalHeight = constraints.maxHeight;
-        final double availableHeight = totalHeight -
+        final double availableHeight =
+            totalHeight -
             padding.top -
             padding.bottom -
             (spacing * (crossAxisCount - 1));

@@ -15,7 +15,4 @@ EmailResponse _$EmailResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$EmailResponseToJson(EmailResponse instance) =>
-    <String, dynamic>{
-      'data': instance.emailId,
-      'error': instance.error,
-    };
+    <String, dynamic>{'data': instance.emailId, 'error': instance.error};

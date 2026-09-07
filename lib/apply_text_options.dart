@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Applies text [AppOptions] to a widget.
 class ApplyTextOptions extends StatelessWidget {
-  const ApplyTextOptions({
-    required this.child,
-    super.key,
-  });
+  const ApplyTextOptions({required this.child, super.key});
 
   final Widget child;
 
@@ -16,16 +13,13 @@ class ApplyTextOptions extends StatelessWidget {
     final TextDirection? textDirection = options.resolvedTextDirection();
 
     Widget widget = MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        textScaler: MediaQuery.textScalerOf(context),
-      ),
+      data: MediaQuery.of(
+        context,
+      ).copyWith(textScaler: MediaQuery.textScalerOf(context)),
       child: child,
     );
     return textDirection == null
         ? widget
-        : Directionality(
-            textDirection: textDirection,
-            child: widget,
-          );
+        : Directionality(textDirection: textDirection, child: widget);
   }
 }

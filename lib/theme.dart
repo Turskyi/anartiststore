@@ -30,14 +30,9 @@ ThemeData _buildAnArtistStoreTheme() {
       ),
       contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       focusedBorder: CutCornersBorder(
-        borderSide: BorderSide(
-          width: 2.0,
-          color: kAnArtistStoreTeal,
-        ),
+        borderSide: BorderSide(width: 2.0, color: kAnArtistStoreTeal),
       ),
-      floatingLabelStyle: TextStyle(
-        color: kAnArtistStoreTeal,
-      ),
+      floatingLabelStyle: TextStyle(color: kAnArtistStoreTeal),
     ),
     textTheme: _buildAnArtistStoreTextTheme(
       base.textTheme,
@@ -88,22 +83,19 @@ ThemeData _buildAnArtistStoreDarkTheme() {
     ),
     scaffoldBackgroundColor: kAnArtistStoreBackgroundDark,
     cardColor: kAnArtistStoreSurfaceDark,
-    primaryIconTheme:
-        _customIconTheme(base.iconTheme, kAnArtistStoreOnSurfaceDark),
+    primaryIconTheme: _customIconTheme(
+      base.iconTheme,
+      kAnArtistStoreOnSurfaceDark,
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       border: CutCornersBorder(
         borderSide: BorderSide(color: kAnArtistStoreOnSurfaceDark, width: 0.5),
       ),
       contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       focusedBorder: CutCornersBorder(
-        borderSide: BorderSide(
-          width: 2.0,
-          color: kAnArtistStoreTeal,
-        ),
+        borderSide: BorderSide(width: 2.0, color: kAnArtistStoreTeal),
       ),
-      floatingLabelStyle: TextStyle(
-        color: kAnArtistStoreTeal,
-      ),
+      floatingLabelStyle: TextStyle(color: kAnArtistStoreTeal),
     ),
     textTheme: _buildAnArtistStoreTextTheme(
       base.textTheme,

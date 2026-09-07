@@ -14,7 +14,8 @@ class ContactRepositoryImpl implements ContactRepository {
     required String message,
     required String currencyCode,
   }) async {
-    final String formattedMessage = 'New contact message received:\n\n'
+    final String formattedMessage =
+        'New contact message received:\n\n'
         'Name: $name\n'
         'Email: $email\n\n'
         'Message: $message';

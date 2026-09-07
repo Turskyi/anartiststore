@@ -33,11 +33,11 @@ class ProductResponse {
   final DateTime? reservedAt;
 
   Group get group => Group.values.firstWhere(
-        (Group groupElement) =>
-            name.contains(groupElement.name) ||
-            description.contains(groupElement.name),
-        orElse: () => Group.all,
-      );
+    (Group groupElement) =>
+        name.contains(groupElement.name) ||
+        description.contains(groupElement.name),
+    orElse: () => Group.all,
+  );
 
   @override
   String toString() {
@@ -62,16 +62,15 @@ class ProductResponse {
     int? price,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) =>
-      ProductResponse(
-        id: id ?? this.id,
-        description: description ?? this.description,
-        imageUrl: imageUrl ?? this.imageUrl,
-        name: name ?? this.name,
-        price: price ?? this.price,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => ProductResponse(
+    id: id ?? this.id,
+    description: description ?? this.description,
+    imageUrl: imageUrl ?? this.imageUrl,
+    name: name ?? this.name,
+    price: price ?? this.price,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   @override
   bool operator ==(Object other) {

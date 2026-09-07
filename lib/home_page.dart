@@ -5,10 +5,7 @@ import 'package:flutter/semantics.dart';
 const String _ordinalSortKeyName = 'home';
 
 class HomePage extends StatelessWidget {
-  const HomePage({
-    required this.backdrop,
-    super.key,
-  });
+  const HomePage({required this.backdrop, super.key});
 
   final Widget backdrop;
 

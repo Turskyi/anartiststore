@@ -36,9 +36,9 @@ class EmptyFavourites extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                context
-                    .read<ProductsBloc>()
-                    .add(const ShowGroupEvent(Group.all));
+                context.read<ProductsBloc>().add(
+                  const ShowGroupEvent(Group.all),
+                );
               },
               child: Text(translate('go_to_catalog')),
             ),

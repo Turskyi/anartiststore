@@ -5,11 +5,7 @@ import 'package:anartiststore/supplemental/mobile_product_card.dart';
 import 'package:flutter/material.dart';
 
 class TwoProductCardColumn extends StatelessWidget {
-  const TwoProductCardColumn({
-    required this.bottom,
-    this.top,
-    super.key,
-  });
+  const TwoProductCardColumn({required this.bottom, this.top, super.key});
 
   final Product bottom;
   final Product? top;

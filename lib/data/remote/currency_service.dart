@@ -16,8 +16,9 @@ class CurrencyService {
     }
 
     try {
-      final CurrencyResponse response =
-          await _client.getExchangeRates(Currency.eur.code);
+      final CurrencyResponse response = await _client.getExchangeRates(
+        Currency.eur.code,
+      );
 
       final Map<Currency, double> parsedRates = <Currency, double>{};
       for (final Currency currency in Currency.values) {

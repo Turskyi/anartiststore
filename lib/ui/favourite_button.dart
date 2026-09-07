@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavouriteButton extends StatefulWidget {
-  const FavouriteButton({
-    required this.productId,
-    super.key,
-  });
+  const FavouriteButton({required this.productId, super.key});
 
   final String productId;
 
@@ -65,8 +62,9 @@ class _FavouriteButtonState extends State<FavouriteButton>
             child: IconButton(
               icon: Icon(
                 isFavourite ? Icons.favorite : Icons.favorite_border,
-                color:
-                    isFavourite ? Theme.of(context).colorScheme.primary : null,
+                color: isFavourite
+                    ? Theme.of(context).colorScheme.primary
+                    : null,
               ),
               onPressed: _handleTap,
             ),

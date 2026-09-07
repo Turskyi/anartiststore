@@ -40,8 +40,10 @@ class GroupMenuPage extends StatelessWidget {
       child: ScopedModelDescendant<AppStateModel>(
         builder: (BuildContext context, Widget? child, AppStateModel model) {
           return ListView(
-            padding:
-                const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 40.0,
+              horizontal: 24.0,
+            ),
             children: <Widget>[
               _MenuHeader(title: translate('catalog')),
               _CategoryTile(
@@ -59,12 +61,9 @@ class GroupMenuPage extends StatelessWidget {
               MenuTile(
                 title: translate('language'),
                 subtitle: Language.fromIsoLanguageCode(
-                  LocalizationProvider.of(context)
-                      .state
-                      .widget
-                      .delegate
-                      .currentLocale
-                      .toString(),
+                  LocalizationProvider.of(
+                    context,
+                  ).state.widget.delegate.currentLocale.toString(),
                 ).name,
                 icon: Icons.language,
                 onTap: () => _showLanguageSelector(context),
@@ -129,37 +128,35 @@ class GroupMenuPage extends StatelessWidget {
   }
 
   Future<void> _onReportPressed(BuildContext context) =>
-      PackageInfo.fromPlatform().then(
-        (PackageInfo packageInfo) {
-          if (context.mounted) {
-            BetterFeedback.of(context).show(
-              (UserFeedback feedback) => _sendFeedback(
-                feedback: feedback,
-                packageInfo: packageInfo,
-              ),
-            );
-          }
-        },
-      );
+      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+        if (context.mounted) {
+          BetterFeedback.of(context).show(
+            (UserFeedback feedback) =>
+                _sendFeedback(feedback: feedback, packageInfo: packageInfo),
+          );
+        }
+      });
 
   Future<void> _sendFeedback({
     required UserFeedback feedback,
     required PackageInfo packageInfo,
-  }) =>
-      _writeImageToStorage(feedback.screenshot)
-          .then((String screenshotFilePath) {
-        return FlutterEmailSender.send(
-          Email(
-            body: '${feedback.text}\n\nApp id: ${packageInfo.packageName}\n'
-                'App version: ${packageInfo.version}\n'
-                'Build number: ${packageInfo.buildNumber}',
-            subject: '${translate('app_feedback')}: '
-                '${packageInfo.appName}',
-            recipients: <String>[constants.techSupportEmail],
-            attachmentPaths: <String>[screenshotFilePath],
-          ),
-        );
-      });
+  }) => _writeImageToStorage(feedback.screenshot).then((
+    String screenshotFilePath,
+  ) {
+    return FlutterEmailSender.send(
+      Email(
+        body:
+            '${feedback.text}\n\nApp id: ${packageInfo.packageName}\n'
+            'App version: ${packageInfo.version}\n'
+            'Build number: ${packageInfo.buildNumber}',
+        subject:
+            '${translate('app_feedback')}: '
+            '${packageInfo.appName}',
+        recipients: <String>[constants.techSupportEmail],
+        attachmentPaths: <String>[screenshotFilePath],
+      ),
+    );
+  });
 
   Future<String> _writeImageToStorage(Uint8List feedbackScreenshot) async {
     final Directory output = await getTemporaryDirectory();

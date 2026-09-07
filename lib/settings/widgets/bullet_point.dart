@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BulletPoint extends StatelessWidget {
-  const BulletPoint({
-    required this.text,
-    super.key,
-  });
+  const BulletPoint({required this.text, super.key});
 
   final String text;
 
@@ -22,12 +19,7 @@ class BulletPoint extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Expanded(
-            child: Text(
-              text,
-              style: theme.textTheme.bodyMedium,
-            ),
-          ),
+          Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
         ],
       ),
     );

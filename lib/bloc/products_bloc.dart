@@ -12,7 +12,7 @@ part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc(this._productsRepository, this._favouritesRepository)
-      : super(const ProductsInitial()) {
+    : super(const ProductsInitial()) {
     on<LoadProductsEvent>(_loadProducts);
     on<ShowGroupEvent>(_showGroup);
     on<SearchEvent>(_search);
@@ -59,11 +59,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
           .where(
             (Product product) =>
                 product.name.toLowerCase().contains(
-                      event.query.toLowerCase(),
-                    ) ||
+                  event.query.toLowerCase(),
+                ) ||
                 product.description.toLowerCase().contains(
-                      event.query.toLowerCase(),
-                    ),
+                  event.query.toLowerCase(),
+                ),
           )
           .toList();
       emit(
@@ -144,8 +144,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     LoadFavouritesEvent event,
     Emitter<ProductsState> emit,
   ) async {
-    final Set<String> favouriteIds =
-        await _favouritesRepository.getFavouriteIds();
+    final Set<String> favouriteIds = await _favouritesRepository
+        .getFavouriteIds();
     emit(state.copyWith(favouriteIds: favouriteIds));
   }
 

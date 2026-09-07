@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Scrim extends StatelessWidget {
-  const Scrim({
-    required this.controller,
-    super.key,
-  });
+  const Scrim({required this.controller, super.key});
 
   final AnimationController controller;
 
@@ -15,8 +12,9 @@ class Scrim extends StatelessWidget {
       child: AnimatedBuilder(
         animation: controller,
         builder: (BuildContext context, Widget? child) {
-          final Color color = const Color(0xFFFFF0EA)
-              .withValues(alpha: controller.value * 0.87);
+          final Color color = const Color(
+            0xFFFFF0EA,
+          ).withValues(alpha: controller.value * 0.87);
 
           final Widget scrimRectangle = Container(
             width: deviceSize.width,
