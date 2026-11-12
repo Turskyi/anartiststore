@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
     id('com.google.firebase.crashlytics')
@@ -43,16 +42,13 @@ def SIGNING_KEY_RELEASE_KEY_PASSWORD = keyProperties.getProperty('SIGNING_KEY_RE
 
 android {
     namespace "store.anartist.anartiststore"
+    //noinspection GrDeprecatedAPIUsage
     compileSdk 37
     ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 
     sourceSets {
@@ -126,12 +122,18 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+    }
+}
+
 flutter {
     source '../..'
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
-    implementation 'com.google.firebase:firebase-analytics:23.2.0'
+    implementation(platform("com.google.firebase:firebase-bom:35.2.0"))
+    implementation 'com.google.firebase:firebase-analytics:24.0.0'
     implementation("com.google.firebase:firebase-crashlytics")
 }

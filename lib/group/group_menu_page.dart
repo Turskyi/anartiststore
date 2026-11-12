@@ -127,23 +127,24 @@ class GroupMenuPage extends StatelessWidget {
     );
   }
 
-  Future<void> _onReportPressed(BuildContext context) =>
-      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-        if (context.mounted) {
-          BetterFeedback.of(context).show(
-            (UserFeedback feedback) =>
-                _sendFeedback(feedback: feedback, packageInfo: packageInfo),
-          );
-        }
-      });
+  Future<void> _onReportPressed(BuildContext context) async {
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    if (context.mounted) {
+      BetterFeedback.of(context).show(
+        (UserFeedback feedback) =>
+            _sendFeedback(feedback: feedback, packageInfo: packageInfo),
+      );
+    }
+  }
 
   Future<void> _sendFeedback({
     required UserFeedback feedback,
     required PackageInfo packageInfo,
-  }) => _writeImageToStorage(feedback.screenshot).then((
-    String screenshotFilePath,
-  ) {
-    return FlutterEmailSender.send(
+  }) async {
+    final String screenshotFilePath = await _writeImageToStorage(
+      feedback.screenshot,
+    );
+    await FlutterEmailSender.send(
       Email(
         body:
             '${feedback.text}\n\nApp id: ${packageInfo.packageName}\n'
@@ -156,7 +157,7 @@ class GroupMenuPage extends StatelessWidget {
         attachmentPaths: <String>[screenshotFilePath],
       ),
     );
-  });
+  }
 
   Future<String> _writeImageToStorage(Uint8List feedbackScreenshot) async {
     final Directory output = await getTemporaryDirectory();

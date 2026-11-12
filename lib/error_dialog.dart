@@ -41,16 +41,17 @@ class ErrorDialog extends StatelessWidget {
         ),
         TextButton(
           child: Text(translate('provideFeedback')),
-          onPressed: () => PackageInfo.fromPlatform().then((
-            PackageInfo packageInfo,
-          ) {
+          onPressed: () async {
+            final PackageInfo packageInfo = await PackageInfo.fromPlatform();
             if (context.mounted) {
-              BetterFeedback.of(context).show(
-                (UserFeedback feedback) =>
-                    _sendFeedback(feedback: feedback, packageInfo: packageInfo),
-              );
+              BetterFeedback.of(context).show((UserFeedback feedback) {
+                return _sendFeedback(
+                  feedback: feedback,
+                  packageInfo: packageInfo,
+                );
+              });
             }
-          }),
+          },
         ),
       ],
     );
@@ -59,24 +60,23 @@ class ErrorDialog extends StatelessWidget {
   Future<void> _sendFeedback({
     required UserFeedback feedback,
     required PackageInfo packageInfo,
-  }) {
-    return _writeImageToStorage(feedback.screenshot).then((
-      String screenshotFilePath,
-    ) {
-      return FlutterEmailSender.send(
-        Email(
-          body:
-              '${feedback.text}\n\n${packageInfo.packageName}\n'
-              '${packageInfo.version}\n'
-              '${packageInfo.buildNumber}',
-          subject:
-              '${translate('appFeedback')}: '
-              '${packageInfo.appName}',
-          recipients: <String>[constants.techSupportEmail],
-          attachmentPaths: <String>[screenshotFilePath],
-        ),
-      );
-    });
+  }) async {
+    final String screenshotFilePath = await _writeImageToStorage(
+      feedback.screenshot,
+    );
+    await FlutterEmailSender.send(
+      Email(
+        body:
+            '${feedback.text}\n\n${packageInfo.packageName}\n'
+            '${packageInfo.version}\n'
+            '${packageInfo.buildNumber}',
+        subject:
+            '${translate('appFeedback')}: '
+            '${packageInfo.appName}',
+        recipients: <String>[constants.techSupportEmail],
+        attachmentPaths: <String>[screenshotFilePath],
+      ),
+    );
   }
 
   Future<String> _writeImageToStorage(Uint8List feedbackScreenshot) async {

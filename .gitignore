@@ -67,3 +67,4 @@ android/app/property(org.gradle.api.file.Directory, fixed(class org.gradle.api.i
 coverage
 /51d0f251/
 /.artifacts/
+/android/.kotlin/sessions/
