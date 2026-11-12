@@ -2,8 +2,8 @@ import 'package:anartiststore/enums/app_text_direction.dart';
 import 'package:anartiststore/model_binding/model_binding_scope.dart';
 import 'package:anartiststore/res/values/constants.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
+import 'package:material_ui/material_ui.dart';
 
 // See http://en.wikipedia.org/wiki/Right-to-left
 const List<String> rtlLanguages = <String>[

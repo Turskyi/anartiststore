@@ -1,5 +1,5 @@
 import 'package:anartiststore/data/app_options.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Applies text [AppOptions] to a widget.
 class ApplyTextOptions extends StatelessWidget {

@@ -3,10 +3,11 @@ import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/ui/favourite_button.dart';
+import 'package:anartiststore/ui/product_image.dart';
 import 'package:anartiststore/ui/share_button.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -143,24 +144,10 @@ class _ProductImage extends StatelessWidget {
       tag: 'product_image_${product.id}',
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: Image.network(
-          product.imageUrl,
-          key: imageKey,
+        child: ProductImage(
+          imageUrl: product.imageUrl,
+          imageKey: imageKey,
           fit: BoxFit.cover,
-          loadingBuilder: (_, Widget child, ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) return child;
-            final int? totalBytes = loadingProgress.expectedTotalBytes;
-            return Center(
-              child: CircularProgressIndicator(
-                value: totalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded / totalBytes
-                    : null,
-              ),
-            );
-          },
-          errorBuilder: (BuildContext _, Object _, StackTrace? _) {
-            return Center(child: Text(translate('error_loading_image')));
-          },
         ),
       ),
     );
@@ -360,7 +347,10 @@ class _FlyingImageState extends State<_FlyingImage>
                   borderRadius: BorderRadius.circular(
                     (16 * (1 - t)).clamp(0.0, 16.0),
                   ),
-                  child: Image.network(widget.imageUrl, fit: BoxFit.cover),
+                  child: ProductImage(
+                    imageUrl: widget.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

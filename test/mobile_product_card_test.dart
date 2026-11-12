@@ -4,10 +4,10 @@ import 'package:anartiststore/enums/language.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/supplemental/mobile_product_card.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'mocks/mock_cart_repository.dart';
@@ -87,6 +87,7 @@ void main() {
 
       // Verify no overflow was detected.
       expect(tester.takeException(), isNull);
+      expect(find.byType(CircularProgressIndicator), findsNothing);
     }
   });
 

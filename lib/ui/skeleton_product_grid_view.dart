@@ -1,6 +1,6 @@
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/ui/skeleton_product_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SkeletonProductGridView extends StatelessWidget {
   const SkeletonProductGridView({super.key});

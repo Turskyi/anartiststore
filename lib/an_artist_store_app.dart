@@ -43,12 +43,14 @@ import 'package:anartiststore/ui/app_error_widget.dart';
 import 'package:anartiststore/ui/empty_favourites.dart';
 import 'package:anartiststore/ui/skeleton_product_grid_view.dart';
 import 'package:app_links/app_links.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations;
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'data/app_options.dart';

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:anartiststore/data/app_options.dart';
 import 'package:anartiststore/model_binding/model_binding_scope.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ModelBinding extends StatefulWidget {
   const ModelBinding({

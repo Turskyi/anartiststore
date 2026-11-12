@@ -1,7 +1,7 @@
 import 'package:anartiststore/layout/letter_spacing.dart';
 import 'package:anartiststore/res/values/colors.dart';
 import 'package:anartiststore/supplemental/cut_corners_border.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const double defaultLetterSpacing = 0.03;
 const double mediumLetterSpacing = 0.04;

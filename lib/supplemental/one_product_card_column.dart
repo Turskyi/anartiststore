@@ -1,6 +1,6 @@
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/supplemental/mobile_product_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class OneProductCardColumn extends StatelessWidget {
   const OneProductCardColumn({required this.product, super.key});

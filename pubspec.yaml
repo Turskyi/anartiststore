@@ -38,6 +38,7 @@ dependencies:
   app_links: ^7.2.1
   bloc: ^9.2.1
   collection: ^1.19.1
+  cupertino_ui: ^1.0.0
   dio: ^5.11.1
   email_validator: ^3.0.0
   feedback: ^3.2.0
@@ -56,6 +57,7 @@ dependencies:
   intl: ^0.20.3
   json_annotation: ^4.12.0
   logger: ^2.8.0
+  material_ui: ^1.0.1
   meta: ^1.19.0
   package_info_plus: ^10.2.1
   path_provider: ^2.1.6

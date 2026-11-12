@@ -1,5 +1,5 @@
 import 'package:anartiststore/supplemental/mobile_product_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SkeletonProductCard extends StatelessWidget {

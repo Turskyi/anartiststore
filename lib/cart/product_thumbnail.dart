@@ -1,6 +1,6 @@
 import 'package:anartiststore/cart/thumbnail_height.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ProductThumbnail extends StatelessWidget {
   const ProductThumbnail(

@@ -1,5 +1,5 @@
 import 'package:anartiststore/model_binding/model_binding.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Everything below is boilerplate except code relating to time dilation.
 /// See https://medium.com/flutter/managing-flutter-application-state-with-inheritedwidgets-1140452befe1

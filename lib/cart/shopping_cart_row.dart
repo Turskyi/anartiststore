@@ -1,9 +1,10 @@
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
-import 'package:flutter/material.dart';
+import 'package:anartiststore/ui/product_image.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ShoppingCartRow extends StatelessWidget {
@@ -61,38 +62,12 @@ class ShoppingCartRow extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Image.network(
-                            product.imageUrl,
+                          ProductImage(
+                            imageUrl: product.imageUrl,
                             fit: BoxFit.cover,
                             width: 75,
                             height: 75,
                             excludeFromSemantics: true,
-                            loadingBuilder:
-                                (
-                                  _,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress,
-                                ) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  } else {
-                                    final int? expectedTotalBytes =
-                                        loadingProgress.expectedTotalBytes;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: expectedTotalBytes != null
-                                            ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  expectedTotalBytes
-                                            : null,
-                                      ),
-                                    );
-                                  }
-                                },
-                            errorBuilder:
-                                (BuildContext _, Object _, StackTrace? _) {
-                                  return Text(translate('error_loading_image'));
-                                },
                           ),
                           const SizedBox(width: 16),
                           Expanded(

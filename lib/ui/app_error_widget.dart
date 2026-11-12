@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AppErrorWidget extends StatelessWidget {
   const AppErrorWidget({this.errorMessage = 'Something went wrong', super.key});

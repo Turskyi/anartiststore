@@ -3,9 +3,10 @@ import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/ui/favourite_button.dart';
-import 'package:flutter/material.dart';
+import 'package:anartiststore/ui/product_image.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MobileProductCard extends StatelessWidget {
@@ -36,30 +37,7 @@ class MobileProductCard extends StatelessWidget {
 
         final Widget imageWidget = Opacity(
           opacity: isAvailable ? 1.0 : 0.5,
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.contain,
-            loadingBuilder:
-                (_, Widget child, ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    final int? expectedTotalBytes =
-                        loadingProgress.expectedTotalBytes;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                  expectedTotalBytes
-                            : null,
-                      ),
-                    );
-                  }
-                },
-            errorBuilder: (BuildContext _, Object _, StackTrace? _) {
-              return Text(translate('error_loading_image'));
-            },
-          ),
+          child: ProductImage(imageUrl: product.imageUrl, fit: BoxFit.contain),
         );
 
         return Semantics(

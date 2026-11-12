@@ -1,7 +1,7 @@
 import 'package:anartiststore/cart/product_thumbnail.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/model/product.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductThumbnailRow extends StatefulWidget {

@@ -10,10 +10,10 @@ import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/theme.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const String _ordinalSortKeyName = 'shopping_cart';

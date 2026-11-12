@@ -1,6 +1,6 @@
 import 'package:anartiststore/an_artist_store_app.dart';
 import 'package:anartiststore/res/values/strings.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class Resources extends InheritedWidget {
   const Resources({

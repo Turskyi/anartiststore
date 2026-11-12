@@ -1,7 +1,7 @@
 import 'package:anartiststore/data/app_options.dart';
 import 'package:anartiststore/data/repositories/shared_preferences_settings_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ThemeSelectorSheet extends StatelessWidget {
   const ThemeSelectorSheet({super.key});

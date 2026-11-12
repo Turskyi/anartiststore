@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/supplemental/mobile_product_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TwoProductCardColumn extends StatelessWidget {
   const TwoProductCardColumn({required this.bottom, this.top, super.key});

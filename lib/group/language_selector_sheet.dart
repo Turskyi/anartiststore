@@ -1,6 +1,6 @@
 import 'package:anartiststore/enums/language.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:material_ui/material_ui.dart';
 
 class LanguageSelectorSheet extends StatelessWidget {
   const LanguageSelectorSheet({super.key});

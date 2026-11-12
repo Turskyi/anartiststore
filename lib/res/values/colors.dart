@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const Color kAnArtistStoreBlue50 = Color(0xFFE6F6FE);
 const Color kAnArtistStoreBlue100 = Color(0xFFD0EEFE);

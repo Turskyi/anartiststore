@@ -9,10 +9,11 @@ import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/router/app_route.dart';
 import 'package:anartiststore/ui/favourite_button.dart';
-import 'package:flutter/material.dart';
+import 'package:anartiststore/ui/product_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 const double _kFlingVelocity = 2.0;
@@ -276,39 +277,9 @@ class _SearchProductCard extends StatelessWidget {
                           aspectRatio: 18 / 11,
                           child: Hero(
                             tag: 'product_image_${product.id}',
-                            child: Image.network(
-                              product.imageUrl,
+                            child: ProductImage(
+                              imageUrl: product.imageUrl,
                               fit: BoxFit.fitWidth,
-                              loadingBuilder:
-                                  (
-                                    _,
-                                    Widget child,
-                                    ImageChunkEvent? loadingProgress,
-                                  ) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value:
-                                              loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                              : null,
-                                        ),
-                                      );
-                                    }
-                                  },
-                              errorBuilder:
-                                  (BuildContext _, Object _, StackTrace? _) {
-                                    return Text(
-                                      translate('error_loading_image'),
-                                    );
-                                  },
                             ),
                           ),
                         ),

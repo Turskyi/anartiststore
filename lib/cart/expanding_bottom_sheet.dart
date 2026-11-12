@@ -8,8 +8,8 @@ import 'package:anartiststore/layout/text_scale.dart';
 import 'package:anartiststore/model/app_state_model.dart';
 import 'package:anartiststore/page_status.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
-import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 /// These curves define the emphasized easing curve.

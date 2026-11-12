@@ -1,7 +1,7 @@
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:anartiststore/supplemental/mobile_product_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ProductGridView extends StatelessWidget {
   const ProductGridView({required this.products, super.key});

@@ -1,7 +1,7 @@
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/supplemental/one_product_card_column.dart';
 import 'package:anartiststore/supplemental/two_product_card_column.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MobileAsymmetricView extends StatelessWidget {
   const MobileAsymmetricView({required this.products, super.key});

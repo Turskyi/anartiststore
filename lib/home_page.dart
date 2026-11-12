@@ -1,6 +1,6 @@
 import 'package:anartiststore/apply_text_options.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:material_ui/material_ui.dart';
 
 const String _ordinalSortKeyName = 'home';
 
