@@ -244,9 +244,40 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                       builder: (BuildContext context, ProductsState state) {
                         Widget frontLayer;
                         if (state is ErrorState) {
-                          frontLayer = AppErrorWidget(
-                            errorMessage: state.errorMessage,
-                          );
+                          void retry() {
+                            context.read<ProductsBloc>().add(
+                              const LoadProductsEvent(),
+                            );
+                          }
+
+                          if (state.products.isNotEmpty) {
+                            frontLayer = Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 140,
+                                  child: AppErrorWidget(
+                                    errorMessage: translate(
+                                      'productCatalogLoadFailed',
+                                    ),
+                                    onRetry: retry,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ProductGridView(
+                                    products: state.products,
+                                    preloadProducts: state.products,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            frontLayer = AppErrorWidget(
+                              errorMessage: translate(
+                                'productCatalogLoadFailed',
+                              ),
+                              onRetry: retry,
+                            );
+                          }
                         } else if (state.isLoading && state.products.isEmpty) {
                           frontLayer = const SkeletonProductGridView();
                         } else if (state is FilteredProductsState) {

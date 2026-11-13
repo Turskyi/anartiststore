@@ -5,7 +5,7 @@ import 'package:anartiststore/model/favourites_repository.dart';
 import 'package:anartiststore/model/product.dart';
 import 'package:anartiststore/model/products_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'products_event.dart';
 part 'products_state.dart';
@@ -117,6 +117,15 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     LoadProductsEvent event,
     Emitter<ProductsState> emit,
   ) async {
+    final List<Product> previousProducts = state.products;
+    emit(
+      LoadedProductsState(
+        products: previousProducts,
+        group: state.group,
+        favouriteIds: state.favouriteIds,
+        isLoading: true,
+      ),
+    );
     try {
       final List<Product> products = await _productsRepository.loadProducts(
         state.group,
@@ -128,11 +137,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
           favouriteIds: state.favouriteIds,
         ),
       );
-    } catch (e) {
+    } catch (error, stackTrace) {
+      debugPrint('Could not load the product catalog: $error');
+      debugPrintStack(stackTrace: stackTrace);
       emit(
         ErrorState(
-          errorMessage: e.toString(),
-          products: state.products,
+          products: previousProducts,
           group: state.group,
           favouriteIds: state.favouriteIds,
         ),

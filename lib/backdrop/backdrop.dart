@@ -90,6 +90,28 @@ class _BackdropState extends State<Backdrop>
           backTitle: widget.backTitle,
         ),
         actions: <Widget>[
+          BlocBuilder<ProductsBloc, ProductsState>(
+            builder: (BuildContext context, ProductsState state) {
+              if (state.isLoading) {
+                return const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                );
+              } else {
+                return IconButton(
+                  tooltip: translate('refreshProducts'),
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () => context.read<ProductsBloc>().add(
+                    const LoadProductsEvent(),
+                  ),
+                );
+              }
+            },
+          ),
           SearchAnchor(
             viewLeading: IconButton(
               icon: const Icon(Icons.arrow_back),
