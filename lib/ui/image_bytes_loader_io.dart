@@ -7,7 +7,11 @@ import 'package:path_provider/path_provider.dart';
 
 final Dio _imageDio = Dio();
 
-Future<Uint8List> loadImageBytes(String url) async {
+Future<Uint8List> loadImageBytes(
+  String url, {
+  required void Function(int cumulativeBytesLoaded, int? expectedTotalBytes)
+  onProgress,
+}) async {
   final Directory appSupportDirectory = await getApplicationSupportDirectory();
   final Directory imageCacheDirectory = Directory(
     '${appSupportDirectory.path}${Platform.pathSeparator}product_image_cache',
@@ -23,6 +27,12 @@ Future<Uint8List> loadImageBytes(String url) async {
     final Response<List<int>> response = await _imageDio.get<List<int>>(
       url,
       options: Options(responseType: ResponseType.bytes),
+      onReceiveProgress: (int cumulativeBytesLoaded, int expectedTotalBytes) {
+        onProgress(
+          cumulativeBytesLoaded,
+          expectedTotalBytes > 0 ? expectedTotalBytes : null,
+        );
+      },
     );
     final List<int>? responseBytes = response.data;
     if (responseBytes == null || responseBytes.isEmpty) {

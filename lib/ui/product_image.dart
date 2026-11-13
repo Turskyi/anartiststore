@@ -1,4 +1,5 @@
 import 'package:anartiststore/ui/persistent_network_image.dart';
+import 'package:anartiststore/ui/product_image_loading_placeholder.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -39,7 +40,21 @@ class ProductImage extends StatelessWidget {
             if (frame != null || wasSynchronouslyLoaded) {
               return child;
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const ProductImageLoadingPlaceholder();
+            }
+          },
+      loadingBuilder:
+          (
+            BuildContext context,
+            Widget child,
+            ImageChunkEvent? loadingProgress,
+          ) {
+            if (loadingProgress == null) {
+              return child;
+            } else {
+              return ProductImageLoadingPlaceholder(
+                loadingProgress: loadingProgress,
+              );
             }
           },
       errorBuilder: (BuildContext _, Object _, StackTrace? _) {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -23,8 +24,11 @@ class PersistentNetworkImage extends ImageProvider<PersistentNetworkImage> {
     PersistentNetworkImage key,
     ImageDecoderCallback decode,
   ) {
+    final StreamController<ImageChunkEvent> chunkEvents =
+        StreamController<ImageChunkEvent>();
     return MultiFrameImageStreamCompleter(
-      codec: _loadAsync(key, decode),
+      codec: _loadAsync(key, decode, chunkEvents),
+      chunkEvents: chunkEvents.stream,
       scale: 1,
       debugLabel: key.url,
     );
@@ -41,11 +45,26 @@ class PersistentNetworkImage extends ImageProvider<PersistentNetworkImage> {
   Future<ui.Codec> _loadAsync(
     PersistentNetworkImage key,
     ImageDecoderCallback decode,
+    StreamController<ImageChunkEvent> chunkEvents,
   ) async {
-    final Uint8List bytes = await image_loader.loadImageBytes(key.url);
-    final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(
-      bytes,
-    );
-    return decode(buffer);
+    try {
+      final Uint8List bytes = await image_loader.loadImageBytes(
+        key.url,
+        onProgress: (int cumulativeBytesLoaded, int? expectedTotalBytes) {
+          chunkEvents.add(
+            ImageChunkEvent(
+              cumulativeBytesLoaded: cumulativeBytesLoaded,
+              expectedTotalBytes: expectedTotalBytes,
+            ),
+          );
+        },
+      );
+      final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(
+        bytes,
+      );
+      return await decode(buffer);
+    } finally {
+      await chunkEvents.close();
+    }
   }
 }
