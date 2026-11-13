@@ -1,6 +1,10 @@
 name: Flutter Android CI & Quality
 on: [ push ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check-code-quality-and-tests:
     if: ${{ !github.event.pull_request.draft }}
