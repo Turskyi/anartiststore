@@ -1,6 +1,7 @@
 import 'package:anartiststore/res/values/constants.dart' as constants;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsPage extends StatelessWidget {
@@ -45,6 +46,29 @@ class AboutUsPage extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
             ),
+          ),
+          const SizedBox(height: 32),
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder:
+                (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
+                  final PackageInfo? info = snapshot.data;
+                  if (info == null) {
+                    return const SizedBox.shrink();
+                  } else {
+                    return Center(
+                      child: Text(
+                        '${translate('version')} '
+                        '${info.version} (${info.buildNumber})',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
           ),
           const SizedBox(height: 40),
         ],

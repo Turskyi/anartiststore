@@ -170,5 +170,6 @@
   "contact_message_hint": "Your message",
   "contact_submit_button": "Send",
   "contact_success_message": "Message sent successfully!",
-  "contact_error_message": "Failed to send message. Please try again."
+  "contact_error_message": "Failed to send message. Please try again.",
+  "version": "Version"
 }

@@ -170,5 +170,6 @@
   "contact_message_hint": "Ваше повідомлення",
   "contact_submit_button": "Надіслати",
   "contact_success_message": "Повідомлення успішно надіслано!",
-  "contact_error_message": "Не вдалося надіслати повідомлення. Будь ласка, спробуйте ще раз."
+  "contact_error_message": "Не вдалося надіслати повідомлення. Будь ласка, спробуйте ще раз.",
+  "version": "Версія"
 }
