@@ -256,11 +256,13 @@ class _AnArtistStoreAppState extends State<AnArtistStoreApp>
                           } else {
                             frontLayer = ProductGridView(
                               products: state.filteredProducts,
+                              preloadProducts: state.products,
                             );
                           }
                         } else {
                           frontLayer = ProductGridView(
                             products: state.products,
+                            preloadProducts: state.products,
                           );
                         }
 

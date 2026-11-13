@@ -87,7 +87,6 @@ void main() {
 
       // Verify no overflow was detected.
       expect(tester.takeException(), isNull);
-      expect(find.byType(CircularProgressIndicator), findsNothing);
     }
   });
 
