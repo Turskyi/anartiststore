@@ -6,6 +6,7 @@
 [![Codemagic build status](https://api.codemagic.io/apps/662ead9c9886cf5b17c644ee/662ead9c9886cf5b17c644ed/status_badge.svg)](https://codemagic.io/app/662ead9c9886cf5b17c644ee/662ead9c9886cf5b17c644ed/latest_build)
 [![Deploy to Firebase Hosting on PR](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-pull-request.yml)
 [![Deploy to Firebase Hosting on merge](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/Turskyi/anartiststore/actions/workflows/firebase-hosting-merge.yml)
+[![wakatime](https://wakatime.com/badge/user/f9df5074-b4ea-4c17-b001-fff428ab82aa/project/04a63f8e-1893-4203-8e35-96db1ccec02d.svg)](https://wakatime.com/badge/user/f9df5074-b4ea-4c17-b001-fff428ab82aa/project/04a63f8e-1893-4203-8e35-96db1ccec02d)
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Turskyi/anartiststore">
 
 # Anna\'s Artistic Store (Flutter)
